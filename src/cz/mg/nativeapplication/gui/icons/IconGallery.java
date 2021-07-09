@@ -13,12 +13,14 @@ public class IconGallery {
     public static final String MG = "mg.png";
     public static final String PROJECT = "mgproject.png";
     public static final String UNKNOWN = "unknown.png";
+    public static final String LIST = "list.png";
     public static final String ATOM = "mgatom.png";
     public static final String CLASS = "mgclass.png";
     public static final String FUNCTION = "mgfunction.png";
     public static final String INTERFACE = "mginterface.png";
     public static final String LOCATION = "mglocation.png";
     public static final String STRUCTURE = "mgstructure.png";
+    public static final String VARIABLE = "mgvariable.png";
 
     private final @Mandatory Map<String, Image> images = new Map<>();
     private final @Mandatory Map<String, Icon> icons = new Map<>();
@@ -27,12 +29,14 @@ public class IconGallery {
         load(MG);
         load(PROJECT);
         load(UNKNOWN);
+        load(LIST);
         load(ATOM);
         load(CLASS);
         load(FUNCTION);
         load(INTERFACE);
         load(LOCATION);
         load(STRUCTURE);
+        load(VARIABLE);
     }
 
     public @Optional Image getImage(@Mandatory String name){

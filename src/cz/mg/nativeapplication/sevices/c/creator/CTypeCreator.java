@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.nativeapplication.entities.c.CType;
 import cz.mg.nativeapplication.entities.mg.components.MgClass;
 import cz.mg.nativeapplication.entities.mg.components.MgStructure;
-import cz.mg.nativeapplication.entities.mg.parts.MgVariable;
+import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 
 
 public @Service class CTypeCreator {

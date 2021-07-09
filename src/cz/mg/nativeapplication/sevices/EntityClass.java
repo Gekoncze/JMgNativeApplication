@@ -16,7 +16,7 @@ public @Utility class EntityClass<T> {
     private final @Mandatory Class<T> clazz;
     private final @Mandatory Array<EntityField> fields;
 
-    public EntityClass(@Mandatory Class<T> clazz, @Mandatory Array<EntityField> fields) {
+    EntityClass(@Mandatory Class<T> clazz, @Mandatory Array<EntityField> fields) {
         this.clazz = clazz;
         this.fields = fields;
     }
@@ -41,7 +41,7 @@ public @Utility class EntityClass<T> {
         return clazz.getSimpleName();
     }
 
-    public static <T> @Mandatory EntityClass<T> create(@Mandatory Class<T> clazz){
+    static <T> @Mandatory EntityClass<T> create(@Mandatory Class<T> clazz){
         if(isEntity(clazz)){
             try {
                 clazz.getConstructor();

@@ -12,7 +12,7 @@ import cz.mg.nativeapplication.entities.mg.existing.MgExistingStructure;
 import cz.mg.nativeapplication.entities.mg.expression.*;
 import cz.mg.nativeapplication.entities.mg.parts.MgOperator;
 import cz.mg.nativeapplication.entities.mg.parts.MgValue;
-import cz.mg.nativeapplication.entities.mg.parts.MgVariable;
+import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 import cz.mg.nativeapplication.mapper.EntityObjectMapper;
 import cz.mg.nativeapplication.mapper.EnumObjectMapper;
 import cz.mg.nativeapplication.mapper.Mapper;

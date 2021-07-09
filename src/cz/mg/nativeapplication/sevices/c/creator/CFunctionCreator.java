@@ -7,7 +7,7 @@ import cz.mg.nativeapplication.entities.c.CFunctionDeclaration;
 import cz.mg.nativeapplication.entities.c.CFunctionDefinition;
 import cz.mg.nativeapplication.entities.mg.command.MgCommand;
 import cz.mg.nativeapplication.entities.mg.components.MgFunction;
-import cz.mg.nativeapplication.entities.mg.parts.MgVariable;
+import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 import cz.mg.nativeapplication.sevices.c.creator.command.CCommandCreator;
 
 

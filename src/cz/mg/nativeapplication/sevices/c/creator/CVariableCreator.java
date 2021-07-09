@@ -2,7 +2,7 @@ package cz.mg.nativeapplication.sevices.c.creator;
 
 import cz.mg.annotations.classes.Service;
 import cz.mg.nativeapplication.entities.c.CVariable;
-import cz.mg.nativeapplication.entities.mg.parts.MgVariable;
+import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 
 
 public @Service class CVariableCreator {

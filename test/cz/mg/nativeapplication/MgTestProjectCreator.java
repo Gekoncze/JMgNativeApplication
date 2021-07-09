@@ -7,7 +7,7 @@ import cz.mg.nativeapplication.entities.mg.components.*;
 import cz.mg.nativeapplication.entities.mg.expression.*;
 import cz.mg.nativeapplication.entities.mg.parts.MgOperator;
 import cz.mg.nativeapplication.entities.mg.parts.MgValue;
-import cz.mg.nativeapplication.entities.mg.parts.MgVariable;
+import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 import cz.mg.nativeapplication.sevices.mg.MgAtomCreator;
 import cz.mg.nativeapplication.sevices.mg.creator.MgProjectCreator;
 import cz.mg.nativeapplication.sevices.mg.resolver.MgComponentLocator;

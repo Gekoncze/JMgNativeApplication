@@ -12,6 +12,7 @@ import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
 import cz.mg.nativeapplication.sevices.EntityClass;
+import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
 
 import java.lang.reflect.Field;
@@ -74,7 +75,7 @@ public @Service class NavigationCacheCreator {
         @Optional Field parentField,
         @Mandatory Object self
     ){
-        EntityClass<?> entityClass = EntityClass.create(self.getClass());
+        EntityClass<?> entityClass = EntityClassCache.getInstance().get(self.getClass());
         Node node = new Node(parent, self, getEntityName(entityClass, self, parentField));
         map.set(self, parent);
 

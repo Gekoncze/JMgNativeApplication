@@ -5,7 +5,7 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.c.*;
 import cz.mg.nativeapplication.entities.mg.components.MgClass;
 import cz.mg.nativeapplication.entities.mg.components.MgStructure;
-import cz.mg.nativeapplication.entities.mg.parts.MgVariable;
+import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 
 
 public @Service class CStructureCreator { // todo - simplify

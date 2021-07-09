@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.nativeapplication.entities.mg.components.MgAtom;
 import cz.mg.nativeapplication.entities.mg.components.MgLocation;
 import cz.mg.nativeapplication.entities.mg.parts.MgOperator;
-import cz.mg.nativeapplication.entities.mg.parts.MgVariable;
+import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 import cz.mg.nativeapplication.entities.mg.existing.MgExistingFunction;
 
 

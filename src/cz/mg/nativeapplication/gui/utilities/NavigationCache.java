@@ -22,18 +22,12 @@ public @Utility class NavigationCache {
         return root;
     }
 
-    public @Optional Object getParentOf(@Mandatory Object object){
-        return map.get(object);
-    }
-
-    private @Mandatory List<Object> findPath(@Mandatory Object entity){
-        List<Object> path = new List<>();
-        Object current = entity;
-        while(current != null){
-            path.addFirst(current);
-            current = getParentOf(current);
+    public @Optional Node get(@Optional Object entity){
+        if(entity != null){
+            return map.get(entity);
+        } else {
+            return null;
         }
-        return path;
     }
 
     public static class Node {
