@@ -4,6 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Cache;
+import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.MgProject;
@@ -35,9 +36,11 @@ public @Utility class MainWindow extends JFrame {
     private @Optional @Part MgProject project;
     private @Optional @Part Path projectPath;
     private @Optional @Cache NavigationCache navigationCache;
-    private @Mandatory @Part IconGallery iconGallery;
 
-    private final @Mandatory List<ChangeListener> changeListeners = new List<>();
+    private final @Mandatory @Part IconGallery iconGallery;
+    private final @Mandatory @Part List<ChangeListener> changeListeners = new List<>();
+    private final @Mandatory @Link MainMenu mainMenu;
+    private final @Mandatory @Link MainView mainView;
 
     public MainWindow() {
         iconGallery = new IconGallery();
@@ -47,8 +50,8 @@ public @Utility class MainWindow extends JFrame {
         setIconImage(iconGallery.getImage(IconGallery.MG));
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
-        setJMenuBar(new MainMenu(this));
-        setContentPane(new MainView(this));
+        setJMenuBar(mainMenu = new MainMenu(this));
+        setContentPane(mainView = new MainView(this));
 
         // delete me now
         projectPath = Paths.get("/home/me/Desktop/Dev/Java/JMgNativeApplication/temp/test/Test.mg");
@@ -63,7 +66,7 @@ public @Utility class MainWindow extends JFrame {
 
     public @Mandatory NavigationCache getNavigationCache() {
         if(navigationCache == null){
-            navigationCache = new NavigationCacheCreator().create(project);
+            navigationCache = new NavigationCacheCreator().create(project, iconGallery);
         }
 
         return navigationCache;
@@ -71,6 +74,14 @@ public @Utility class MainWindow extends JFrame {
 
     public @Mandatory IconGallery getIconGallery() {
         return iconGallery;
+    }
+
+    public MainMenu getMainMenu() {
+        return mainMenu;
+    }
+
+    public MainView getMainView() {
+        return mainView;
     }
 
     public void addChangeListener(@Mandatory ChangeListener changeListener){

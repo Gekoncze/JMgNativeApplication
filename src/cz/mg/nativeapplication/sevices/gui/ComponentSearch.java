@@ -21,7 +21,6 @@ public @Service class ComponentSearch {
     ){
         List<MgComponent> results = new List<>();
         search(
-            navigationCache,
             results,
             typeFilter,
             nameFilter,
@@ -31,7 +30,6 @@ public @Service class ComponentSearch {
     }
 
     private void search(
-        @Mandatory NavigationCache navigationCache,
         @Mandatory List<MgComponent> results,
         @Mandatory Class typeFilter,
         @Mandatory String nameFilter,
@@ -49,7 +47,7 @@ public @Service class ComponentSearch {
                 }
 
                 for(Node child : node.getChildren()){
-                    search(navigationCache, results, typeFilter, nameFilter, child);
+                    search(results, typeFilter, nameFilter, child);
                 }
             }
         }
@@ -65,24 +63,6 @@ public @Service class ComponentSearch {
 
         return reality.contains(expectations);
     }
-
-// todo - move findComponentPath to component search gui component
-
-//    private @Mandatory String findComponentPath(
-//        @Mandatory NavigationCache navigationCache,
-//        @Mandatory MgComponent component
-//    ){
-//        List<MgComponent> path = new List<>();
-//        Node current = navigationCache.get(component);
-//        while(current != null){
-//            if(current.getSelf() instanceof MgComponent){
-//                path.addFirst((MgComponent) current.getSelf());
-//            }
-//            current = current.getParent();
-//        }
-//        path.removeFirst(); // remove root location
-//        return new ToStringBuilder<>(path).delim(".").toString();
-//    }
 
     private @Mandatory String limit(@Mandatory String s, int limit){
         if(s.length() <= limit){

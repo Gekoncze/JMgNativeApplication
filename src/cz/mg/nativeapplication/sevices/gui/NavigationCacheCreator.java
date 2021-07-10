@@ -8,16 +8,17 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
 import cz.mg.collections.map.Map;
-import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.entities.mg.MgProject;
+import cz.mg.nativeapplication.entities.mg.components.MgComponent;
+import cz.mg.nativeapplication.entities.mg.existing.MgExisting;
+import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
 import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
 
+import javax.swing.*;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -25,14 +26,15 @@ import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
 public @Service class NavigationCacheCreator {
-    public @Mandatory NavigationCache create(@Optional MgProject project) {
+    public @Mandatory NavigationCache create(@Optional MgProject project, @Optional IconGallery iconGallery) {
         Map<Object, Node> map = new Map<>();
         return new NavigationCache(
-            map, createNode(map, null, null, project)
+            map, createNode(iconGallery, map, null, null, project)
         );
     }
 
     private @Optional Node createNode(
+        @Mandatory IconGallery iconGallery,
         @Mandatory Map<Object, Node> map,
         @Optional Node parent,
         @Optional Field parentField,
@@ -46,21 +48,16 @@ public @Service class NavigationCacheCreator {
 
         if(self.getClass().isAnnotationPresent(Entity.class)){
             if(self instanceof MgComponent || self instanceof MgProject){
-                return createEntityNode(map, parent, parentField, self);
+                return createEntityNode(iconGallery, map, parent, parentField, self);
             }
         }
 
         if(self instanceof Iterable){
             if(parentField != null){
-                if(parentField.getGenericType() instanceof ParameterizedType){
-                    ParameterizedType fieldType = (ParameterizedType) parentField.getGenericType();
-                    for(Type fieldParameterType : fieldType.getActualTypeArguments()){
-                        if(fieldParameterType instanceof Class){
-                            Class clazz = (Class) fieldParameterType;
-                            if(MgComponent.class.isAssignableFrom(clazz) || MgProject.class.isAssignableFrom(clazz)){
-                                return createCollectionNode(map, parent, parentField, self);
-                            }
-                        }
+                Class clazz = new CollectionTypeProvider().get(parentField);
+                if(clazz != null){
+                    if(MgComponent.class.isAssignableFrom(clazz) || MgProject.class.isAssignableFrom(clazz)){
+                        return createCollectionNode(iconGallery, map, parent, parentField, self);
                     }
                 }
             }
@@ -70,20 +67,26 @@ public @Service class NavigationCacheCreator {
     }
 
     private @Mandatory Node createEntityNode(
+        @Mandatory IconGallery iconGallery,
         @Mandatory Map<Object, Node> map,
         @Optional Node parent,
         @Optional Field parentField,
         @Mandatory Object self
     ){
         EntityClass<?> entityClass = EntityClassCache.getInstance().get(self.getClass());
-        Node node = new Node(parent, self, getEntityName(entityClass, self, parentField));
-        map.set(self, parent);
+        Node node = new Node(
+            parent,
+            self,
+            getEntityName(entityClass, self, parentField),
+            getObjectIcon(iconGallery, self)
+        );
+        map.set(self, node);
 
         for(EntityField field : entityClass.getFields()){
             if(field.isAnnotationPresent(Part.class)){
                 Object child = field.get(self);
                 if(child != null){
-                    Node childNode = createNode(map, node, field.getField(), child);
+                    Node childNode = createNode(iconGallery, map, node, field.getField(), child);
                     if(childNode != null){
                         node.getChildren().addLast(childNode);
                     }
@@ -96,19 +99,25 @@ public @Service class NavigationCacheCreator {
     }
 
     private @Mandatory Node createCollectionNode(
+        @Mandatory IconGallery iconGallery,
         @Mandatory Map<Object, Node> map,
         @Optional Node parent,
         @Optional Field parentField,
         @Mandatory Object self
     ){
         Iterable collection = (Iterable) self;
-        Node node = new Node(parent, self, getObjectName(self, parentField));
+        Node node = new Node(
+            parent,
+            self,
+            getObjectName(self, parentField),
+            getObjectIcon(iconGallery, self)
+        );
         map.set(self, parent);
 
         // Note: children inherit part annotation from their parent collection
         for(Object child : collection){
             if(child != null){
-                Node childNode = createNode(map, node, null, child);
+                Node childNode = createNode(iconGallery, map, node, null, child);
                 if(childNode != null){
                     node.getChildren().addLast(childNode);
                 }
@@ -156,7 +165,7 @@ public @Service class NavigationCacheCreator {
             }
         }
 
-        if(name != null){
+        if(name != null && name.trim().length() > 0){
             return name;
         } else {
             return getObjectName(entity, parentField);
@@ -171,6 +180,22 @@ public @Service class NavigationCacheCreator {
             return parentField.getName();
         } else {
             return object.getClass().getSimpleName();
+        }
+    }
+
+    private @Optional Icon getObjectIcon(@Optional IconGallery iconGallery, @Mandatory Object object){
+        if(iconGallery != null){
+            String name = object instanceof MgExisting
+                ? object.getClass().getSuperclass().getSimpleName().toLowerCase() + ".png"
+                : object.getClass().getSimpleName().toLowerCase() + ".png";
+
+            Icon icon = iconGallery.getIcon(name);
+            if(icon == null){
+                icon = iconGallery.getIcon(IconGallery.UNKNOWN);
+            }
+            return icon;
+        } else {
+            return null;
         }
     }
 }

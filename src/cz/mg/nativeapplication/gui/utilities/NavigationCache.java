@@ -8,6 +8,8 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
 import cz.mg.collections.map.Map;
 
+import javax.swing.*;
+
 
 public @Utility class NavigationCache {
     private final @Mandatory @Link Map<Object, Node> map;
@@ -35,11 +37,13 @@ public @Utility class NavigationCache {
         private final @Mandatory @Link Object self;
         private final @Mandatory @Part List<Node> children = new List<>();
         private final @Mandatory @Part String name;
+        private final @Optional @Link Icon icon;
 
-        public Node(@Optional Node parent, @Mandatory Object self, @Mandatory String name) {
+        public Node(@Optional Node parent, @Mandatory Object self, @Mandatory String name, @Optional Icon icon) {
             this.parent = parent;
             this.self = self;
             this.name = name;
+            this.icon = icon;
         }
 
         public @Optional Node getParent() {
@@ -56,6 +60,10 @@ public @Utility class NavigationCache {
 
         public @Mandatory String getName() {
             return name;
+        }
+
+        public @Optional Icon getIcon() {
+            return icon;
         }
     }
 }

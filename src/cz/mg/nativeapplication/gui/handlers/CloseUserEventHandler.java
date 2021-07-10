@@ -1,5 +1,6 @@
 package cz.mg.nativeapplication.gui.handlers;
 
+import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
@@ -9,7 +10,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 
-public class CloseUserEventHandler implements WindowListener {
+public @Utility class CloseUserEventHandler implements WindowListener {
     private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Part Handler handler;
 
@@ -23,7 +24,7 @@ public class CloseUserEventHandler implements WindowListener {
     }
 
     @Override
-    public void windowClosing(WindowEvent windowEvent) {
+    public void windowClosing(WindowEvent event) {
         try {
             handler.run();
         } catch (Exception e){
@@ -32,23 +33,23 @@ public class CloseUserEventHandler implements WindowListener {
     }
 
     @Override
-    public void windowClosed(WindowEvent windowEvent) {
+    public void windowClosed(WindowEvent event) {
     }
 
     @Override
-    public void windowIconified(WindowEvent windowEvent) {
+    public void windowIconified(WindowEvent event) {
     }
 
     @Override
-    public void windowDeiconified(WindowEvent windowEvent) {
+    public void windowDeiconified(WindowEvent event) {
     }
 
     @Override
-    public void windowActivated(WindowEvent windowEvent) {
+    public void windowActivated(WindowEvent event) {
     }
 
     @Override
-    public void windowDeactivated(WindowEvent windowEvent) {
+    public void windowDeactivated(WindowEvent event) {
     }
 
     public interface Handler {

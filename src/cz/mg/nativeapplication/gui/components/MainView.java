@@ -2,6 +2,7 @@ package cz.mg.nativeapplication.gui.components;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.storage.Link;
 import cz.mg.nativeapplication.gui.MainWindow;
 
 import javax.swing.*;
@@ -9,6 +10,9 @@ import java.awt.*;
 
 
 public @Utility class MainView extends JPanel {
+    private final @Mandatory @Link ProjectTreeView projectTreeView;
+    private final @Mandatory @Link MainTabView mainTabView;
+
     public MainView(@Mandatory MainWindow mainWindow) {
         setLayout(new GridBagLayout());
 
@@ -19,7 +23,8 @@ public @Utility class MainView extends JPanel {
         projectTreeViewSettings.weighty = 1;
         projectTreeViewSettings.fill = GridBagConstraints.BOTH;
         projectTreeViewSettings.insets = new Insets(4, 4, 4, 0);
-        ProjectTreeView projectTreeView = new ProjectTreeView(mainWindow);
+
+        projectTreeView = new ProjectTreeView(mainWindow);
         projectTreeView.setPreferredSize(new Dimension(0, 0));
         projectTreeView.setMinimumSize(new Dimension(0, 0));
         add(projectTreeView, projectTreeViewSettings);
@@ -31,9 +36,18 @@ public @Utility class MainView extends JPanel {
         componentTabsViewSettings.weighty = 1;
         componentTabsViewSettings.fill = GridBagConstraints.BOTH;
         componentTabsViewSettings.insets = new Insets(4, 4, 4, 4);
-        ComponentTabsView componentTabsView = new ComponentTabsView();
-        componentTabsView.setPreferredSize(new Dimension(0, 0));
-        componentTabsView.setMinimumSize(new Dimension(0, 0));
-        add(componentTabsView, componentTabsViewSettings);
+
+        mainTabView = new MainTabView(mainWindow);
+        mainTabView.setPreferredSize(new Dimension(0, 0));
+        mainTabView.setMinimumSize(new Dimension(0, 0));
+        add(mainTabView, componentTabsViewSettings);
+    }
+
+    public ProjectTreeView getProjectTreeView() {
+        return projectTreeView;
+    }
+
+    public MainTabView getMainTabView() {
+        return mainTabView;
     }
 }

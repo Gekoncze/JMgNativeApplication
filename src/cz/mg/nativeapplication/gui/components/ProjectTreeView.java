@@ -4,15 +4,17 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.entities.mg.existing.MgExisting;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.MouseDoubleClickUserEventHandler;
 
 import javax.swing.*;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+
+import java.awt.event.MouseEvent;
 
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
@@ -30,10 +32,35 @@ public @Utility class ProjectTreeView extends JScrollPane {
         tree.setModel(new EntityTreeModel());
         tree.setCellRenderer(new EntityCellRenderer());
         tree.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
+        tree.setToggleClickCount(0);
+        tree.addMouseListener(new MouseDoubleClickUserEventHandler(mainWindow, this::onMouseDoubleClick));
+
         setViewportView(tree);
         ToolTipManager.sharedInstance().registerComponent(tree);
 
-        mainWindow.addChangeListener(e -> tree.setModel(new EntityTreeModel()));
+        mainWindow.addChangeListener(new ChangeUserEventHandler(mainWindow, this::onProjectStructureChanged));
+    }
+
+    private void onProjectStructureChanged(){
+        tree.setModel(new EntityTreeModel());
+    }
+
+    private void onMouseDoubleClick(MouseEvent e){
+        if(e.getButton() == MouseEvent.BUTTON1){
+            if(e.getClickCount() == 2){
+                if(tree.getLastSelectedPathComponent() != null){
+                    if(tree.getRowForLocation(e.getX(), e.getY()) != -1){
+                        openSelectedItem();
+                    }
+                }
+                e.consume();
+            }
+        }
+    }
+
+    private void openSelectedItem(){
+        Node node = (Node) tree.getLastSelectedPathComponent();
+        mainWindow.getMainView().getMainTabView().open(node);
     }
 
     private class EntityTreeModel implements TreeModel {
@@ -105,7 +132,7 @@ public @Utility class ProjectTreeView extends JScrollPane {
         }
     }
 
-    private class EntityCellRenderer implements TreeCellRenderer {
+    private static class EntityCellRenderer implements TreeCellRenderer {
         @Override
         public java.awt.Component getTreeCellRendererComponent(
             JTree tree, Object o,
@@ -115,20 +142,15 @@ public @Utility class ProjectTreeView extends JScrollPane {
             Node node = (Node) o;
             JLabel label = new JLabel();
             label.setText(node.getName());
-            label.setIcon(getIcon(node.getSelf()));
+            label.setIcon(node.getIcon());
             label.setToolTipText(node.getSelf().getClass().getSimpleName());
-            return label;
-        }
 
-        private @Mandatory Icon getIcon(Object o){
-            String name = o instanceof MgExisting
-                ? o.getClass().getSuperclass().getSimpleName().toLowerCase() + ".png"
-                : o.getClass().getSimpleName().toLowerCase() + ".png";
-            Icon icon = mainWindow.getIconGallery().getIcon(name);
-            if(icon == null){
-                icon = mainWindow.getIconGallery().getIcon(IconGallery.UNKNOWN);
+            if(selected){
+                label.setOpaque(true);
+                label.setBackground(UIManager.getDefaults().getColor("List.selectionBackground"));
             }
-            return icon;
+
+            return label;
         }
     }
 }

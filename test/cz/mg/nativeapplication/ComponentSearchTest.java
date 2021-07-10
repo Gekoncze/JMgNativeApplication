@@ -30,7 +30,7 @@ public class ComponentSearchTest {
         bar.components.addLast(createStructure("Abc"));
         bar.components.addLast(createStructure("AbFooBar"));
 
-        NavigationCache navigationCache = new NavigationCacheCreator().create(project);
+        NavigationCache navigationCache = new NavigationCacheCreator().create(project, null);
 
         ComponentSearch componentSearch = new ComponentSearch();
         List<MgComponent> results = componentSearch.search(navigationCache, MgStructure.class, "FooBar");

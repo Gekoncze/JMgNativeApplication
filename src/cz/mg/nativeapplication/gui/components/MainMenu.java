@@ -1,6 +1,7 @@
 package cz.mg.nativeapplication.gui.components;
 
 import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 
 import javax.swing.*;
 
@@ -13,30 +14,30 @@ public class MainMenu extends JMenuBar {
         JMenuItem newProjectMenuItem = new JMenuItem("New project");
         newProjectMenuItem.setMnemonic('N');
         newProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
-        newProjectMenuItem.addActionListener(e -> mainWindow.newProject());
+        newProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::newProject));
 
         JMenuItem openProjectMenuItem = new JMenuItem("Open project");
         openProjectMenuItem.setMnemonic('O');
         openProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
-        openProjectMenuItem.addActionListener(e -> mainWindow.openProject());
+        openProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::openProject));
 
         JMenuItem saveProjectMenuItem = new JMenuItem("Save project");
         saveProjectMenuItem.setMnemonic('S');
         saveProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
-        saveProjectMenuItem.addActionListener(e -> mainWindow.saveProject());
+        saveProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::saveProject));
 
         JMenuItem saveProjectAsMenuItem = new JMenuItem("Save project as");
         saveProjectAsMenuItem.setMnemonic('A');
         saveProjectAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK | SHIFT_DOWN_MASK));
-        saveProjectAsMenuItem.addActionListener(e -> mainWindow.saveProjectAs());
+        saveProjectAsMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::saveProjectAs));
 
         JMenuItem closeProjectMenuItem = new JMenuItem("Close project");
         closeProjectMenuItem.setMnemonic('C');
-        closeProjectMenuItem.addActionListener(e -> mainWindow.closeProject());
+        closeProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::closeProject));
 
         JMenuItem exitMenuItem = new JMenuItem("Exit");
         exitMenuItem.setMnemonic('E');
-        exitMenuItem.addActionListener(e -> mainWindow.exit());
+        exitMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::exit));
 
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic('F');
