@@ -3,6 +3,8 @@ package cz.mg.nativeapplication.gui.components.part;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Link;
+import cz.mg.annotations.storage.Part;
 import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
@@ -17,22 +19,56 @@ import java.awt.event.KeyEvent;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
-public @Utility class ComponentLinkSelect extends JTextField {
-    private final @Mandatory MainWindow mainWindow;
-    private final @Mandatory Class typeFilter;
-    private @Optional MgComponent selectedComponent;
-    private @Optional JPopupMenu popupMenu;
+public @Utility class ComponentLinkSelect {
+    private final @Mandatory @Link MainWindow mainWindow;
+    private final @Mandatory @Link Class typeFilter;
+    private @Optional @Link MgComponent selectedComponent;
+    private @Optional @Link JPopupMenu popupMenu;
+    private @Optional @Part ChangeUserEventHandler changeHandler;
+    private final @Mandatory @Link JLabel label;
+    private final @Mandatory @Link JTextField textField;
 
-    public ComponentLinkSelect(@Mandatory MainWindow mainWindow, @Mandatory Class typeFilter) {
+    public ComponentLinkSelect(
+        @Mandatory MainWindow mainWindow,
+        @Mandatory Class typeFilter,
+        @Mandatory String label
+    ) {
         this.mainWindow = mainWindow;
         this.typeFilter = typeFilter;
-        addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
-        addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
-        addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
+        this.label = new JLabel(label);
+        this.textField = new JTextField();
+        this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
+        this.textField.addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
+        this.textField.addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
+    }
+
+    public MgComponent getSelectedComponent() {
+        return selectedComponent;
+    }
+
+    public void setSelectedComponent(MgComponent selectedComponent) {
+        this.selectedComponent = selectedComponent;
+        updateText();
+    }
+
+    public ChangeUserEventHandler getChangeHandler() {
+        return changeHandler;
+    }
+
+    public void setChangeHandler(ChangeUserEventHandler changeHandler) {
+        this.changeHandler = changeHandler;
+    }
+
+    public JLabel getLabel() {
+        return label;
+    }
+
+    public JTextField getTextField() {
+        return textField;
     }
 
     private void onFocusGained(){
-        selectAll();
+        textField.selectAll();
     }
 
     private void onFocusLost(){
@@ -48,17 +84,8 @@ public @Utility class ComponentLinkSelect extends JTextField {
         }
     }
 
-    public MgComponent getSelectedComponent() {
-        return selectedComponent;
-    }
-
-    public void setSelectedComponent(MgComponent selectedComponent) {
-        this.selectedComponent = selectedComponent;
-        updateText();
-    }
-
     private void updateText(){
-        setText(getComponentDisplayName(selectedComponent));
+        textField.setText(getComponentDisplayName(selectedComponent));
     }
 
     private static @Mandatory String getComponentDisplayName(@Optional MgComponent component){
@@ -81,7 +108,7 @@ public @Utility class ComponentLinkSelect extends JTextField {
         popupMenu = new JPopupMenu();
         popupMenu.addPopupMenuListener(new PopupMenuCloseUserEventHandler(mainWindow, () -> popupMenu = null));
 
-        String nameFilter = getText();
+        String nameFilter = textField.getText();
         List<MgComponent> components = new ComponentSearch().search(
             mainWindow.getNavigationCache(), typeFilter, nameFilter
         );
@@ -102,7 +129,7 @@ public @Utility class ComponentLinkSelect extends JTextField {
 
         System.out.println("Popup menu creation: " + (popupMenu == null));
 
-        popupMenu.show(ComponentLinkSelect.this, 0, getHeight());
+        popupMenu.show(textField, 0, textField.getHeight());
     }
 
     private @Mandatory String findComponentPath(

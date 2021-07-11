@@ -15,7 +15,6 @@ public class IconGallery {
     public static final String UNKNOWN = "unknown.png";
     public static final String LIST = "list.png";
     public static final String ATOM = "mgatom.png";
-    public static final String CLASS = "mgclass.png";
     public static final String FUNCTION = "mgfunction.png";
     public static final String INTERFACE = "mginterface.png";
     public static final String LOCATION = "mglocation.png";
@@ -31,7 +30,6 @@ public class IconGallery {
         load(UNKNOWN);
         load(LIST);
         load(ATOM);
-        load(CLASS);
         load(FUNCTION);
         load(INTERFACE);
         load(LOCATION);
