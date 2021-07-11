@@ -1,5 +1,7 @@
 package cz.mg.nativeapplication.gui.components;
 
+import cz.mg.annotations.classes.Utility;
+import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 
@@ -9,8 +11,13 @@ import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
 
-public class MainMenu extends JMenuBar {
-    public MainMenu(MainWindow mainWindow) {
+public @Utility class MainMenu extends JMenuBar {
+    public MainMenu(@Mandatory MainWindow mainWindow) {
+        add(createFileMenu(mainWindow));
+        add(createViewMenu(mainWindow));
+    }
+
+    private JMenu createFileMenu(@Mandatory MainWindow mainWindow){
         JMenuItem newProjectMenuItem = new JMenuItem("New project");
         newProjectMenuItem.setMnemonic('N');
         newProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
@@ -39,15 +46,27 @@ public class MainMenu extends JMenuBar {
         exitMenuItem.setMnemonic('E');
         exitMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::exit));
 
-        JMenu fileMenu = new JMenu("File");
-        fileMenu.setMnemonic('F');
-        fileMenu.add(newProjectMenuItem);
-        fileMenu.add(openProjectMenuItem);
-        fileMenu.add(saveProjectMenuItem);
-        fileMenu.add(saveProjectAsMenuItem);
-        fileMenu.add(closeProjectMenuItem);
-        fileMenu.add(exitMenuItem);
+        JMenu menu = new JMenu("File");
+        menu.setMnemonic('F');
+        menu.add(newProjectMenuItem);
+        menu.add(openProjectMenuItem);
+        menu.add(saveProjectMenuItem);
+        menu.add(saveProjectAsMenuItem);
+        menu.add(closeProjectMenuItem);
+        menu.add(exitMenuItem);
+        return menu;
+    }
 
-        add(fileMenu);
+    private JMenu createViewMenu(@Mandatory MainWindow mainWindow){
+        JMenuItem closeActiveTab = new JMenuItem("Close active tab");
+        closeActiveTab.setAccelerator(KeyStroke.getKeyStroke('W', CTRL_DOWN_MASK));
+        closeActiveTab.addActionListener(new ActionUserEventHandler(mainWindow,
+            () -> mainWindow.getMainView().getMainTabView().closeActiveTab()
+        ));
+
+        JMenu menu = new JMenu("View");
+        menu.setMnemonic('V');
+        menu.add(closeActiveTab);
+        return menu;
     }
 }
