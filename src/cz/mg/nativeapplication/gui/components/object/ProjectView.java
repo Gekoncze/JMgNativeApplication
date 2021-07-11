@@ -9,14 +9,14 @@ import cz.mg.nativeapplication.entities.mg.components.MgFunction;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.part.ComponentLinkSelect;
 import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
-import cz.mg.nativeapplication.gui.utilities.GridBagConstraintFactory;
+import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 
 import javax.swing.*;
 import java.awt.*;
 
 
 public @Utility class ProjectView extends JScrollPane {
-    private static final int PADDING = 4;
+    private static final int PADDING = 2;
 
     private final @Mandatory @Link MgProject project;
     private final @Mandatory @Part ComponentLinkSelect mainFunctionSelect;
@@ -26,19 +26,16 @@ public @Utility class ProjectView extends JScrollPane {
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
 
-        mainFunctionSelect = new ComponentLinkSelect(mainWindow, MgFunction.class, "Main function");
+        mainFunctionSelect = new ComponentLinkSelect(mainWindow, MgFunction.class, "Main function", project.main);
         mainFunctionSelect.setChangeHandler(new ChangeUserEventHandler(mainWindow, () -> {
-            project.main = (MgFunction) mainFunctionSelect.getSelectedComponent();
+            project.main = (MgFunction) mainFunctionSelect.getValue();
         }));
 
-        panel.add(mainFunctionSelect.getLabel(), new GridBagConstraintFactory().create(
-            0, 0, 0, 0, PADDING, PADDING, PADDING, PADDING
-        ));
-
-        panel.add(mainFunctionSelect.getTextField(), new GridBagConstraintFactory().create(
-            1, 0, 1, 0, PADDING, 0, PADDING, PADDING
-        ));
+        panel.add(mainFunctionSelect.getLabel(), new GridSettingsFactory().create(0, 0, 0, 0, PADDING));
+        panel.add(mainFunctionSelect.getTextField(), new GridSettingsFactory().create(1, 0, 1, 0, PADDING));
+        panel.add(mainFunctionSelect.getClearButton(), new GridSettingsFactory().create(2, 0, 0, 0, PADDING));
 
         setViewportView(panel);
     }

@@ -10,6 +10,7 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.components.MainMenu;
 import cz.mg.nativeapplication.gui.components.MainView;
+import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
@@ -19,8 +20,6 @@ import cz.mg.nativeapplication.sevices.mg.storage.MgProjectLoader;
 import cz.mg.nativeapplication.sevices.mg.storage.MgProjectSaver;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.nio.file.Path;
@@ -38,7 +37,7 @@ public @Utility class MainWindow extends JFrame {
     private @Optional @Cache NavigationCache navigationCache;
 
     private final @Mandatory @Part IconGallery iconGallery;
-    private final @Mandatory @Part List<ChangeListener> changeListeners = new List<>();
+    private final @Mandatory @Part List<ChangeUserEventHandler> changeHandlers = new List<>();
     private final @Mandatory @Link MainMenu mainMenu;
     private final @Mandatory @Link MainView mainView;
 
@@ -56,7 +55,7 @@ public @Utility class MainWindow extends JFrame {
         // delete me now
         projectPath = Paths.get("/home/me/Desktop/Dev/Java/JMgNativeApplication/temp/test/Test.mg");
         project = new MgProjectLoader().load(projectPath.toString());
-        notifyChangeListeners(project);
+        notifyChangeListeners();
         // delete me now
     }
 
@@ -84,15 +83,14 @@ public @Utility class MainWindow extends JFrame {
         return mainView;
     }
 
-    public void addChangeListener(@Mandatory ChangeListener changeListener){
-        changeListeners.addLast(changeListener);
+    public void addChangeHandler(@Mandatory ChangeUserEventHandler changeHandler){
+        changeHandlers.addLast(changeHandler);
     }
 
-    private void notifyChangeListeners(@Optional Object source){
+    private void notifyChangeListeners(){
         navigationCache = null;
-        ChangeEvent event = new ChangeEvent(source != null ? source : new Object());
-        for(ChangeListener changeListener : changeListeners){
-            changeListener.stateChanged(event);
+        for(ChangeUserEventHandler changeHandler : changeHandlers){
+            changeHandler.stateChanged();
         }
     }
 
@@ -106,7 +104,7 @@ public @Utility class MainWindow extends JFrame {
         String name = JOptionPane.showInputDialog(this, "New Project");
         if(name != null){
             project = new MgProjectCreator().create(name);
-            notifyChangeListeners(project);
+            notifyChangeListeners();
             return true;
         } else {
             return false;
@@ -131,7 +129,7 @@ public @Utility class MainWindow extends JFrame {
 
             projectPath = fileChooser.getSelectedFile().toPath().toAbsolutePath();
             project = new MgProjectLoader().load(projectPath.toString());
-            notifyChangeListeners(project);
+            notifyChangeListeners();
             return true;
         } else {
             return false;
@@ -191,12 +189,12 @@ public @Utility class MainWindow extends JFrame {
             }
             project = null;
             projectPath = null;
-            notifyChangeListeners(project);
+            notifyChangeListeners();
             return true;
         } else if(selectedOption == JOptionPane.NO_OPTION){
             project = null;
             projectPath = null;
-            notifyChangeListeners(project);
+            notifyChangeListeners();
             return true;
         } else {
             return false;

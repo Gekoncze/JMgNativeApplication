@@ -7,7 +7,7 @@ import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.object.ProjectView;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
-import cz.mg.nativeapplication.gui.utilities.GridBagConstraintFactory;
+import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,9 +53,7 @@ public class MainTabView extends JTabbedPane {
         label.setText(node.getName());
         label.setIcon(node.getIcon());
         label.setOpaque(false);
-        header.add(label, new GridBagConstraintFactory().create(
-            0, 0, 0, 0, 0, 0, 0, 8
-        ));
+        header.add(label, new GridSettingsFactory().create(0, 0, 0, 0, 0, 0, 0, 8));
 
         JButton closeButton = new JButton("x");
         closeButton.setBorder(null);
@@ -63,9 +61,7 @@ public class MainTabView extends JTabbedPane {
         closeButton.setBackground(new Color(0, 0, 0, 0));
         closeButton.setForeground(new Color(180, 180, 180, 255));
         closeButton.addActionListener(new ActionUserEventHandler(mainWindow, () -> remove(component)));
-        header.add(closeButton, new GridBagConstraintFactory().create(
-            1, 0, 0, 0, 0, 0, 0, 0
-        ));
+        header.add(closeButton, new GridSettingsFactory().create(1, 0, 0, 0, 0, 0, 0, 0));
 
         return header;
     }

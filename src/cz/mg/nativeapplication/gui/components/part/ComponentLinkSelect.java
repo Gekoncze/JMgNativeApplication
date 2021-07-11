@@ -10,10 +10,12 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.handlers.*;
+import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
@@ -22,16 +24,18 @@ import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 public @Utility class ComponentLinkSelect {
     private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Link Class typeFilter;
-    private @Optional @Link MgComponent selectedComponent;
+    private @Optional @Link MgComponent value;
     private @Optional @Link JPopupMenu popupMenu;
     private @Optional @Part ChangeUserEventHandler changeHandler;
     private final @Mandatory @Link JLabel label;
     private final @Mandatory @Link JTextField textField;
+    private final @Mandatory @Link JButton clearButton;
 
     public ComponentLinkSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Class typeFilter,
-        @Mandatory String label
+        @Mandatory String label,
+        @Optional MgComponent value
     ) {
         this.mainWindow = mainWindow;
         this.typeFilter = typeFilter;
@@ -40,15 +44,23 @@ public @Utility class ComponentLinkSelect {
         this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
         this.textField.addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
         this.textField.addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
+        this.clearButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.DELETE));
+        this.clearButton.setBackground(new Color(0, 0, 0, 0));
+        this.clearButton.setBorder(null);
+        this.clearButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onClearButtonClicked));
+        setValue(value);
     }
 
-    public MgComponent getSelectedComponent() {
-        return selectedComponent;
+    public @Optional MgComponent getValue() {
+        return value;
     }
 
-    public void setSelectedComponent(MgComponent selectedComponent) {
-        this.selectedComponent = selectedComponent;
+    public void setValue(@Optional MgComponent value) {
+        this.value = value;
         updateText();
+        if(changeHandler != null){
+            changeHandler.stateChanged();
+        }
     }
 
     public ChangeUserEventHandler getChangeHandler() {
@@ -59,12 +71,16 @@ public @Utility class ComponentLinkSelect {
         this.changeHandler = changeHandler;
     }
 
-    public JLabel getLabel() {
+    public @Mandatory JLabel getLabel() {
         return label;
     }
 
-    public JTextField getTextField() {
+    public @Mandatory JTextField getTextField() {
         return textField;
+    }
+
+    public @Mandatory JButton getClearButton() {
+        return clearButton;
     }
 
     private void onFocusGained(){
@@ -84,8 +100,12 @@ public @Utility class ComponentLinkSelect {
         }
     }
 
+    private void onClearButtonClicked() {
+        setValue(null);
+    }
+
     private void updateText(){
-        textField.setText(getComponentDisplayName(selectedComponent));
+        textField.setText(getComponentDisplayName(value));
     }
 
     private static @Mandatory String getComponentDisplayName(@Optional MgComponent component){
@@ -115,7 +135,7 @@ public @Utility class ComponentLinkSelect {
 
         for(MgComponent component : components){
             JMenuItem item = new JMenuItem();
-            item.addActionListener(new ActionUserEventHandler(mainWindow, () -> setSelectedComponent(component)));
+            item.addActionListener(new ActionUserEventHandler(mainWindow, () -> setValue(component)));
             item.setText(findComponentPath(mainWindow.getNavigationCache(), component));
             popupMenu.add(item);
         }
@@ -126,8 +146,6 @@ public @Utility class ComponentLinkSelect {
             item.setEnabled(false);
             popupMenu.add(item);
         }
-
-        System.out.println("Popup menu creation: " + (popupMenu == null));
 
         popupMenu.show(textField, 0, textField.getHeight());
     }

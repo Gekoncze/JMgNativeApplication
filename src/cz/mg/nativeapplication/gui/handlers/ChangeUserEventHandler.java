@@ -19,6 +19,10 @@ public @Utility class ChangeUserEventHandler implements ChangeListener {
         this.handler = handler;
     }
 
+    public void stateChanged(){
+        stateChanged(new ChangeEvent(new Object()));
+    }
+
     @Override
     public void stateChanged(ChangeEvent event) {
         try {

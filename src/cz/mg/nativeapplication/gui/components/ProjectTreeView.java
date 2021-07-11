@@ -38,7 +38,7 @@ public @Utility class ProjectTreeView extends JScrollPane {
         setViewportView(tree);
         ToolTipManager.sharedInstance().registerComponent(tree);
 
-        mainWindow.addChangeListener(new ChangeUserEventHandler(mainWindow, this::onProjectStructureChanged));
+        mainWindow.addChangeHandler(new ChangeUserEventHandler(mainWindow, this::onProjectStructureChanged));
     }
 
     private void onProjectStructureChanged(){
