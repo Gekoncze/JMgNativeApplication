@@ -3,7 +3,6 @@ package cz.mg.nativeapplication.sevices.c.creator;
 import cz.mg.annotations.classes.Service;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.c.*;
-import cz.mg.nativeapplication.entities.mg.components.MgClass;
 import cz.mg.nativeapplication.entities.mg.components.MgStructure;
 import cz.mg.nativeapplication.entities.mg.components.MgVariable;
 
@@ -47,7 +46,7 @@ public @Service class CStructureCreator { // todo - simplify
             CVariable cVariable = new CVariable();
             cVariable.name = mgVariable.name;
             cVariable.type = new CType();
-            cVariable.type.structure = mgVariable.type instanceof MgStructure || mgVariable.type instanceof MgClass;
+            cVariable.type.structure = mgVariable.type instanceof MgStructure;
             cVariable.type.name = mgVariable.type.name;
             cVariable.type.pointers = mgVariable.pointers;
             structureDefinition.variables.addLast(cVariable);

@@ -7,10 +7,7 @@ import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.KeyTypedUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 
@@ -24,6 +21,7 @@ public @Utility class ComponentLinkSelect extends JTextField {
     private final @Mandatory MainWindow mainWindow;
     private final @Mandatory Class typeFilter;
     private @Optional MgComponent selectedComponent;
+    private @Optional JPopupMenu popupMenu;
 
     public ComponentLinkSelect(@Mandatory MainWindow mainWindow, @Mandatory Class typeFilter) {
         this.mainWindow = mainWindow;
@@ -34,12 +32,13 @@ public @Utility class ComponentLinkSelect extends JTextField {
     }
 
     private void onFocusGained(){
-        setText("");
+        selectAll();
     }
 
     private void onFocusLost(){
-        setText(getComponentDisplayName(selectedComponent));
-        // todo - is there a way to prevent focus lost when popup menu is opened?
+        if(popupMenu == null){
+            updateText();
+        }
     }
 
     private void onKeyTyped(KeyEvent e){
@@ -51,6 +50,15 @@ public @Utility class ComponentLinkSelect extends JTextField {
 
     public MgComponent getSelectedComponent() {
         return selectedComponent;
+    }
+
+    public void setSelectedComponent(MgComponent selectedComponent) {
+        this.selectedComponent = selectedComponent;
+        updateText();
+    }
+
+    private void updateText(){
+        setText(getComponentDisplayName(selectedComponent));
     }
 
     private static @Mandatory String getComponentDisplayName(@Optional MgComponent component){
@@ -70,7 +78,9 @@ public @Utility class ComponentLinkSelect extends JTextField {
     }
 
     private void showComponentSelectionMenu(){
-        JPopupMenu menu = new JPopupMenu();
+        popupMenu = new JPopupMenu();
+        popupMenu.addPopupMenuListener(new PopupMenuCloseUserEventHandler(mainWindow, () -> popupMenu = null));
+
         String nameFilter = getText();
         List<MgComponent> components = new ComponentSearch().search(
             mainWindow.getNavigationCache(), typeFilter, nameFilter
@@ -78,19 +88,21 @@ public @Utility class ComponentLinkSelect extends JTextField {
 
         for(MgComponent component : components){
             JMenuItem item = new JMenuItem();
-            item.addActionListener(new ActionUserEventHandler(mainWindow, () -> selectedComponent = component));
+            item.addActionListener(new ActionUserEventHandler(mainWindow, () -> setSelectedComponent(component)));
             item.setText(findComponentPath(mainWindow.getNavigationCache(), component));
-            menu.add(item);
+            popupMenu.add(item);
         }
 
         if(components.count() < 1){
             JMenuItem item = new JMenuItem();
             item.setText("No results.");
             item.setEnabled(false);
-            menu.add(item);
+            popupMenu.add(item);
         }
 
-        menu.show(ComponentLinkSelect.this, 0, getHeight());
+        System.out.println("Popup menu creation: " + (popupMenu == null));
+
+        popupMenu.show(ComponentLinkSelect.this, 0, getHeight());
     }
 
     private @Mandatory String findComponentPath(

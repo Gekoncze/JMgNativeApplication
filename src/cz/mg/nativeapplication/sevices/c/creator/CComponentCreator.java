@@ -32,10 +32,6 @@ public class CComponentCreator {
             return; // atoms are handled in c project creator
         }
 
-        if(component instanceof MgClass){
-            return; // todo;
-        }
-
         if(component instanceof MgStructure){
             MgStructure structure = (MgStructure) component;
             new CStructureCreator().create(folder, structure);

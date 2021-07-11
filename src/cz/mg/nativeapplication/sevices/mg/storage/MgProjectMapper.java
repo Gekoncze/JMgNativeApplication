@@ -38,7 +38,6 @@ public @Utility class MgProjectMapper extends Mapper<MgProject> {
             new ListObjectMapper(),
             // ----------
             new EntityObjectMapper(MgAtom.class),
-            new EntityObjectMapper(MgClass.class),
             new EntityObjectMapper(MgFunction.class),
             new EntityObjectMapper(MgInterface.class),
             new EntityObjectMapper(MgLocation.class),
