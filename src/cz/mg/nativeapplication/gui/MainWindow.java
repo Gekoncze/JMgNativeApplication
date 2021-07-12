@@ -14,6 +14,7 @@ import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
+import cz.mg.nativeapplication.history.History;
 import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
 import cz.mg.nativeapplication.sevices.mg.creator.MgProjectCreator;
 import cz.mg.nativeapplication.sevices.mg.storage.MgProjectLoader;
@@ -31,10 +32,12 @@ public @Utility class MainWindow extends JFrame {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
     private static final FileFilter FILE_FILTER = new FileNameExtensionFilter("Mg Project Files (*.mg)", "mg");
+    private static final int HISTORY_LIMIT = 100;
 
     private @Optional @Part MgProject project;
     private @Optional @Part Path projectPath;
     private @Optional @Cache NavigationCache navigationCache;
+    private @Optional @Part History history;
 
     private final @Mandatory @Part IconGallery iconGallery;
     private final @Mandatory @Part List<ChangeUserEventHandler> changeHandlers = new List<>();
@@ -71,6 +74,10 @@ public @Utility class MainWindow extends JFrame {
         return navigationCache;
     }
 
+    public @Optional History getHistory() {
+        return history;
+    }
+
     public @Mandatory IconGallery getIconGallery() {
         return iconGallery;
     }
@@ -104,6 +111,7 @@ public @Utility class MainWindow extends JFrame {
         String name = JOptionPane.showInputDialog(this, "New Project");
         if(name != null){
             project = new MgProjectCreator().create(name);
+            history = new History(HISTORY_LIMIT);
             notifyChangeListeners();
             return true;
         } else {
@@ -129,6 +137,7 @@ public @Utility class MainWindow extends JFrame {
 
             projectPath = fileChooser.getSelectedFile().toPath().toAbsolutePath();
             project = new MgProjectLoader().load(projectPath.toString());
+            history = new History(HISTORY_LIMIT);
             notifyChangeListeners();
             return true;
         } else {
@@ -189,11 +198,13 @@ public @Utility class MainWindow extends JFrame {
             }
             project = null;
             projectPath = null;
+            history = null;
             notifyChangeListeners();
             return true;
         } else if(selectedOption == JOptionPane.NO_OPTION){
             project = null;
             projectPath = null;
+            history = null;
             notifyChangeListeners();
             return true;
         } else {

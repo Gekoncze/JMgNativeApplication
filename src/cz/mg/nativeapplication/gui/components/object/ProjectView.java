@@ -30,6 +30,7 @@ public @Utility class ProjectView extends JScrollPane {
 
         mainFunctionSelect = new ComponentLinkSelect(mainWindow, MgFunction.class, "Main function", project.main);
         mainFunctionSelect.setChangeHandler(new ChangeUserEventHandler(mainWindow, () -> {
+            // todo - change to history action
             project.main = (MgFunction) mainFunctionSelect.getValue();
         }));
 

@@ -14,10 +14,11 @@ import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 public @Utility class MainMenu extends JMenuBar {
     public MainMenu(@Mandatory MainWindow mainWindow) {
         add(createFileMenu(mainWindow));
+        add(createEditMenu(mainWindow));
         add(createViewMenu(mainWindow));
     }
 
-    private JMenu createFileMenu(@Mandatory MainWindow mainWindow){
+    private @Mandatory JMenu createFileMenu(@Mandatory MainWindow mainWindow){
         JMenuItem newProjectMenuItem = new JMenuItem("New project");
         newProjectMenuItem.setMnemonic('N');
         newProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
@@ -57,7 +58,33 @@ public @Utility class MainMenu extends JMenuBar {
         return menu;
     }
 
-    private JMenu createViewMenu(@Mandatory MainWindow mainWindow){
+    private @Mandatory JMenu createEditMenu(@Mandatory MainWindow mainWindow){
+        JMenuItem undoMenuItem = new JMenuItem("Undo");
+        undoMenuItem.setMnemonic('U');
+        undoMenuItem.setAccelerator(KeyStroke.getKeyStroke('Z', CTRL_DOWN_MASK));
+        undoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
+            if(mainWindow.getHistory() != null){
+                mainWindow.getHistory().undo();
+            }
+        }));
+
+        JMenuItem redoMenuItem = new JMenuItem("Redo");
+        redoMenuItem.setMnemonic('E');
+        redoMenuItem.setAccelerator(KeyStroke.getKeyStroke('Z', CTRL_DOWN_MASK | SHIFT_DOWN_MASK));
+        redoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
+            if(mainWindow.getHistory() != null){
+                mainWindow.getHistory().redo();
+            }
+        }));
+
+        JMenu menu = new JMenu("Edit");
+        menu.setMnemonic('E');
+        menu.add(undoMenuItem);
+        menu.add(redoMenuItem);
+        return menu;
+    }
+
+    private @Mandatory JMenu createViewMenu(@Mandatory MainWindow mainWindow){
         JMenuItem closeActiveTab = new JMenuItem("Close active tab");
         closeActiveTab.setAccelerator(KeyStroke.getKeyStroke('W', CTRL_DOWN_MASK));
         closeActiveTab.addActionListener(new ActionUserEventHandler(mainWindow,
