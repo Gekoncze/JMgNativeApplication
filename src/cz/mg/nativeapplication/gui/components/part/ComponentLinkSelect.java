@@ -44,7 +44,7 @@ public @Utility class ComponentLinkSelect {
         this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
         this.textField.addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
         this.textField.addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
-        this.clearButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.DELETE));
+        this.clearButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.CLEAR));
         this.clearButton.setBackground(new Color(0, 0, 0, 0));
         this.clearButton.setBorder(null);
         this.clearButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onClearButtonClicked));

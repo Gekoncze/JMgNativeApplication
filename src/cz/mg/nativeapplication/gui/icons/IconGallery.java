@@ -13,6 +13,7 @@ public class IconGallery {
     public static final String MG = "mg.png";
     public static final String PROJECT = "mgproject.png";
     public static final String UNKNOWN = "unknown.png";
+    public static final String CLEAR = "clear.png";
     public static final String DELETE = "delete.png";
     public static final String LIST = "list.png";
     public static final String ATOM = "mgatom.png";
@@ -29,6 +30,7 @@ public class IconGallery {
         load(MG);
         load(PROJECT);
         load(UNKNOWN);
+        load(CLEAR);
         load(DELETE);
         load(LIST);
         load(ATOM);
