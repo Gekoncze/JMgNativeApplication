@@ -1,11 +1,11 @@
 package cz.mg.nativeapplication.gui.components;
 
+import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
-import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.components.object.MgProjectView;
+import cz.mg.nativeapplication.gui.components.entity.EntityView;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 
@@ -24,8 +24,8 @@ public class MainTabView extends JTabbedPane implements RefreshableComponent {
 
     public void open(@Optional Node node){
         if(node != null){
-            if(node.getSelf() instanceof MgProject){
-                addTab(node, new MgProjectView(mainWindow, (MgProject) node.getSelf()));
+            if(node.getSelf().getClass().isAnnotationPresent(Entity.class)){
+                addTab(node, new EntityView(mainWindow, node.getSelf()));
             }
 
             // todo - add support for more object types

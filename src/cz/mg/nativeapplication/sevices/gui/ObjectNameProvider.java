@@ -16,10 +16,11 @@ public @Service class ObjectNameProvider {
 
         if(object.getClass().isAnnotationPresent(Entity.class)){
             EntityClass entityClass = EntityClassCache.getInstance().get(object.getClass());
-            EntityField entityField = entityClass.getField(String.class, "name");
+            EntityField entityField = entityClass.getField("name");
             if(entityField != null){
-                String name = (String) entityField.get(object);
-                if(name != null){
+                Object value = entityField.get(object);
+                if(value instanceof String){
+                    String name = (String) value;
                     if(name.trim().length() > 0){
                         return name;
                     }

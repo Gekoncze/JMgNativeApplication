@@ -30,12 +30,10 @@ public @Utility class EntityClass {
         return fields;
     }
 
-    public @Optional EntityField getField(@Mandatory Class clazz, @Mandatory String name){
+    public @Optional EntityField getField(@Mandatory String name){
         for(EntityField field : fields){
-            if(clazz.isAssignableFrom(field.getType())){
-                if(field.getName().equals(name)){
-                    return field;
-                }
+            if(field.getName().equals(name)){
+                return field;
             }
         }
         return null;
