@@ -3,7 +3,6 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
-import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.handlers.MouseDoubleClickUserEventHandler;
 
@@ -12,7 +11,6 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
-
 import java.awt.event.MouseEvent;
 
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
@@ -71,14 +69,14 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
         public Object getChild(Object o, int i) {
             if(o == null) return null;
             Node self = (Node) o;
-            return getChildren(self).get(i);
+            return self.getChildren().get(i);
         }
 
         @Override
         public int getChildCount(Object o) {
             if(o == null) return 0;
             Node self = (Node) o;
-            return getChildren(self).count();
+            return self.getChildren().count();
         }
 
         @Override
@@ -97,7 +95,7 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
             Node parentNode = (Node) parent;
             Node childNode = (Node) child;
             int i = 0;
-            for(Node currentNode : getChildren(parentNode)){
+            for(Node currentNode : parentNode.getChildren()){
                 if(currentNode == childNode){
                     return i;
                 }
@@ -112,21 +110,6 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
 
         @Override
         public void removeTreeModelListener(TreeModelListener treeModelListener) {
-        }
-
-        private List<Node> getChildren(Node node){
-            return hideCollectionOnlyChild(node.getChildren());
-        }
-
-        private List<Node> hideCollectionOnlyChild(List<Node> children){
-            if(children.count() == 1){
-                Node child = children.getFirst();
-                if(child.getSelf() instanceof Iterable){
-                    return child.getChildren();
-                }
-            }
-
-            return children;
         }
     }
 

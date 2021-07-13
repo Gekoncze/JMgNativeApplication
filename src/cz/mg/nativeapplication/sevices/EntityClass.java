@@ -3,6 +3,7 @@ package cz.mg.nativeapplication.sevices;
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.requirement.Optional;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.array.ReadableArray;
 import cz.mg.collections.list.List;
@@ -12,16 +13,16 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 
-public @Utility class EntityClass<T> {
-    private final @Mandatory Class<T> clazz;
+public @Utility class EntityClass {
+    private final @Mandatory Class clazz;
     private final @Mandatory Array<EntityField> fields;
 
-    EntityClass(@Mandatory Class<T> clazz, @Mandatory Array<EntityField> fields) {
+    EntityClass(@Mandatory Class clazz, @Mandatory Array<EntityField> fields) {
         this.clazz = clazz;
         this.fields = fields;
     }
 
-    public @Mandatory Class<T> getClazz() {
+    public @Mandatory Class getClazz() {
         return clazz;
     }
 
@@ -29,7 +30,18 @@ public @Utility class EntityClass<T> {
         return fields;
     }
 
-    public @Mandatory T newInstance(){
+    public @Optional EntityField getField(@Mandatory Class clazz, @Mandatory String name){
+        for(EntityField field : fields){
+            if(clazz.isAssignableFrom(field.getType())){
+                if(field.getName().equals(name)){
+                    return field;
+                }
+            }
+        }
+        return null;
+    }
+
+    public @Mandatory Object newInstance(){
         try {
             return clazz.getConstructor().newInstance();
         } catch (ReflectiveOperationException e){
@@ -41,7 +53,7 @@ public @Utility class EntityClass<T> {
         return clazz.getSimpleName();
     }
 
-    static <T> @Mandatory EntityClass<T> create(@Mandatory Class<T> clazz){
+    static @Mandatory EntityClass create(@Mandatory Class clazz){
         if(isEntity(clazz)){
             try {
                 clazz.getConstructor();
