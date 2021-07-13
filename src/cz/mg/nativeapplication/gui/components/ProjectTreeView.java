@@ -5,7 +5,6 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseDoubleClickUserEventHandler;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ import java.awt.event.MouseEvent;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
-public @Utility class ProjectTreeView extends JScrollPane {
+public @Utility class ProjectTreeView extends JScrollPane implements RefreshableComponent {
     private static final int PADDING = 4;
 
     private final @Mandatory @Link MainWindow mainWindow;
@@ -37,12 +36,6 @@ public @Utility class ProjectTreeView extends JScrollPane {
 
         setViewportView(tree);
         ToolTipManager.sharedInstance().registerComponent(tree);
-
-        mainWindow.addChangeHandler(new ChangeUserEventHandler(mainWindow, this::onProjectStructureChanged));
-    }
-
-    private void onProjectStructureChanged(){
-        tree.setModel(new EntityTreeModel());
     }
 
     private void onMouseDoubleClick(MouseEvent e){
@@ -61,6 +54,11 @@ public @Utility class ProjectTreeView extends JScrollPane {
     private void openSelectedItem(){
         Node node = (Node) tree.getLastSelectedPathComponent();
         mainWindow.getMainView().getMainTabView().open(node);
+    }
+
+    @Override
+    public void refresh() {
+        tree.setModel(new EntityTreeModel());
     }
 
     private class EntityTreeModel implements TreeModel {

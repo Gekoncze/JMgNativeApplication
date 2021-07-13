@@ -7,6 +7,7 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.entities.mg.components.MgFunction;
 import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.components.RefreshableComponent;
 import cz.mg.nativeapplication.gui.components.part.ComponentLinkSelect;
 import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
@@ -15,13 +16,13 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public @Utility class ProjectView extends JScrollPane {
+public @Utility class MgProjectView extends JScrollPane implements RefreshableComponent {
     private static final int PADDING = 2;
 
     private final @Mandatory @Link MgProject project;
     private final @Mandatory @Part ComponentLinkSelect mainFunctionSelect;
 
-    public ProjectView(@Mandatory MainWindow mainWindow, @Mandatory MgProject project) {
+    public MgProjectView(@Mandatory MainWindow mainWindow, @Mandatory MgProject project) {
         this.project = project;
 
         JPanel panel = new JPanel();
@@ -39,5 +40,11 @@ public @Utility class ProjectView extends JScrollPane {
         panel.add(mainFunctionSelect.getClearButton(), new GridSettingsFactory().create(2, 0, 0, 0, PADDING));
 
         setViewportView(panel);
+    }
+
+    @Override
+    public void refresh() {
+        // todo - cannot use set value because that might update history
+        // mainFunctionSelect.setValue(project.main);
     }
 }

@@ -17,6 +17,11 @@ public @Utility class History {
         this.limit = limit;
     }
 
+    public void run(@Mandatory Action action){
+        action.redo();
+        add(action);
+    }
+
     public void add(@Mandatory Action action){
         trimRight();
         actions.addLast(action);

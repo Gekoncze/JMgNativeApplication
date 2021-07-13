@@ -7,6 +7,8 @@ import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 
 import javax.swing.*;
 
+import java.awt.event.KeyEvent;
+
 import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
 import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
 
@@ -65,6 +67,7 @@ public @Utility class MainMenu extends JMenuBar {
         undoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
             if(mainWindow.getHistory() != null){
                 mainWindow.getHistory().undo();
+                mainWindow.refresh();
             }
         }));
 
@@ -74,6 +77,7 @@ public @Utility class MainMenu extends JMenuBar {
         redoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
             if(mainWindow.getHistory() != null){
                 mainWindow.getHistory().redo();
+                mainWindow.refresh();
             }
         }));
 
@@ -85,15 +89,20 @@ public @Utility class MainMenu extends JMenuBar {
     }
 
     private @Mandatory JMenu createViewMenu(@Mandatory MainWindow mainWindow){
-        JMenuItem closeActiveTab = new JMenuItem("Close active tab");
-        closeActiveTab.setAccelerator(KeyStroke.getKeyStroke('W', CTRL_DOWN_MASK));
-        closeActiveTab.addActionListener(new ActionUserEventHandler(mainWindow,
+        JMenuItem closeActiveTabMenuItem = new JMenuItem("Close active tab");
+        closeActiveTabMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', CTRL_DOWN_MASK));
+        closeActiveTabMenuItem.addActionListener(new ActionUserEventHandler(mainWindow,
             () -> mainWindow.getMainView().getMainTabView().closeActiveTab()
         ));
 
+        JMenuItem refreshMenuItem = new JMenuItem("Refresh");
+        refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+        refreshMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::refresh));
+
         JMenu menu = new JMenu("View");
         menu.setMnemonic('V');
-        menu.add(closeActiveTab);
+        menu.add(closeActiveTabMenuItem);
+        menu.add(refreshMenuItem);
         return menu;
     }
 }

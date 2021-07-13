@@ -5,7 +5,7 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.components.object.ProjectView;
+import cz.mg.nativeapplication.gui.components.object.MgProjectView;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 
@@ -15,7 +15,7 @@ import java.awt.*;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
-public class MainTabView extends JTabbedPane {
+public class MainTabView extends JTabbedPane implements RefreshableComponent {
     private final @Mandatory @Link MainWindow mainWindow;
 
     public MainTabView(@Mandatory MainWindow mainWindow) {
@@ -25,7 +25,7 @@ public class MainTabView extends JTabbedPane {
     public void open(@Optional Node node){
         if(node != null){
             if(node.getSelf() instanceof MgProject){
-                addTab(node, new ProjectView(mainWindow, (MgProject) node.getSelf()));
+                addTab(node, new MgProjectView(mainWindow, (MgProject) node.getSelf()));
             }
 
             // todo - add support for more object types
@@ -39,12 +39,18 @@ public class MainTabView extends JTabbedPane {
         }
     }
 
+    public void closeAllTabs(){
+        while(getTabCount() > 0){
+            remove(0);
+        }
+    }
+
     private void addTab(@Mandatory Node node, @Mandatory Component component){
         addTab(null, null, component);
         setTabComponentAt(getTabCount() - 1, createTabHeader(node, component));
     }
 
-    private JPanel createTabHeader(@Mandatory Node node, @Mandatory Component component){
+    private JPanel createTabHeader(@Mandatory Node node, @Mandatory Component component) {
         JPanel header = new JPanel();
         header.setLayout(new GridBagLayout());
         header.setOpaque(false);
@@ -64,5 +70,15 @@ public class MainTabView extends JTabbedPane {
         header.add(closeButton, new GridSettingsFactory().create(1, 0, 0, 0, 0, 0, 0, 0));
 
         return header;
+    }
+
+    @Override
+    public void refresh() {
+        for(int i = 0; i < getTabCount(); i++){
+            Component component = getComponentAt(i);
+            if(component instanceof RefreshableComponent){
+                ((RefreshableComponent) component).refresh();
+            }
+        }
     }
 }

@@ -6,10 +6,10 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
-import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.components.MainMenu;
 import cz.mg.nativeapplication.gui.components.MainView;
+import cz.mg.nativeapplication.gui.components.RefreshableComponent;
 import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
@@ -27,7 +27,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-public @Utility class MainWindow extends JFrame {
+public @Utility class MainWindow extends JFrame implements RefreshableComponent {
     private static final String TITLE = "JMgNativeApplication";
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
@@ -40,7 +40,6 @@ public @Utility class MainWindow extends JFrame {
     private @Optional @Part History history;
 
     private final @Mandatory @Part IconGallery iconGallery;
-    private final @Mandatory @Part List<ChangeUserEventHandler> changeHandlers = new List<>();
     private final @Mandatory @Link MainMenu mainMenu;
     private final @Mandatory @Link MainView mainView;
 
@@ -58,7 +57,8 @@ public @Utility class MainWindow extends JFrame {
         // delete me now
         projectPath = Paths.get("/home/me/Desktop/Dev/Java/JMgNativeApplication/temp/test/Test.mg");
         project = new MgProjectLoader().load(projectPath.toString());
-        notifyChangeListeners();
+        history = new History(HISTORY_LIMIT);
+        refresh();
         // delete me now
     }
 
@@ -90,17 +90,6 @@ public @Utility class MainWindow extends JFrame {
         return mainView;
     }
 
-    public void addChangeHandler(@Mandatory ChangeUserEventHandler changeHandler){
-        changeHandlers.addLast(changeHandler);
-    }
-
-    private void notifyChangeListeners(){
-        navigationCache = null;
-        for(ChangeUserEventHandler changeHandler : changeHandlers){
-            changeHandler.stateChanged();
-        }
-    }
-
     public boolean newProject(){
         if(project != null){
             if(!closeProject()){
@@ -112,7 +101,7 @@ public @Utility class MainWindow extends JFrame {
         if(name != null){
             project = new MgProjectCreator().create(name);
             history = new History(HISTORY_LIMIT);
-            notifyChangeListeners();
+            refresh();
             return true;
         } else {
             return false;
@@ -138,7 +127,7 @@ public @Utility class MainWindow extends JFrame {
             projectPath = fileChooser.getSelectedFile().toPath().toAbsolutePath();
             project = new MgProjectLoader().load(projectPath.toString());
             history = new History(HISTORY_LIMIT);
-            notifyChangeListeners();
+            refresh();
             return true;
         } else {
             return false;
@@ -192,24 +181,23 @@ public @Utility class MainWindow extends JFrame {
             JOptionPane.YES_NO_CANCEL_OPTION
         );
 
+        if(selectedOption == JOptionPane.CANCEL_OPTION){
+            return false;
+        }
+
         if(selectedOption == JOptionPane.YES_OPTION){
             if(!saveProject()){
                 return false;
             }
-            project = null;
-            projectPath = null;
-            history = null;
-            notifyChangeListeners();
-            return true;
-        } else if(selectedOption == JOptionPane.NO_OPTION){
-            project = null;
-            projectPath = null;
-            history = null;
-            notifyChangeListeners();
-            return true;
-        } else {
-            return false;
         }
+
+        mainView.getMainTabView().closeAllTabs();
+
+        project = null;
+        projectPath = null;
+        history = null;
+        refresh();
+        return true;
     }
 
     public boolean exit(){
@@ -222,7 +210,18 @@ public @Utility class MainWindow extends JFrame {
     }
 
     public void showError(Exception e){
-        JOptionPane.showMessageDialog(this, e.getMessage(), e.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+        if(e.getMessage() != null && e.getMessage().trim().length() > 0){
+            JOptionPane.showMessageDialog(this, e.getMessage(), e.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, e.getClass().getSimpleName(), e.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void refresh() {
+        navigationCache = null;
+        getMainView().getProjectTreeView().refresh();
+        getMainView().getMainTabView().refresh();
     }
 
     public static void main(String[] args) {
