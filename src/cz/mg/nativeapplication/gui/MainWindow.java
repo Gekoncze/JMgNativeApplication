@@ -215,6 +215,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableComponent 
         } else {
             JOptionPane.showMessageDialog(this, e.getClass().getSimpleName(), e.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
         }
+        e.printStackTrace();
     }
 
     @Override

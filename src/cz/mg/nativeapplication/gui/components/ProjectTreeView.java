@@ -2,7 +2,10 @@ package cz.mg.nativeapplication.gui.components;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
+import cz.mg.collections.array.Array;
+import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.handlers.MouseDoubleClickUserEventHandler;
 
@@ -56,7 +59,61 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
 
     @Override
     public void refresh() {
+        List<Object[]> expandedPaths = getExpandedPaths(tree);
         tree.setModel(new EntityTreeModel());
+        setExpandedPaths(tree, restorePath(expandedPaths));
+    }
+
+    private @Mandatory List<Object[]> getExpandedPaths(@Mandatory JTree tree){
+        List<Object[]> expandedPaths = new List<>();
+        for (int i = 0; i < tree.getRowCount() - 1; i++) {
+            TreePath current = tree.getPathForRow(i);
+            TreePath next = tree.getPathForRow(i + 1);
+            if (current.isDescendant(next)) {
+                expandedPaths.addLast(current.getPath());
+            }
+        }
+        return expandedPaths;
+    }
+
+    private void setExpandedPaths(@Mandatory JTree tree, @Mandatory List<Object[]> expandedPaths){
+        for(Object[] expandedPath : expandedPaths){
+            tree.expandPath(new TreePath(expandedPath));
+        }
+    }
+
+    private @Mandatory List<Object[]> restorePath(@Mandatory List<Object[]> oldPaths) {
+        List<Object[]> newPaths = new List<>();
+        for(Object[] oldPath : oldPaths){
+            Object[] newPath = restorePath(oldPath);
+            if(newPath != null){
+                newPaths.addLast(newPath);
+            }
+        }
+        return newPaths;
+    }
+
+    private @Optional Object[] restorePath(@Mandatory Object[] oldPath){
+        List<Object> newPath = new List<>();
+        for(Object oldNodeObject : oldPath){
+            Node oldNode = (Node) oldNodeObject;
+            Node oldNodeParent = oldNode.getParent();
+            Object oldParent = oldNodeParent != null ? oldNodeParent.getSelf() : null;
+            Object entity = oldNode.getSelf();
+            Node newNode = mainWindow.getNavigationCache().get(entity);
+            if(newNode != null){
+                Node newNodeParent = newNode.getParent();
+                Object newParent = newNodeParent != null ? newNodeParent.getSelf() : null;
+                if(oldParent == newParent){
+                    newPath.addLast(newNode);
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+        return new Array(newPath).getJavaArray();
     }
 
     private class EntityTreeModel implements TreeModel {
