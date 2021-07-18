@@ -11,15 +11,21 @@ import java.awt.*;
 
 public class IconGallery {
     public static final String MG = "mg.png";
-    public static final String PROJECT = "mgproject.png";
     public static final String UNKNOWN = "unknown.png";
+
     public static final String CLEAR = "clear.png";
+    public static final String CREATE = "create.png";
     public static final String DELETE = "delete.png";
+    public static final String EDIT = "edit.png";
+    public static final String SEARCH = "search.png";
+
     public static final String LIST = "list.png";
+
     public static final String ATOM = "mgatom.png";
     public static final String FUNCTION = "mgfunction.png";
     public static final String INTERFACE = "mginterface.png";
     public static final String LOCATION = "mglocation.png";
+    public static final String PROJECT = "mgproject.png";
     public static final String STRUCTURE = "mgstructure.png";
     public static final String VARIABLE = "mgvariable.png";
 
@@ -28,15 +34,21 @@ public class IconGallery {
 
     public IconGallery(){
         load(MG);
-        load(PROJECT);
         load(UNKNOWN);
+
         load(CLEAR);
+        load(CREATE);
         load(DELETE);
+        load(EDIT);
+        load(SEARCH);
+
         load(LIST);
+
         load(ATOM);
         load(FUNCTION);
         load(INTERFACE);
         load(LOCATION);
+        load(PROJECT);
         load(STRUCTURE);
         load(VARIABLE);
     }

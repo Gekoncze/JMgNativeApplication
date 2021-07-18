@@ -24,12 +24,15 @@ import java.awt.event.KeyEvent;
 
 
 public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
+    private static final int PADDING = 2;
+
     private final @Mandatory @Link MainWindow mainWindow;
     private @Optional @Link JPopupMenu popupMenu;
     private final @Mandatory @Link JLabel label;
     private final @Mandatory @Link JTextField textField;
     private final @Mandatory @Link JPanel buttons;
     private final @Mandatory @Link JButton clearButton;
+    private final @Mandatory @Link JButton searchButton;
 
     private final @Mandatory Object entity;
     private final @Mandatory EntityField entityField;
@@ -48,12 +51,20 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
         this.buttons = new JPanel();
         this.buttons.setLayout(new GridBagLayout());
         this.clearButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.CLEAR));
+        this.clearButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onClearButtonClicked));
+        this.clearButton.setToolTipText("Clear");
         this.clearButton.setBackground(new Color(0, 0, 0, 0));
         this.clearButton.setBorder(null);
         this.clearButton.setOpaque(false);
-        this.clearButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onClearButtonClicked));
-        this.buttons.add(clearButton, new GridSettingsFactory().create(0, 0, 0, 0, 0));
-        this.buttons.add(new JPanel(), new GridSettingsFactory().create(1, 0, 1, 0, 0)); // dummy alignment panel
+        this.searchButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.SEARCH));
+        this.searchButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onSearchButtonClicked));
+        this.searchButton.setToolTipText("Search (ctrl+space)");
+        this.searchButton.setBackground(new Color(0, 0, 0, 0));
+        this.searchButton.setBorder(null);
+        this.searchButton.setOpaque(false);
+        this.buttons.add(clearButton, new GridSettingsFactory().create(0, 0, 0, 0, 0, 0, 0, PADDING));
+        this.buttons.add(searchButton, new GridSettingsFactory().create(1, 0, 0, 0, 0, PADDING, 0, 0));
+        this.buttons.add(new JPanel(), new GridSettingsFactory().create(2, 0, 1, 0, 0)); // dummy alignment panel
         this.entity = entity;
         this.entityField = entityField;
         refresh();
@@ -100,8 +111,12 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
         }
     }
 
-    private void onClearButtonClicked() {
+    private void onClearButtonClicked(){
         setValue(null);
+    }
+
+    private void onSearchButtonClicked(){
+        showComponentSelectionMenu();
     }
 
     private void showComponentSelectionMenu(){

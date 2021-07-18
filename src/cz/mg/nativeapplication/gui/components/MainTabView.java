@@ -48,6 +48,7 @@ public class MainTabView extends JTabbedPane implements RefreshableComponent {
     private void addTab(@Mandatory Node node, @Mandatory Component component){
         addTab(null, null, component);
         setTabComponentAt(getTabCount() - 1, createTabHeader(node, component));
+        setSelectedIndex(getTabCount() - 1);
     }
 
     private JPanel createTabHeader(@Mandatory Node node, @Mandatory Component component) {
