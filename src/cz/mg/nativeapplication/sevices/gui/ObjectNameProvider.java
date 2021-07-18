@@ -2,7 +2,9 @@ package cz.mg.nativeapplication.sevices.gui;
 
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.classes.Service;
+import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
@@ -33,5 +35,26 @@ public @Service class ObjectNameProvider {
         }
 
         return object.getClass().getSimpleName();
+    }
+
+    public @Mandatory String getDisplayName(@Optional Object object){
+        if(object != null){
+            if(object instanceof MgComponent){
+                MgComponent component = (MgComponent) object;
+                if(component.name != null){
+                    if(component.name.trim().length() > 0){
+                        return component.name;
+                    } else {
+                        return object.getClass().getSimpleName();
+                    }
+                } else {
+                    return object.getClass().getSimpleName();
+                }
+            } else {
+                return object.getClass().getSimpleName();
+            }
+        } else {
+            return "";
+        }
     }
 }

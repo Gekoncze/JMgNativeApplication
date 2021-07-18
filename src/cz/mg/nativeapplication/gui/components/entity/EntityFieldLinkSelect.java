@@ -11,10 +11,12 @@ import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.RefreshableComponent;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
 import cz.mg.nativeapplication.history.SetFieldValueAction;
 import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
+import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +28,7 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
     private @Optional @Link JPopupMenu popupMenu;
     private final @Mandatory @Link JLabel label;
     private final @Mandatory @Link JTextField textField;
+    private final @Mandatory @Link JPanel buttons;
     private final @Mandatory @Link JButton clearButton;
 
     private final @Mandatory Object entity;
@@ -42,24 +45,17 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
         this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
         this.textField.addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
         this.textField.addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
+        this.buttons = new JPanel();
+        this.buttons.setLayout(new GridBagLayout());
         this.clearButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.CLEAR));
         this.clearButton.setBackground(new Color(0, 0, 0, 0));
         this.clearButton.setBorder(null);
+        this.clearButton.setOpaque(false);
         this.clearButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onClearButtonClicked));
+        this.buttons.add(clearButton, new GridSettingsFactory().create(0, 0, 0, 0, 0));
+        this.buttons.add(new JPanel(), new GridSettingsFactory().create(1, 0, 1, 0, 0)); // dummy alignment panel
         this.entity = entity;
         this.entityField = entityField;
-        refresh();
-    }
-
-    @Override
-    public void refresh() {
-        textField.setText(getDisplayName(entityField.get(entity)));
-    }
-
-    private void setValue(@Optional Object value) {
-        mainWindow.getHistory().run(new SetFieldValueAction(
-            entityField, entity, value, entityField.get(entity)
-        ));
         refresh();
     }
 
@@ -71,8 +67,20 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
         return textField;
     }
 
-    public @Mandatory JButton getClearButton() {
-        return clearButton;
+    public @Mandatory JPanel getButtons() {
+        return buttons;
+    }
+
+    @Override
+    public void refresh() {
+        textField.setText(new ObjectNameProvider().getDisplayName(entityField.get(entity)));
+    }
+
+    private void setValue(@Optional Object value) {
+        mainWindow.getHistory().run(new SetFieldValueAction(
+            entityField, entity, value, entityField.get(entity)
+        ));
+        refresh();
     }
 
     private void onFocusGained(){
@@ -94,27 +102,6 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
 
     private void onClearButtonClicked() {
         setValue(null);
-    }
-
-    private static @Mandatory String getDisplayName(@Optional Object object){
-        if(object != null){
-            if(object instanceof MgComponent){
-                MgComponent component = (MgComponent) object;
-                if(component.name != null){
-                    if(component.name.trim().length() > 0){
-                        return component.name;
-                    } else {
-                        return object.getClass().getSimpleName();
-                    }
-                } else {
-                    return object.getClass().getSimpleName();
-                }
-            } else {
-                return object.getClass().getSimpleName();
-            }
-        } else {
-            return "";
-        }
     }
 
     private void showComponentSelectionMenu(){

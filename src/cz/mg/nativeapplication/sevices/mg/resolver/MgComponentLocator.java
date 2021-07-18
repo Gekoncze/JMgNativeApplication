@@ -29,6 +29,6 @@ public @Service class MgComponentLocator {
                 }
             }
         }
-        throw new RuntimeException("Could not find component '" + new ToStringBuilder(new Array(path)).delim(".").build() + "' at level " + i + ".");
+        throw new RuntimeException("Could not find component '" + new ToStringBuilder(new Array<>(path)).delim(".").build() + "' at level " + i + ".");
     }
 }
