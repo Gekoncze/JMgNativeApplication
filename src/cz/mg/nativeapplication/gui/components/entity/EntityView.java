@@ -3,7 +3,6 @@ package cz.mg.nativeapplication.gui.components.entity;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
-import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.RefreshableComponent;
@@ -31,10 +30,11 @@ public @Utility class EntityView extends JScrollPane implements RefreshableCompo
         for(EntityField entityField : entityClass.getFields()){
             if(entityField.isAnnotationPresent(Link.class)){
                 if(!Iterable.class.isAssignableFrom(entityField.getField().getType())){
-                    EntityFieldLinkSelect mainFunctionSelect = new EntityFieldLinkSelect(mainWindow, entity, entityField);
-                    panel.add(mainFunctionSelect.getLabel(), new GridSettingsFactory().create(0, y, 0, 0, PADDING));
-                    panel.add(mainFunctionSelect.getTextField(), new GridSettingsFactory().create(1, y, 1, 0, PADDING));
-                    panel.add(mainFunctionSelect.getClearButton(), new GridSettingsFactory().create(2, y, 0, 0, PADDING));
+                    EntityFieldLinkSelect field = new EntityFieldLinkSelect(mainWindow, entity, entityField);
+                    panel.add(field.getLabel(), new GridSettingsFactory().create(0, y, 0, 0, PADDING));
+                    panel.add(field.getTextField(), new GridSettingsFactory().create(1, y, 1, 0, PADDING));
+                    panel.add(field.getClearButton(), new GridSettingsFactory().create(2, y, 0, 0, PADDING));
+                    fields.addLast(field);
                     y++;
                 }
 
@@ -43,6 +43,9 @@ public @Utility class EntityView extends JScrollPane implements RefreshableCompo
 
             // todo - handle other field types
         }
+
+        // adding dummy panel to align components on top
+        panel.add(new JPanel(), new GridSettingsFactory().create(0, y, 0, 1, 0));
 
         setViewportView(panel);
     }

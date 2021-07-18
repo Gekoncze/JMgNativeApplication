@@ -17,9 +17,22 @@ public @Utility class History {
         this.limit = limit;
     }
 
+    public int getLimit() {
+        return limit;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public int getCount(){
+        return actions.count();
+    }
+
     public void run(@Mandatory Action action){
         action.redo();
         add(action);
+        position++;
     }
 
     public void add(@Mandatory Action action){
@@ -47,14 +60,15 @@ public @Utility class History {
     }
 
     private void trimRight(){
-        while((position + 1) > actions.count() && !actions.isEmpty()){
+        while((position + 1) < actions.count() && !actions.isEmpty()){
             actions.removeLast();
         }
     }
 
     private void trimLeft(){
-        while(this.actions.count() > limit && !actions.isEmpty()){
-            this.actions.removeFirst();
+        while(actions.count() > limit && !actions.isEmpty()){
+            actions.removeFirst();
+            position--;
         }
     }
 }

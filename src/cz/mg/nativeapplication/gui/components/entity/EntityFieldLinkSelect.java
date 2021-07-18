@@ -12,6 +12,7 @@ import cz.mg.nativeapplication.gui.components.RefreshableComponent;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
+import cz.mg.nativeapplication.history.SetFieldValueAction;
 import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 
@@ -56,8 +57,9 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
     }
 
     private void setValue(@Optional Object value) {
-        // todo - change into history action
-        entityField.set(entity, value);
+        mainWindow.getHistory().run(new SetFieldValueAction(
+            entityField, entity, value, entityField.get(entity)
+        ));
         refresh();
     }
 
