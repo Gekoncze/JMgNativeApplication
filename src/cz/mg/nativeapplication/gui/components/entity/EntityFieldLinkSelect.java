@@ -13,7 +13,7 @@ import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
-import cz.mg.nativeapplication.history.SetFieldValueAction;
+import cz.mg.nativeapplication.history.SetEntityFieldAction;
 import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
@@ -48,6 +48,7 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
         this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
         this.textField.addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
         this.textField.addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
+        this.textField.setBorder(BorderFactory.createEtchedBorder());
         this.buttons = new JPanel();
         this.buttons.setLayout(new GridBagLayout());
         this.clearButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.CLEAR));
@@ -88,7 +89,7 @@ public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
     }
 
     private void setValue(@Optional Object value) {
-        mainWindow.getHistory().run(new SetFieldValueAction(
+        mainWindow.getHistory().run(new SetEntityFieldAction(
             entityField, entity, value, entityField.get(entity)
         ));
         refresh();

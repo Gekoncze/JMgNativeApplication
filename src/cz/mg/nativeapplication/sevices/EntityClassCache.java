@@ -1,12 +1,16 @@
 package cz.mg.nativeapplication.sevices;
 
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Link;
+import cz.mg.annotations.storage.Part;
 import cz.mg.collections.map.Map;
 
 
 public class EntityClassCache {
-    private static EntityClassCache instance;
+    private static @Optional @Part EntityClassCache instance;
 
-    public static EntityClassCache getInstance() {
+    public static @Mandatory EntityClassCache getInstance() {
         if(instance == null){
             instance = new EntityClassCache();
         }
@@ -14,12 +18,12 @@ public class EntityClassCache {
         return instance;
     }
 
-    private final Map<Class, EntityClass> cache = new Map<>();
+    private final @Mandatory @Part Map<@Link Class, EntityClass> cache = new Map<>();
 
     public EntityClassCache() {
     }
 
-    public EntityClass get(Class clazz){
+    public @Mandatory EntityClass get(@Mandatory Class clazz){
         EntityClass entityClass = cache.get(clazz);
         if(entityClass == null){
             entityClass = EntityClass.create(clazz);

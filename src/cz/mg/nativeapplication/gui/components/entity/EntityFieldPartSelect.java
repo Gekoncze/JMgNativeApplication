@@ -8,11 +8,16 @@ import cz.mg.nativeapplication.gui.components.RefreshableComponent;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
+import cz.mg.nativeapplication.history.SetEntityFieldAction;
+import cz.mg.nativeapplication.sevices.EntityClass;
+import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
 public @Utility class EntityFieldPartSelect implements RefreshableComponent {
@@ -37,6 +42,8 @@ public @Utility class EntityFieldPartSelect implements RefreshableComponent {
         this.label = new JLabel(entityField.getName());
         this.textField = new JTextField();
         this.textField.setEditable(false);
+        this.textField.setBackground(UIManager.getDefaults().getColor("TextField.background"));
+        this.textField.setBorder(BorderFactory.createEtchedBorder());
         this.buttons = new JPanel();
         this.buttons.setLayout(new GridBagLayout());
         this.deleteButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.DELETE));
@@ -84,14 +91,41 @@ public @Utility class EntityFieldPartSelect implements RefreshableComponent {
     }
 
     private void onDeleteButtonClicked() {
-        // todo;
+        if(entityField.get(entity) != null){
+            String title = "Delete entity?";
+            String message = "Are you sure you want to delete the entity? All of its parts will be deleted too.";
+            int option = JOptionPane.showConfirmDialog(mainWindow, message, title, JOptionPane.YES_NO_OPTION);
+            if(option == JOptionPane.YES_OPTION){
+                // todo: delete this entity and all its references
+                // todo: + delete all of its parts and all their references
+            }
+            refresh();
+        }
     }
 
     private void onCreateButtonClicked() {
-        // todo;
+        Object child = entityField.get(entity);
+        if(child == null){
+            // todo: if there are subclasses, add a choice for what to create
+            EntityClass entityClass = EntityClassCache.getInstance().get(entityField.getType());
+            mainWindow.getHistory().run(
+                new SetEntityFieldAction(
+                    entityField, entity, entityClass.newInstance(), null
+                )
+            );
+            refresh();
+        }
     }
 
     private void onEditButtonClicked() {
-        // todo;
+        Object child = entityField.get(entity);
+        if(child != null){
+            Node node = mainWindow.getNavigationCache().get(child);
+            if(node != null){
+                mainWindow.getMainView().getMainTabView().open(node);
+            } else {
+                // todo: handle other types of non-component entities
+            }
+        }
     }
 }

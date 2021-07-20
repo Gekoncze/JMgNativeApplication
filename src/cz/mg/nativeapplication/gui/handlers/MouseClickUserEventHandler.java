@@ -10,11 +10,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
-public @Utility class MouseDoubleClickUserEventHandler implements MouseListener {
+public @Utility class MouseClickUserEventHandler implements MouseListener {
     private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Part Handler handler;
 
-    public MouseDoubleClickUserEventHandler(@Mandatory MainWindow mainWindow, @Mandatory Handler handler) {
+    public MouseClickUserEventHandler(@Mandatory MainWindow mainWindow, @Mandatory Handler handler) {
         this.mainWindow = mainWindow;
         this.handler = handler;
     }

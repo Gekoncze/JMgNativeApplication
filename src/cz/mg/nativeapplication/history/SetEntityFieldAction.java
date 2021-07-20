@@ -7,13 +7,13 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.nativeapplication.sevices.EntityField;
 
 
-public @Utility class SetFieldValueAction implements Action {
+public @Utility class SetEntityFieldAction implements Action {
     private final @Mandatory @Link EntityField entityField;
     private final @Mandatory @Link Object entity;
     private final @Optional @Link Object newValue;
     private final @Optional @Link Object oldValue;
 
-    public SetFieldValueAction(
+    public SetEntityFieldAction(
         @Optional EntityField entityField,
         @Optional Object entity,
         @Optional Object newValue,

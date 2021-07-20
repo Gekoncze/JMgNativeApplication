@@ -7,13 +7,15 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.handlers.MouseDoubleClickUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 
 import javax.swing.*;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
@@ -33,7 +35,8 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
         tree.setCellRenderer(new EntityCellRenderer());
         tree.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
         tree.setToggleClickCount(0);
-        tree.addMouseListener(new MouseDoubleClickUserEventHandler(mainWindow, this::onMouseDoubleClick));
+        tree.addMouseListener(new MouseClickUserEventHandler(mainWindow, this::onMouseDoubleClick));
+        tree.addKeyListener(new KeyPressedUserEventHandler(mainWindow, this::onKeyPressed));
 
         setViewportView(tree);
         ToolTipManager.sharedInstance().registerComponent(tree);
@@ -42,19 +45,26 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
     private void onMouseDoubleClick(MouseEvent e){
         if(e.getButton() == MouseEvent.BUTTON1){
             if(e.getClickCount() == 2){
-                if(tree.getLastSelectedPathComponent() != null){
-                    if(tree.getRowForLocation(e.getX(), e.getY()) != -1){
-                        openSelectedItem();
-                    }
+                if(tree.getRowForLocation(e.getX(), e.getY()) != -1){
+                    openSelectedItem();
+                    e.consume();
                 }
-                e.consume();
             }
         }
     }
 
+    private void onKeyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            openSelectedItem();
+            e.consume();
+        }
+    }
+
     private void openSelectedItem(){
-        Node node = (Node) tree.getLastSelectedPathComponent();
-        mainWindow.getMainView().getMainTabView().open(node);
+        if(tree.getLastSelectedPathComponent() != null){
+            Node node = (Node) tree.getLastSelectedPathComponent();
+            mainWindow.getMainView().getMainTabView().open(node);
+        }
     }
 
     @Override
