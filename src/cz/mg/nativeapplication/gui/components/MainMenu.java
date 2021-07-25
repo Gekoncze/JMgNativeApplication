@@ -89,20 +89,34 @@ public @Utility class MainMenu extends JMenuBar {
     }
 
     private @Mandatory JMenu createViewMenu(@Mandatory MainWindow mainWindow){
+        JMenuItem refreshMenuItem = new JMenuItem("Refresh");
+        refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+        refreshMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::refresh));
+
         JMenuItem closeActiveTabMenuItem = new JMenuItem("Close active tab");
         closeActiveTabMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', CTRL_DOWN_MASK));
         closeActiveTabMenuItem.addActionListener(new ActionUserEventHandler(mainWindow,
             () -> mainWindow.getMainView().getMainTabView().closeActiveTab()
         ));
 
-        JMenuItem refreshMenuItem = new JMenuItem("Refresh");
-        refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-        refreshMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::refresh));
+        JMenuItem nextTabMenuItem = new JMenuItem("Next Tab");
+        nextTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, CTRL_DOWN_MASK));
+        nextTabMenuItem.addActionListener(new ActionUserEventHandler(mainWindow,
+            () -> mainWindow.getMainView().getMainTabView().selectNextTab()
+        ));
+
+        JMenuItem previousTabMenuItem = new JMenuItem("Previous Tab");
+        previousTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, CTRL_DOWN_MASK | SHIFT_DOWN_MASK));
+        previousTabMenuItem.addActionListener(new ActionUserEventHandler(mainWindow,
+            () -> mainWindow.getMainView().getMainTabView().selectPreviousTab()
+        ));
 
         JMenu menu = new JMenu("View");
         menu.setMnemonic('V');
-        menu.add(closeActiveTabMenuItem);
         menu.add(refreshMenuItem);
+        menu.add(closeActiveTabMenuItem);
+        menu.add(nextTabMenuItem);
+        menu.add(previousTabMenuItem);
         return menu;
     }
 }

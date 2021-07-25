@@ -22,8 +22,10 @@ import cz.mg.nativeapplication.sevices.mg.storage.MgProjectSaver;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 
 
 public @Utility class MainWindow extends JFrame implements RefreshableView {
@@ -52,6 +54,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         setLocationRelativeTo(null);
         setJMenuBar(mainMenu = new MainMenu(this));
         setContentPane(mainView = new MainView(this));
+        disableFocusTraversal();
 
         // delete me now
         projectPath = Paths.get("/home/me/Desktop/Dev/Java/JMgNativeApplication/temp/test/Test.mg");
@@ -59,6 +62,11 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         history = new History(HISTORY_LIMIT);
         refresh();
         // delete me now
+    }
+
+    private void disableFocusTraversal() {
+        setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, new HashSet<>());
+        setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, new HashSet<>());
     }
 
     public @Optional MgProject getProject() {

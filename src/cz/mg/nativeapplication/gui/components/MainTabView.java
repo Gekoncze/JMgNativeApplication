@@ -54,6 +54,20 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         }
     }
 
+    public void selectNextTab(){
+        if(getTabCount() == 0) return;
+        int i = getSelectedIndex() + 1;
+        if(i >= getTabCount()) i = 0;
+        setSelectedIndex(i);
+    }
+
+    public void selectPreviousTab(){
+        if(getTabCount() == 0) return;
+        int i = getSelectedIndex() - 1;
+        if(i < 0) i = getTabCount() - 1;
+        setSelectedIndex(i);
+    }
+
     private void addTab(@Mandatory Node node, @Mandatory ObjectView view){
         addTab(null, null, view);
         setTabComponentAt(getTabCount() - 1, createTabHeader(node, view));
