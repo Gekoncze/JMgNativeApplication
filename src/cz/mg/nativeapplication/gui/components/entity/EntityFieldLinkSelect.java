@@ -9,9 +9,12 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.RefreshableView;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
+import cz.mg.nativeapplication.gui.components.controls.UiPanel;
+import cz.mg.nativeapplication.gui.components.controls.UiTextField;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
 import cz.mg.nativeapplication.history.SetEntityFieldAction;
 import cz.mg.nativeapplication.sevices.EntityField;
@@ -19,8 +22,11 @@ import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
+
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.LEFT;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 
 
 public @Utility class EntityFieldLinkSelect implements RefreshableView {
@@ -28,11 +34,11 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
 
     private final @Mandatory @Link MainWindow mainWindow;
     private @Optional @Link JPopupMenu popupMenu;
-    private final @Mandatory @Link JLabel label;
-    private final @Mandatory @Link JTextField textField;
-    private final @Mandatory @Link JPanel buttons;
-    private final @Mandatory @Link JButton clearButton;
-    private final @Mandatory @Link JButton searchButton;
+    private final @Mandatory @Link UiLabel label;
+    private final @Mandatory @Link UiTextField textField;
+    private final @Mandatory @Link UiPanel buttons;
+    private final @Mandatory @Link UiButton clearButton;
+    private final @Mandatory @Link UiButton searchButton;
 
     private final @Mandatory Object entity;
     private final @Mandatory EntityField entityField;
@@ -43,43 +49,31 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
         @Mandatory EntityField entityField
     ) {
         this.mainWindow = mainWindow;
-        this.label = new JLabel(entityField.getName());
-        this.textField = new JTextField();
+        this.label = new UiLabel(entityField.getName());
+        this.textField = new UiTextField();
         this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
         this.textField.addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
         this.textField.addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
-        this.textField.setBorder(BorderFactory.createEtchedBorder());
-        this.buttons = new JPanel();
-        this.buttons.setLayout(new GridBagLayout());
-        this.clearButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.CLEAR));
-        this.clearButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onClearButtonClicked));
-        this.clearButton.setToolTipText("Clear");
-        this.clearButton.setBackground(new Color(0, 0, 0, 0));
-        this.clearButton.setBorder(null);
-        this.clearButton.setOpaque(false);
-        this.searchButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.SEARCH));
-        this.searchButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onSearchButtonClicked));
-        this.searchButton.setToolTipText("Search (ctrl+space)");
-        this.searchButton.setBackground(new Color(0, 0, 0, 0));
-        this.searchButton.setBorder(null);
-        this.searchButton.setOpaque(false);
-        this.buttons.add(clearButton, new GridSettingsFactory().create(0, 0, 0, 0, 0, 0, 0, PADDING));
-        this.buttons.add(searchButton, new GridSettingsFactory().create(1, 0, 0, 0, 0, PADDING, 0, 0));
-        this.buttons.add(new JPanel(), new GridSettingsFactory().create(2, 0, 1, 0, 0)); // dummy alignment panel
+        this.clearButton = new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked);
+        this.searchButton = new UiButton(mainWindow, IconGallery.SEARCH, null, "Search (ctrl+space)", this::onSearchButtonClicked);
+        this.buttons = new UiPanel(0, PADDING, LEFT);
+        this.buttons.add(clearButton, 0, 0, 0, 0, MIDDLE, BOTH);
+        this.buttons.add(searchButton, 1, 0, 0, 0, MIDDLE, BOTH);
+        this.buttons.rebuild();
         this.entity = entity;
         this.entityField = entityField;
         refresh();
     }
 
-    public @Mandatory JLabel getLabel() {
+    public @Mandatory UiLabel getLabel() {
         return label;
     }
 
-    public @Mandatory JTextField getTextField() {
+    public @Mandatory UiTextField getTextField() {
         return textField;
     }
 
-    public @Mandatory JPanel getButtons() {
+    public @Mandatory UiPanel getButtons() {
         return buttons;
     }
 

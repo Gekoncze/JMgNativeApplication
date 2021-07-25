@@ -5,17 +5,23 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
+import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.EntityView;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
-import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 
 import javax.swing.*;
 import java.awt.*;
 
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
 public class MainTabView extends JTabbedPane implements RefreshableView {
+    private static final int PADDING = 8;
+
     private final @Mandatory @Link MainWindow mainWindow;
 
     public MainTabView(@Mandatory MainWindow mainWindow) {
@@ -54,25 +60,16 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         setSelectedIndex(getTabCount() - 1);
     }
 
-    private JPanel createTabHeader(@Mandatory Node node, @Mandatory Component component) {
-        JPanel header = new JPanel();
-        header.setLayout(new GridBagLayout());
-        header.setOpaque(false);
+    private UiPanel createTabHeader(@Mandatory Node node, @Mandatory Component component) {
+        UiPanel header = new UiPanel(0, PADDING, MIDDLE);
 
-        JLabel label = new JLabel();
-        label.setText(node.getName());
-        label.setIcon(node.getIcon());
-        label.setOpaque(false);
-        header.add(label, new GridSettingsFactory().create(0, 0, 0, 0, 0, 0, 0, 8));
+        header.add(new UiLabel(node.getIcon(), node.getName()), 0, 0, 0, 0, MIDDLE, BOTH);
 
-        JButton closeButton = new JButton("x");
-        closeButton.setBorder(null);
-        closeButton.setOpaque(false);
-        closeButton.setBackground(new Color(0, 0, 0, 0));
+        UiButton closeButton = new UiButton(mainWindow, null, "x", "Close", () -> remove(component));
         closeButton.setForeground(new Color(180, 180, 180, 255));
-        closeButton.addActionListener(new ActionUserEventHandler(mainWindow, () -> remove(component)));
-        header.add(closeButton, new GridSettingsFactory().create(1, 0, 0, 0, 0, 0, 0, 0));
+        header.add(closeButton, 1, 0, 0, 0, MIDDLE, NONE);
 
+        header.rebuild();
         return header;
     }
 

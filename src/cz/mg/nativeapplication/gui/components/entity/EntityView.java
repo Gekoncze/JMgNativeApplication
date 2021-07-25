@@ -8,17 +8,19 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.ObjectView;
 import cz.mg.nativeapplication.gui.components.RefreshableView;
-import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
+import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
 
-import javax.swing.*;
-import java.awt.*;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.TOP;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 
 
 public @Utility class EntityView extends ObjectView {
-    private static final int PADDING = 2;
+    private static final int BORDER = 4;
+    private static final int PADDING = 4;
 
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Part List<RefreshableView> fields = new List<>();
@@ -26,9 +28,7 @@ public @Utility class EntityView extends ObjectView {
     public EntityView(@Mandatory MainWindow mainWindow, @Mandatory Object entity) {
         this.entity = entity;
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
+        UiPanel panel = new UiPanel(BORDER, PADDING, TOP);
 
         EntityClass entityClass = EntityClassCache.getInstance().get(entity.getClass());
         int y = 0;
@@ -36,9 +36,9 @@ public @Utility class EntityView extends ObjectView {
             if(entityField.isAnnotationPresent(Link.class)){
                 if(!Iterable.class.isAssignableFrom(entityField.getField().getType())){
                     EntityFieldLinkSelect field = new EntityFieldLinkSelect(mainWindow, entity, entityField);
-                    panel.add(field.getLabel(), new GridSettingsFactory().create(0, y, 0, 0, PADDING));
-                    panel.add(field.getTextField(), new GridSettingsFactory().create(1, y, 1, 0, PADDING));
-                    panel.add(field.getButtons(), new GridSettingsFactory().create(2, y, 0, 0, PADDING));
+                    panel.add(field.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
+                    panel.add(field.getTextField(), 1, y, 1, 0, MIDDLE, BOTH);
+                    panel.add(field.getButtons(), 2, y, 0, 0, MIDDLE, BOTH);
                     fields.addLast(field);
                     y++;
                 }
@@ -49,9 +49,9 @@ public @Utility class EntityView extends ObjectView {
             if(entityField.isAnnotationPresent(Part.class)){
                 if(!Iterable.class.isAssignableFrom(entityField.getField().getType())){
                     EntityFieldPartSelect field = new EntityFieldPartSelect(mainWindow, entity, entityField);
-                    panel.add(field.getLabel(), new GridSettingsFactory().create(0, y, 0, 0, PADDING));
-                    panel.add(field.getTextField(), new GridSettingsFactory().create(1, y, 1, 0, PADDING));
-                    panel.add(field.getButtons(), new GridSettingsFactory().create(2, y, 0, 0, PADDING));
+                    panel.add(field.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
+                    panel.add(field.getTextField(), 1, y, 1, 0, MIDDLE, BOTH);
+                    panel.add(field.getButtons(), 2, y, 0, 0, MIDDLE, BOTH);
                     fields.addLast(field);
                     y++;
                 }
@@ -64,9 +64,7 @@ public @Utility class EntityView extends ObjectView {
             }
         }
 
-        // dummy alignment panel
-        panel.add(new JPanel(), new GridSettingsFactory().create(0, y, 0, 1, 0));
-
+        panel.rebuild();
         setViewportView(panel);
     }
 

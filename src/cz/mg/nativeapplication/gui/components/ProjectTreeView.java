@@ -7,6 +7,7 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 
@@ -188,9 +189,7 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
             int row, boolean hasFocus
         ) {
             Node node = (Node) o;
-            JLabel label = new JLabel();
-            label.setText(node.getName());
-            label.setIcon(node.getIcon());
+            UiLabel label = new UiLabel(node.getIcon(), node.getName());
             label.setToolTipText(node.getSelf().getClass().getSimpleName());
 
             if(selected){

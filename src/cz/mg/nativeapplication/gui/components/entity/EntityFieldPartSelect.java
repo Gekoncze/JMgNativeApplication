@@ -5,9 +5,11 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.RefreshableView;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
+import cz.mg.nativeapplication.gui.components.controls.UiPanel;
+import cz.mg.nativeapplication.gui.components.controls.UiTextField;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 import cz.mg.nativeapplication.history.SetEntityFieldAction;
 import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
@@ -15,8 +17,10 @@ import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import javax.swing.*;
-import java.awt.*;
 
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.LEFT;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
@@ -24,12 +28,12 @@ public @Utility class EntityFieldPartSelect implements RefreshableView {
     private static final int PADDING = 2;
 
     private final @Mandatory MainWindow mainWindow;
-    private final @Mandatory @Link JLabel label;
-    private final @Mandatory @Link JTextField textField;
-    private final @Mandatory @Link JPanel buttons;
-    private final @Mandatory @Link JButton deleteButton;
-    private final @Mandatory @Link JButton createButton;
-    private final @Mandatory @Link JButton editButton;
+    private final @Mandatory @Link UiLabel label;
+    private final @Mandatory @Link UiTextField textField;
+    private final @Mandatory @Link UiPanel buttons;
+    private final @Mandatory @Link UiButton deleteButton;
+    private final @Mandatory @Link UiButton createButton;
+    private final @Mandatory @Link UiButton editButton;
     private final @Mandatory Object entity;
     private final @Mandatory EntityField entityField;
 
@@ -39,49 +43,31 @@ public @Utility class EntityFieldPartSelect implements RefreshableView {
         @Mandatory EntityField entityField
     ) {
         this.mainWindow = mainWindow;
-        this.label = new JLabel(entityField.getName());
-        this.textField = new JTextField();
+        this.label = new UiLabel(entityField.getName());
+        this.textField = new UiTextField();
         this.textField.setEditable(false);
-        this.textField.setBackground(UIManager.getDefaults().getColor("TextField.background"));
-        this.textField.setBorder(BorderFactory.createEtchedBorder());
-        this.buttons = new JPanel();
-        this.buttons.setLayout(new GridBagLayout());
-        this.deleteButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.DELETE));
-        this.deleteButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onDeleteButtonClicked));
-        this.deleteButton.setToolTipText("Delete");
-        this.deleteButton.setBackground(new Color(0, 0, 0, 0));
-        this.deleteButton.setBorder(null);
-        this.deleteButton.setOpaque(false);
-        this.createButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.CREATE));
-        this.createButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onCreateButtonClicked));
-        this.createButton.setToolTipText("Create");
-        this.createButton.setBackground(new Color(0, 0, 0, 0));
-        this.createButton.setBorder(null);
-        this.createButton.setOpaque(false);
-        this.editButton = new JButton(mainWindow.getIconGallery().getIcon(IconGallery.EDIT));
-        this.editButton.addActionListener(new ActionUserEventHandler(mainWindow, this::onEditButtonClicked));
-        this.editButton.setToolTipText("Edit");
-        this.editButton.setBackground(new Color(0, 0, 0, 0));
-        this.editButton.setBorder(null);
-        this.editButton.setOpaque(false);
-        this.buttons.add(deleteButton, new GridSettingsFactory().create(0, 0, 0, 0, 0, 0, 0, PADDING));
-        this.buttons.add(createButton, new GridSettingsFactory().create(1, 0, 0, 0, 0, PADDING, 0, PADDING));
-        this.buttons.add(editButton, new GridSettingsFactory().create(2, 0, 0, 0, 0, PADDING, 0, 0));
-        this.buttons.add(new JPanel(), new GridSettingsFactory().create(3, 0, 1, 0, 0)); // dummy alignment panel
+        this.deleteButton = new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked);
+        this.createButton = new UiButton(mainWindow, IconGallery.CREATE, null, "Create", this::onCreateButtonClicked);
+        this.editButton = new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked);
+        this.buttons = new UiPanel(0, PADDING, LEFT);
+        this.buttons.add(deleteButton, 0, 0, 0, 0, MIDDLE, BOTH);
+        this.buttons.add(createButton, 1, 0, 0, 0, MIDDLE, BOTH);
+        this.buttons.add(editButton, 2, 0, 0, 0, MIDDLE, BOTH);
+        this.buttons.rebuild();
         this.entity = entity;
         this.entityField = entityField;
         refresh();
     }
 
-    public @Mandatory JLabel getLabel() {
+    public @Mandatory UiLabel getLabel() {
         return label;
     }
 
-    public @Mandatory JTextField getTextField() {
+    public @Mandatory UiTextField getTextField() {
         return textField;
     }
 
-    public @Mandatory JPanel getButtons() {
+    public @Mandatory UiPanel getButtons() {
         return buttons;
     }
 
