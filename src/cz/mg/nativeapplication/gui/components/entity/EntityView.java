@@ -6,7 +6,8 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.components.RefreshableComponent;
+import cz.mg.nativeapplication.gui.components.ObjectView;
+import cz.mg.nativeapplication.gui.components.RefreshableView;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
 import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
@@ -16,12 +17,15 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public @Utility class EntityView extends JScrollPane implements RefreshableComponent {
+public @Utility class EntityView extends ObjectView {
     private static final int PADDING = 2;
 
-    private final @Mandatory List<RefreshableComponent> fields = new List<>();
+    private final @Mandatory @Link Object entity;
+    private final @Mandatory @Part List<RefreshableView> fields = new List<>();
 
     public EntityView(@Mandatory MainWindow mainWindow, @Mandatory Object entity) {
+        this.entity = entity;
+
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
@@ -68,8 +72,13 @@ public @Utility class EntityView extends JScrollPane implements RefreshableCompo
 
     @Override
     public void refresh() {
-        for(RefreshableComponent field : fields){
+        for(RefreshableView field : fields){
             field.refresh();
         }
+    }
+
+    @Override
+    public Object getObject() {
+        return entity;
     }
 }

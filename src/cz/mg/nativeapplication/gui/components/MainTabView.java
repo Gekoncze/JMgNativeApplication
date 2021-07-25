@@ -15,7 +15,7 @@ import java.awt.*;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
-public class MainTabView extends JTabbedPane implements RefreshableComponent {
+public class MainTabView extends JTabbedPane implements RefreshableView {
     private final @Mandatory @Link MainWindow mainWindow;
 
     public MainTabView(@Mandatory MainWindow mainWindow) {
@@ -24,11 +24,14 @@ public class MainTabView extends JTabbedPane implements RefreshableComponent {
 
     public void open(@Optional Node node){
         if(node != null){
-            if(node.getSelf().getClass().isAnnotationPresent(Entity.class)){
-                addTab(node, new EntityView(mainWindow, node.getSelf()));
-            }
+            Object object = node.getSelf();
+            if(!hasObjectOpened(object)){
+                if(object.getClass().isAnnotationPresent(Entity.class)){
+                    addTab(node, new EntityView(mainWindow, object));
+                }
 
-            // todo - add support for more object types
+                // todo - add support for more object types
+            }
         }
     }
 
@@ -45,9 +48,9 @@ public class MainTabView extends JTabbedPane implements RefreshableComponent {
         }
     }
 
-    private void addTab(@Mandatory Node node, @Mandatory Component component){
-        addTab(null, null, component);
-        setTabComponentAt(getTabCount() - 1, createTabHeader(node, component));
+    private void addTab(@Mandatory Node node, @Mandatory ObjectView view){
+        addTab(null, null, view);
+        setTabComponentAt(getTabCount() - 1, createTabHeader(node, view));
         setSelectedIndex(getTabCount() - 1);
     }
 
@@ -73,12 +76,26 @@ public class MainTabView extends JTabbedPane implements RefreshableComponent {
         return header;
     }
 
+    private boolean hasObjectOpened(@Mandatory Object object){
+        for(int i = 0; i < getTabCount(); i++){
+            Component component = getComponentAt(i);
+            if(component instanceof ObjectView){
+                ObjectView objectView = (ObjectView) component;
+                if(objectView.getObject() == object){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public void refresh() {
         for(int i = 0; i < getTabCount(); i++){
             Component component = getComponentAt(i);
-            if(component instanceof RefreshableComponent){
-                ((RefreshableComponent) component).refresh();
+            if(component instanceof ObjectView){
+                ObjectView objectView = (ObjectView) component;
+                objectView.refresh();
             }
         }
     }

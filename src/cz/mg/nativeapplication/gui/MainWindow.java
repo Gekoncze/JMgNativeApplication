@@ -9,8 +9,7 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.components.MainMenu;
 import cz.mg.nativeapplication.gui.components.MainView;
-import cz.mg.nativeapplication.gui.components.RefreshableComponent;
-import cz.mg.nativeapplication.gui.handlers.ChangeUserEventHandler;
+import cz.mg.nativeapplication.gui.components.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
@@ -27,7 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-public @Utility class MainWindow extends JFrame implements RefreshableComponent {
+public @Utility class MainWindow extends JFrame implements RefreshableView {
     private static final String TITLE = "JMgNativeApplication";
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;

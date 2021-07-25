@@ -8,7 +8,7 @@ import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.components.RefreshableComponent;
+import cz.mg.nativeapplication.gui.components.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
@@ -23,7 +23,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 
-public @Utility class EntityFieldLinkSelect implements RefreshableComponent {
+public @Utility class EntityFieldLinkSelect implements RefreshableView {
     private static final int PADDING = 2;
 
     private final @Mandatory @Link MainWindow mainWindow;

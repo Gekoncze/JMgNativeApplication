@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.components.RefreshableComponent;
+import cz.mg.nativeapplication.gui.components.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.GridSettingsFactory;
@@ -20,7 +20,7 @@ import java.awt.*;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
-public @Utility class EntityFieldPartSelect implements RefreshableComponent {
+public @Utility class EntityFieldPartSelect implements RefreshableView {
     private static final int PADDING = 2;
 
     private final @Mandatory MainWindow mainWindow;

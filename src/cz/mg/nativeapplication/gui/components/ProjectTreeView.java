@@ -21,7 +21,7 @@ import java.awt.event.MouseEvent;
 import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
 
 
-public @Utility class ProjectTreeView extends JScrollPane implements RefreshableComponent {
+public @Utility class ProjectTreeView extends JScrollPane implements RefreshableView {
     private static final int PADDING = 4;
 
     private final @Mandatory @Link MainWindow mainWindow;
