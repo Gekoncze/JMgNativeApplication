@@ -9,15 +9,18 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.nativeapplication.gui.components.MainMenu;
 import cz.mg.nativeapplication.gui.components.MainView;
 import cz.mg.nativeapplication.gui.components.RefreshableView;
+import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
+import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
+import cz.mg.nativeapplication.gui.components.dialogs.UiOpenDialog;
+import cz.mg.nativeapplication.gui.components.dialogs.UiSaveDialog;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
 import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.nio.file.Path;
 import java.util.HashSet;
 
 
@@ -25,7 +28,6 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     private static final String TITLE = "JMgNativeApplication";
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
-    private static final FileFilter FILE_FILTER = new FileNameExtensionFilter("Mg Project Files (*.mg)", "mg");
 
     private final @Mandatory @Part ApplicationState applicationState = new ApplicationState();
     private final @Mandatory @Part IconGallery iconGallery = new IconGallery();
@@ -64,11 +66,11 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         return iconGallery;
     }
 
-    public MainMenu getMainMenu() {
+    public @Mandatory MainMenu getMainMenu() {
         return mainMenu;
     }
 
-    public MainView getMainView() {
+    public @Mandatory MainView getMainView() {
         return mainView;
     }
 
@@ -90,22 +92,16 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     }
 
     public boolean openProject(){
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Open project");
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.addChoosableFileFilter(FILE_FILTER);
-        fileChooser.setFileFilter(FILE_FILTER);
+        Path selectedPath = new UiOpenDialog("Open project", FileFilters.MG).show();
 
-        fileChooser.showOpenDialog(this);
-
-        if(fileChooser.getSelectedFile() != null){
+        if(selectedPath != null){
             if(applicationState.getProject() != null){
                 if(!closeProject()){
                     return false;
                 }
             }
 
-            applicationState.openProject(fileChooser.getSelectedFile().toPath().toAbsolutePath());
+            applicationState.openProject(selectedPath.toAbsolutePath());
             refresh();
             return true;
         } else {
@@ -131,16 +127,10 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
             return false;
         }
 
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Save project");
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        fileChooser.addChoosableFileFilter(FILE_FILTER);
-        fileChooser.setFileFilter(FILE_FILTER);
+        Path selectedPath = new UiSaveDialog("Save project", FileFilters.MG).show();
 
-        fileChooser.showSaveDialog(this);
-
-        if(fileChooser.getSelectedFile() != null){
-            applicationState.saveProjectAs(fileChooser.getSelectedFile().toPath().toAbsolutePath());
+        if(selectedPath != null){
+            applicationState.saveProjectAs(selectedPath.toAbsolutePath());
             return true;
         } else {
             return false;
@@ -152,18 +142,16 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
             return true;
         }
 
-        int selectedOption = JOptionPane.showConfirmDialog(
-            this,
-            "Would you like to save project before closing?",
+        UiConfirmDialog.Choice choice = new UiConfirmDialog(
             "Close project",
-            JOptionPane.YES_NO_CANCEL_OPTION
-        );
+            "Would you like to save project before closing?"
+        ).show();
 
-        if(selectedOption == JOptionPane.CANCEL_OPTION){
+        if(choice == UiConfirmDialog.Choice.CANCEL){
             return false;
         }
 
-        if(selectedOption == JOptionPane.YES_OPTION){
+        if(choice == UiConfirmDialog.Choice.YES){
             if(!saveProject()){
                 return false;
             }
@@ -186,12 +174,8 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     }
 
     public void showError(Exception e){
-        if(e.getMessage() != null && e.getMessage().trim().length() > 0){
-            JOptionPane.showMessageDialog(this, e.getMessage(), e.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, e.getClass().getSimpleName(), e.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
-        }
         e.printStackTrace();
+        new UiErrorMessageDialog(e).show();
     }
 
     @Override
