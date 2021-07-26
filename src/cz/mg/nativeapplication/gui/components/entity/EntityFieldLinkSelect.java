@@ -15,7 +15,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.controls.UiTextField;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.utilities.NavigationCache;
+import cz.mg.nativeapplication.gui.other.NavigationCache;
 import cz.mg.nativeapplication.history.SetEntityFieldAction;
 import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;

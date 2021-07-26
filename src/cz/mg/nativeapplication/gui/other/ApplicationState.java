@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui;
+package cz.mg.nativeapplication.gui.other;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;

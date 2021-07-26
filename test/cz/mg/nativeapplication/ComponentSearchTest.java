@@ -6,7 +6,7 @@ import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.entities.mg.components.MgFunction;
 import cz.mg.nativeapplication.entities.mg.components.MgLocation;
 import cz.mg.nativeapplication.entities.mg.components.MgStructure;
-import cz.mg.nativeapplication.gui.utilities.NavigationCache;
+import cz.mg.nativeapplication.gui.other.NavigationCache;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
 import cz.mg.nativeapplication.sevices.mg.creator.MgProjectCreator;

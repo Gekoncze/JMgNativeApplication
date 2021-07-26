@@ -15,7 +15,9 @@ import cz.mg.nativeapplication.gui.components.dialogs.UiOpenDialog;
 import cz.mg.nativeapplication.gui.components.dialogs.UiSaveDialog;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.utilities.NavigationCache;
+import cz.mg.nativeapplication.gui.other.ApplicationState;
+import cz.mg.nativeapplication.gui.other.FileFilters;
+import cz.mg.nativeapplication.gui.other.NavigationCache;
 import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
 
 import javax.swing.*;

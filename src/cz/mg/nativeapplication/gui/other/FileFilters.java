@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui;
+package cz.mg.nativeapplication.gui.other;
 
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;

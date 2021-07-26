@@ -11,7 +11,7 @@ import cz.mg.collections.map.Map;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.utilities.NavigationCache;
+import cz.mg.nativeapplication.gui.other.NavigationCache;
 import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
@@ -19,7 +19,7 @@ import cz.mg.nativeapplication.sevices.EntityField;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
+import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
 public @Service class NavigationCacheCreator {

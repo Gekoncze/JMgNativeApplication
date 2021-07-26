@@ -16,7 +16,7 @@ import java.awt.*;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
-import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
+import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
 public class MainTabView extends JTabbedPane implements RefreshableView {

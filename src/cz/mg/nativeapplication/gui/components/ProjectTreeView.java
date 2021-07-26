@@ -19,7 +19,7 @@ import javax.swing.tree.TreePath;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import static cz.mg.nativeapplication.gui.utilities.NavigationCache.Node;
+import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
 public @Utility class ProjectTreeView extends JScrollPane implements RefreshableView {
