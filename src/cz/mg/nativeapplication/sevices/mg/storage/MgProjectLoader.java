@@ -9,16 +9,18 @@ import cz.mg.nativeapplication.mapper.Entity;
 import cz.mg.sql.light.connection.SqlConnection;
 import cz.mg.sql.light.connection.connections.SqliteConnection;
 
+import java.nio.file.Path;
+
 
 public @Service class MgProjectLoader {
-    public @Optional MgProject load(@Mandatory String path){
+    public @Optional MgProject load(@Mandatory Path path){
         MgProjectMapper projectMapper = MgProjectMapper.getInstance();
         MgEntityTable entityTable = MgEntityTable.getInstance();
         MgEntityFieldTable fieldTable = MgEntityFieldTable.getInstance();
 
         List<Entity> entities = new List<>();
 
-        try(SqlConnection connection = new SqliteConnection(path)){
+        try(SqlConnection connection = new SqliteConnection(path.toString())){
             connection.begin();
 
             int entityCount = entityTable.rowCount(connection);

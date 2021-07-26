@@ -65,8 +65,8 @@ public @Utility class MainMenu extends JMenuBar {
         undoMenuItem.setMnemonic('U');
         undoMenuItem.setAccelerator(KeyStroke.getKeyStroke('Z', CTRL_DOWN_MASK));
         undoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
-            if(mainWindow.getHistory() != null){
-                mainWindow.getHistory().undo();
+            if(mainWindow.getApplicationState().getHistory() != null){
+                mainWindow.getApplicationState().getHistory().undo();
                 mainWindow.refresh();
             }
         }));
@@ -75,8 +75,8 @@ public @Utility class MainMenu extends JMenuBar {
         redoMenuItem.setMnemonic('E');
         redoMenuItem.setAccelerator(KeyStroke.getKeyStroke('Z', CTRL_DOWN_MASK | SHIFT_DOWN_MASK));
         redoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
-            if(mainWindow.getHistory() != null){
-                mainWindow.getHistory().redo();
+            if(mainWindow.getApplicationState().getHistory() != null){
+                mainWindow.getApplicationState().getHistory().redo();
                 mainWindow.refresh();
             }
         }));

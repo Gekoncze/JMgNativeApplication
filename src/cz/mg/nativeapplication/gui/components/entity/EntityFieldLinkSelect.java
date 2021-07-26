@@ -83,7 +83,7 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
     }
 
     private void setValue(@Optional Object value) {
-        mainWindow.getHistory().run(new SetEntityFieldAction(
+        mainWindow.getApplicationState().getHistory().run(new SetEntityFieldAction(
             entityField, entity, value, entityField.get(entity)
         ));
         refresh();

@@ -9,14 +9,16 @@ import cz.mg.nativeapplication.mapper.Entity;
 import cz.mg.sql.light.connection.SqlConnection;
 import cz.mg.sql.light.connection.connections.SqliteConnection;
 
+import java.nio.file.Path;
+
 
 public @Service class MgProjectSaver {
-    public void save(@Mandatory String path, @Optional MgProject project){
+    public void save(@Mandatory Path path, @Optional MgProject project){
         MgProjectMapper projectMapper = MgProjectMapper.getInstance();
         MgEntityTable entityTable = MgEntityTable.getInstance();
         MgEntityFieldTable fieldTable = MgEntityFieldTable.getInstance();
 
-        try(SqlConnection connection = new SqliteConnection(path)){
+        try(SqlConnection connection = new SqliteConnection(path.toString())){
             connection.begin();
 
             List<Entity> entities = projectMapper.map(project);

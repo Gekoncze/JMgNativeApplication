@@ -94,7 +94,7 @@ public @Utility class EntityFieldPartSelect implements RefreshableView {
         if(child == null){
             // todo: if there are subclasses, add a choice for what to create
             EntityClass entityClass = EntityClassCache.getInstance().get(entityField.getType());
-            mainWindow.getHistory().run(
+            mainWindow.getApplicationState().getHistory().run(
                 new SetEntityFieldAction(
                     entityField, entity, entityClass.newInstance(), null
                 )

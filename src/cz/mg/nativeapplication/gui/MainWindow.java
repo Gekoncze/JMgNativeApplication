@@ -6,25 +6,18 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.gui.components.MainMenu;
 import cz.mg.nativeapplication.gui.components.MainView;
 import cz.mg.nativeapplication.gui.components.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.utilities.NavigationCache;
-import cz.mg.nativeapplication.history.History;
 import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
-import cz.mg.nativeapplication.sevices.mg.creator.MgProjectCreator;
-import cz.mg.nativeapplication.sevices.mg.storage.MgProjectLoader;
-import cz.mg.nativeapplication.sevices.mg.storage.MgProjectSaver;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashSet;
 
 
@@ -33,19 +26,15 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 600;
     private static final FileFilter FILE_FILTER = new FileNameExtensionFilter("Mg Project Files (*.mg)", "mg");
-    private static final int HISTORY_LIMIT = 100;
 
-    private @Optional @Part MgProject project;
-    private @Optional @Part Path projectPath;
-    private @Optional @Cache NavigationCache navigationCache;
-    private @Optional @Part History history;
-
-    private final @Mandatory @Part IconGallery iconGallery;
+    private final @Mandatory @Part ApplicationState applicationState = new ApplicationState();
+    private final @Mandatory @Part IconGallery iconGallery = new IconGallery();
     private final @Mandatory @Link MainMenu mainMenu;
     private final @Mandatory @Link MainView mainView;
 
+    private @Optional @Cache NavigationCache navigationCache;
+
     public MainWindow() {
-        iconGallery = new IconGallery();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new CloseUserEventHandler(this, this::exit));
         setTitle(TITLE);
@@ -54,35 +43,21 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         setLocationRelativeTo(null);
         setJMenuBar(mainMenu = new MainMenu(this));
         setContentPane(mainView = new MainView(this));
-        disableFocusTraversal();
-
-        // delete me now
-        projectPath = Paths.get("/home/me/Desktop/Dev/Java/JMgNativeApplication/temp/test/Test.mg");
-        project = new MgProjectLoader().load(projectPath.toString());
-        history = new History(HISTORY_LIMIT);
-        refresh();
-        // delete me now
-    }
-
-    private void disableFocusTraversal() {
         setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, new HashSet<>());
         setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, new HashSet<>());
+        refresh();
     }
 
-    public @Optional MgProject getProject() {
-        return project;
+    public ApplicationState getApplicationState() {
+        return applicationState;
     }
 
     public @Mandatory NavigationCache getNavigationCache() {
         if(navigationCache == null){
-            navigationCache = new NavigationCacheCreator().create(project, iconGallery);
+            navigationCache = new NavigationCacheCreator().create(applicationState.getProject(), iconGallery);
         }
 
         return navigationCache;
-    }
-
-    public @Optional History getHistory() {
-        return history;
     }
 
     public @Mandatory IconGallery getIconGallery() {
@@ -98,7 +73,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     }
 
     public boolean newProject(){
-        if(project != null){
+        if(applicationState.getProject() != null){
             if(!closeProject()){
                 return false;
             }
@@ -106,8 +81,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
 
         String name = JOptionPane.showInputDialog(this, "New Project");
         if(name != null){
-            project = new MgProjectCreator().create(name);
-            history = new History(HISTORY_LIMIT);
+            applicationState.newProject(name);
             refresh();
             return true;
         } else {
@@ -125,15 +99,13 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         fileChooser.showOpenDialog(this);
 
         if(fileChooser.getSelectedFile() != null){
-            if(project != null){
+            if(applicationState.getProject() != null){
                 if(!closeProject()){
                     return false;
                 }
             }
 
-            projectPath = fileChooser.getSelectedFile().toPath().toAbsolutePath();
-            project = new MgProjectLoader().load(projectPath.toString());
-            history = new History(HISTORY_LIMIT);
+            applicationState.openProject(fileChooser.getSelectedFile().toPath().toAbsolutePath());
             refresh();
             return true;
         } else {
@@ -142,12 +114,12 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     }
 
     public boolean saveProject(){
-        if(project == null){
+        if(applicationState.getProject() == null){
             return false;
         }
 
-        if(projectPath != null){
-            new MgProjectSaver().save(projectPath.toString(), project);
+        if(applicationState.getProjectPath() != null){
+            applicationState.saveProject();
             return true;
         } else {
             return saveProjectAs();
@@ -155,7 +127,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     }
 
     public boolean saveProjectAs(){
-        if(project == null){
+        if(applicationState.getProject() == null){
             return false;
         }
 
@@ -168,8 +140,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         fileChooser.showSaveDialog(this);
 
         if(fileChooser.getSelectedFile() != null){
-            projectPath = fileChooser.getSelectedFile().toPath().toAbsolutePath();
-            new MgProjectSaver().save(projectPath.toString(), project);
+            applicationState.saveProjectAs(fileChooser.getSelectedFile().toPath().toAbsolutePath());
             return true;
         } else {
             return false;
@@ -177,7 +148,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     }
 
     public boolean closeProject(){
-        if(project == null){
+        if(applicationState.getProject() == null){
             return true;
         }
 
@@ -200,9 +171,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
 
         mainView.getMainTabView().closeAllTabs();
 
-        project = null;
-        projectPath = null;
-        history = null;
+        applicationState.closeProject();
         refresh();
         return true;
     }
