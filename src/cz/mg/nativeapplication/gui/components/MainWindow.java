@@ -20,8 +20,8 @@ import java.util.HashSet;
 
 public @Utility class MainWindow extends JFrame implements RefreshableView {
     private static final String TITLE = "JMgNativeApplication";
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 600;
+    private static final int DEFAULT_WIDTH = 1600;
+    private static final int DEFAULT_HEIGHT = 900;
 
     private final @Mandatory @Part ApplicationState applicationState = new ApplicationState();
     private final @Mandatory @Part IconGallery iconGallery = new IconGallery();
