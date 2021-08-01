@@ -2,20 +2,17 @@ package cz.mg.nativeapplication.gui.handlers;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
 public @Utility class MouseClickUserEventHandler implements MouseListener {
-    private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Part Handler handler;
 
-    public MouseClickUserEventHandler(@Mandatory MainWindow mainWindow, @Mandatory Handler handler) {
-        this.mainWindow = mainWindow;
+    public MouseClickUserEventHandler(@Mandatory Handler handler) {
         this.handler = handler;
     }
 
@@ -23,8 +20,8 @@ public @Utility class MouseClickUserEventHandler implements MouseListener {
     public void mouseClicked(MouseEvent event) {
         try {
             handler.run(event);
-        } catch (Exception e){
-            mainWindow.showError(e);
+        } catch (Exception exception){
+            new UiErrorMessageDialog(exception).show();
         }
     }
 

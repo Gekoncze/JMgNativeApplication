@@ -11,8 +11,9 @@ public @Utility class UiErrorMessageDialog {
     private final @Mandatory @Value String title;
     private final @Mandatory @Value String message;
 
-    public UiErrorMessageDialog(@Mandatory Exception e){
-        this(e.getClass().getSimpleName(), getMessage(e));
+    public UiErrorMessageDialog(@Mandatory Exception exception){
+        this(exception.getClass().getSimpleName(), getMessage(exception));
+        exception.printStackTrace();
     }
 
     public UiErrorMessageDialog(@Mandatory String title, @Mandatory String message) {

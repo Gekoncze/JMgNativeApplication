@@ -2,121 +2,44 @@ package cz.mg.nativeapplication.gui.components;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
+import cz.mg.nativeapplication.gui.components.controls.UiMenu;
+import cz.mg.nativeapplication.gui.components.controls.UiMenuBar;
+import cz.mg.nativeapplication.gui.components.controls.UiMenuItem;
 
-import javax.swing.*;
-
-import java.awt.event.KeyEvent;
-
-import static java.awt.event.InputEvent.CTRL_DOWN_MASK;
-import static java.awt.event.InputEvent.SHIFT_DOWN_MASK;
+import static cz.mg.nativeapplication.gui.components.enums.Key.*;
+import static cz.mg.nativeapplication.gui.components.enums.KeyModifier.CTRL;
+import static cz.mg.nativeapplication.gui.components.enums.KeyModifier.SHIFT;
 
 
-public @Utility class MainMenu extends JMenuBar {
-    public MainMenu(@Mandatory MainWindow mainWindow) {
-        add(createFileMenu(mainWindow));
-        add(createEditMenu(mainWindow));
-        add(createViewMenu(mainWindow));
-    }
+public @Utility class MainMenu extends UiMenuBar {
+    public MainMenu(@Mandatory MainActions actions) {
+        super(
+            new UiMenu(
+                "File", 'F',
 
-    private @Mandatory JMenu createFileMenu(@Mandatory MainWindow mainWindow){
-        JMenuItem newProjectMenuItem = new JMenuItem("New project");
-        newProjectMenuItem.setMnemonic('N');
-        newProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('N', CTRL_DOWN_MASK));
-        newProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::newProject));
+                new UiMenuItem("New project", 'N', N, CTRL, actions::newProject),
+                new UiMenuItem("Open project", 'O', O, CTRL, actions::openProject),
+                new UiMenuItem("Save project", 'S', S, CTRL, actions::saveProject),
+                new UiMenuItem("Save project as", 'A', S, CTRL | SHIFT, actions::saveProjectAs),
+                new UiMenuItem("Close project", 'C', null, null, actions::closeProject),
+                new UiMenuItem("Exit", 'E', null, null, actions::exit)
+            ),
 
-        JMenuItem openProjectMenuItem = new JMenuItem("Open project");
-        openProjectMenuItem.setMnemonic('O');
-        openProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('O', CTRL_DOWN_MASK));
-        openProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::openProject));
+            new UiMenu(
+                "Edit", 'E',
 
-        JMenuItem saveProjectMenuItem = new JMenuItem("Save project");
-        saveProjectMenuItem.setMnemonic('S');
-        saveProjectMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK));
-        saveProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::saveProject));
+                new UiMenuItem("Undo", 'U', Z, CTRL, actions::undo),
+                new UiMenuItem("Redo", 'E', Z, CTRL | SHIFT, actions::redo)
+            ),
 
-        JMenuItem saveProjectAsMenuItem = new JMenuItem("Save project as");
-        saveProjectAsMenuItem.setMnemonic('A');
-        saveProjectAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', CTRL_DOWN_MASK | SHIFT_DOWN_MASK));
-        saveProjectAsMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::saveProjectAs));
+            new UiMenu(
+                "View", 'V',
 
-        JMenuItem closeProjectMenuItem = new JMenuItem("Close project");
-        closeProjectMenuItem.setMnemonic('C');
-        closeProjectMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::closeProject));
-
-        JMenuItem exitMenuItem = new JMenuItem("Exit");
-        exitMenuItem.setMnemonic('E');
-        exitMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::exit));
-
-        JMenu menu = new JMenu("File");
-        menu.setMnemonic('F');
-        menu.add(newProjectMenuItem);
-        menu.add(openProjectMenuItem);
-        menu.add(saveProjectMenuItem);
-        menu.add(saveProjectAsMenuItem);
-        menu.add(closeProjectMenuItem);
-        menu.add(exitMenuItem);
-        return menu;
-    }
-
-    private @Mandatory JMenu createEditMenu(@Mandatory MainWindow mainWindow){
-        JMenuItem undoMenuItem = new JMenuItem("Undo");
-        undoMenuItem.setMnemonic('U');
-        undoMenuItem.setAccelerator(KeyStroke.getKeyStroke('Z', CTRL_DOWN_MASK));
-        undoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
-            if(mainWindow.getApplicationState().getHistory() != null){
-                mainWindow.getApplicationState().getHistory().undo();
-                mainWindow.refresh();
-            }
-        }));
-
-        JMenuItem redoMenuItem = new JMenuItem("Redo");
-        redoMenuItem.setMnemonic('E');
-        redoMenuItem.setAccelerator(KeyStroke.getKeyStroke('Z', CTRL_DOWN_MASK | SHIFT_DOWN_MASK));
-        redoMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, () -> {
-            if(mainWindow.getApplicationState().getHistory() != null){
-                mainWindow.getApplicationState().getHistory().redo();
-                mainWindow.refresh();
-            }
-        }));
-
-        JMenu menu = new JMenu("Edit");
-        menu.setMnemonic('E');
-        menu.add(undoMenuItem);
-        menu.add(redoMenuItem);
-        return menu;
-    }
-
-    private @Mandatory JMenu createViewMenu(@Mandatory MainWindow mainWindow){
-        JMenuItem refreshMenuItem = new JMenuItem("Refresh");
-        refreshMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-        refreshMenuItem.addActionListener(new ActionUserEventHandler(mainWindow, mainWindow::refresh));
-
-        JMenuItem closeActiveTabMenuItem = new JMenuItem("Close active tab");
-        closeActiveTabMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', CTRL_DOWN_MASK));
-        closeActiveTabMenuItem.addActionListener(new ActionUserEventHandler(mainWindow,
-            () -> mainWindow.getMainView().getMainTabView().closeActiveTab()
-        ));
-
-        JMenuItem nextTabMenuItem = new JMenuItem("Next Tab");
-        nextTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, CTRL_DOWN_MASK));
-        nextTabMenuItem.addActionListener(new ActionUserEventHandler(mainWindow,
-            () -> mainWindow.getMainView().getMainTabView().selectNextTab()
-        ));
-
-        JMenuItem previousTabMenuItem = new JMenuItem("Previous Tab");
-        previousTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, CTRL_DOWN_MASK | SHIFT_DOWN_MASK));
-        previousTabMenuItem.addActionListener(new ActionUserEventHandler(mainWindow,
-            () -> mainWindow.getMainView().getMainTabView().selectPreviousTab()
-        ));
-
-        JMenu menu = new JMenu("View");
-        menu.setMnemonic('V');
-        menu.add(refreshMenuItem);
-        menu.add(closeActiveTabMenuItem);
-        menu.add(nextTabMenuItem);
-        menu.add(previousTabMenuItem);
-        return menu;
+                new UiMenuItem("Refresh", null, F5, 0, actions::refresh),
+                new UiMenuItem("Close active tab", null, W, CTRL, actions::closeActiveTab),
+                new UiMenuItem("Next Tab", null, TAB, CTRL, actions::selectNextTab),
+                new UiMenuItem("Previous Tab", null, TAB, CTRL | SHIFT, actions::selectPreviousTab)
+            )
+        );
     }
 }

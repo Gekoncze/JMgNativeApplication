@@ -3,7 +3,6 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
-import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 
 import java.awt.*;
@@ -16,16 +15,16 @@ public @Utility class MainView extends UiPanel {
     private static final int BORDER = 2;
     private static final int PADDING = 2;
 
-    private final @Mandatory @Link ProjectTreeView projectTreeView;
+    private final @Mandatory @Link MainProjectTreeView mainProjectTreeView;
     private final @Mandatory @Link MainTabView mainTabView;
 
     public MainView(@Mandatory MainWindow mainWindow) {
         super(BORDER, PADDING, MIDDLE);
 
-        projectTreeView = new ProjectTreeView(mainWindow);
-        projectTreeView.setPreferredSize(new Dimension(0, 0)); // todo - can be handled in ui panel
-        projectTreeView.setMinimumSize(new Dimension(0, 0)); // todo
-        add(projectTreeView, 0, 0, 1, 1, MIDDLE, BOTH);
+        mainProjectTreeView = new MainProjectTreeView(mainWindow);
+        mainProjectTreeView.setPreferredSize(new Dimension(0, 0)); // todo - can be handled in ui panel
+        mainProjectTreeView.setMinimumSize(new Dimension(0, 0)); // todo
+        add(mainProjectTreeView, 0, 0, 1, 1, MIDDLE, BOTH);
 
         mainTabView = new MainTabView(mainWindow);
         mainTabView.setPreferredSize(new Dimension(0, 0)); // todo
@@ -35,8 +34,8 @@ public @Utility class MainView extends UiPanel {
         rebuild();
     }
 
-    public @Mandatory ProjectTreeView getProjectTreeView() {
-        return projectTreeView;
+    public @Mandatory MainProjectTreeView getProjectTreeView() {
+        return mainProjectTreeView;
     }
 
     public @Mandatory MainTabView getMainTabView() {

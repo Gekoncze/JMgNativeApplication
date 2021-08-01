@@ -2,20 +2,17 @@ package cz.mg.nativeapplication.gui.handlers;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 
 public @Utility class ChangeUserEventHandler implements ChangeListener {
-    private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Part Handler handler;
 
-    public ChangeUserEventHandler(@Mandatory MainWindow mainWindow, @Mandatory Handler handler) {
-        this.mainWindow = mainWindow;
+    public ChangeUserEventHandler(@Mandatory Handler handler) {
         this.handler = handler;
     }
 
@@ -27,8 +24,8 @@ public @Utility class ChangeUserEventHandler implements ChangeListener {
     public void stateChanged(ChangeEvent event) {
         try {
             handler.run();
-        } catch (Exception e){
-            mainWindow.showError(e);
+        } catch (Exception exception){
+            new UiErrorMessageDialog(exception).show();
         }
     }
 

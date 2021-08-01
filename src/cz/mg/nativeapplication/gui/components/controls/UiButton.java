@@ -3,7 +3,7 @@ package cz.mg.nativeapplication.gui.components.controls;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public @Utility class UiButton extends JButton {
         @Optional String tooltip,
         @Mandatory ActionUserEventHandler.Handler handler
     ) {
-        addActionListener(new ActionUserEventHandler(mainWindow, handler));
+        addActionListener(new ActionUserEventHandler(handler));
         setBackground(new Color(0, 0, 0, 0));
         setBorder(null);
         setOpaque(false);

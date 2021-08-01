@@ -1,6 +1,6 @@
 package cz.mg.nativeapplication;
 
-import cz.mg.nativeapplication.gui.MainWindow;
+import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.BulkTestRunner;

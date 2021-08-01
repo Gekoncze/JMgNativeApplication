@@ -4,11 +4,12 @@ import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
-import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.EntityView;
+import cz.mg.nativeapplication.gui.components.other.ObjectView;
+import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 
@@ -99,8 +100,8 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         UiPanel header = new UiPanel(0, PADDING, MIDDLE);
 
         UiLabel label = new UiLabel(node.getIcon(), node.getName());
-        label.addMouseListener(new MouseClickUserEventHandler(mainWindow, event -> selectTab(header)));
-        label.addFocusListener(new FocusGainedUserEventHandler(mainWindow, () -> selectTab(header)));
+        label.addMouseListener(new MouseClickUserEventHandler(event -> selectTab(header)));
+        label.addFocusListener(new FocusGainedUserEventHandler(() -> selectTab(header)));
         header.add(label, 0, 0, 0, 0, MIDDLE, BOTH);
 
         UiButton closeButton = new UiButton(mainWindow, null, "x", "Close", () -> remove(component));

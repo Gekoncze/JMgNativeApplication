@@ -8,12 +8,9 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
-import cz.mg.nativeapplication.gui.MainWindow;
-import cz.mg.nativeapplication.gui.components.RefreshableView;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiLabel;
-import cz.mg.nativeapplication.gui.components.controls.UiPanel;
-import cz.mg.nativeapplication.gui.components.controls.UiTextField;
+import cz.mg.nativeapplication.gui.components.MainWindow;
+import cz.mg.nativeapplication.gui.components.other.RefreshableView;
+import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
@@ -37,12 +34,12 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
 
-    private @Optional @Shared JPopupMenu popupMenu;
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField textField;
     private final @Mandatory @Shared UiPanel buttons;
     private final @Mandatory @Shared UiButton clearButton;
     private final @Mandatory @Shared UiButton searchButton;
+    private final @Mandatory @Shared UiPopupMenu popupMenu;
 
     public EntityFieldLinkSelect(
         @Mandatory MainWindow mainWindow,
@@ -54,15 +51,16 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
         this.entityField = entityField;
         this.label = new UiLabel(entityField.getName());
         this.textField = new UiTextField();
-        this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
-        this.textField.addFocusListener(new FocusLostUserEventHandler(mainWindow, this::onFocusLost));
-        this.textField.addKeyListener(new KeyTypedUserEventHandler(mainWindow, this::onKeyTyped));
+        this.textField.addFocusListener(new FocusGainedUserEventHandler(this::onFocusGained));
+        this.textField.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
+        this.textField.addKeyListener(new KeyTypedUserEventHandler(this::onKeyTyped));
         this.clearButton = new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked);
         this.searchButton = new UiButton(mainWindow, IconGallery.SEARCH, null, "Search (ctrl+space)", this::onSearchButtonClicked);
         this.buttons = new UiPanel(0, PADDING, LEFT);
         this.buttons.add(clearButton, 0, 0, 0, 0, MIDDLE, BOTH);
         this.buttons.add(searchButton, 1, 0, 0, 0, MIDDLE, BOTH);
         this.buttons.rebuild();
+        this.popupMenu = new UiPopupMenu();
         refresh();
     }
 
@@ -97,7 +95,7 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
     }
 
     private void onFocusLost(){
-        if(popupMenu == null){
+        if(!popupMenu.isVisible()){
             refresh();
         }
     }
@@ -118,8 +116,7 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
     }
 
     private void showComponentSelectionMenu(){
-        popupMenu = new JPopupMenu();
-        popupMenu.addPopupMenuListener(new PopupMenuCloseUserEventHandler(mainWindow, () -> popupMenu = null));
+        popupMenu.removeAll();
 
         List<MgComponent> results = new ComponentSearch().search(
             mainWindow.getNavigationCache(),
@@ -129,7 +126,7 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
 
         for(MgComponent result : results){
             JMenuItem item = new JMenuItem();
-            item.addActionListener(new ActionUserEventHandler(mainWindow, () -> setValue(result)));
+            item.addActionListener(new ActionUserEventHandler(() -> setValue(result)));
             item.setText(findComponentPath(mainWindow.getNavigationCache(), result));
             popupMenu.add(item);
         }

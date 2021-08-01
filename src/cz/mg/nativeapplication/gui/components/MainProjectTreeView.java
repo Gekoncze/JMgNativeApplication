@@ -6,8 +6,9 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
+import cz.mg.nativeapplication.gui.components.controls.UiTree;
+import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 
@@ -22,22 +23,22 @@ import java.awt.event.MouseEvent;
 import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
-public @Utility class ProjectTreeView extends JScrollPane implements RefreshableView {
+public @Utility class MainProjectTreeView extends JScrollPane implements RefreshableView {
     private static final int PADDING = 4;
 
     private final @Mandatory @Link MainWindow mainWindow;
-    private final @Mandatory @Link JTree tree;
+    private final @Mandatory @Link UiTree tree;
 
-    public ProjectTreeView(@Mandatory MainWindow mainWindow) {
+    public MainProjectTreeView(@Mandatory MainWindow mainWindow) {
         this.mainWindow = mainWindow;
 
-        tree = new JTree();
+        tree = new UiTree();
         tree.setModel(new EntityTreeModel());
         tree.setCellRenderer(new EntityCellRenderer());
         tree.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
         tree.setToggleClickCount(0);
-        tree.addMouseListener(new MouseClickUserEventHandler(mainWindow, this::onMouseDoubleClick));
-        tree.addKeyListener(new KeyPressedUserEventHandler(mainWindow, this::onKeyPressed));
+        tree.addMouseListener(new MouseClickUserEventHandler(this::onMouseDoubleClick));
+        tree.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
 
         setViewportView(tree);
         ToolTipManager.sharedInstance().registerComponent(tree);
@@ -75,7 +76,7 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
         setExpandedPaths(tree, restorePath(expandedPaths));
     }
 
-    private @Mandatory List<Object[]> getExpandedPaths(@Mandatory JTree tree){
+    private @Mandatory List<Object[]> getExpandedPaths(@Mandatory UiTree tree){
         List<Object[]> expandedPaths = new List<>();
         for (int i = 0; i < tree.getRowCount() - 1; i++) {
             TreePath current = tree.getPathForRow(i);
@@ -87,7 +88,7 @@ public @Utility class ProjectTreeView extends JScrollPane implements Refreshable
         return expandedPaths;
     }
 
-    private void setExpandedPaths(@Mandatory JTree tree, @Mandatory List<Object[]> expandedPaths){
+    private void setExpandedPaths(@Mandatory UiTree tree, @Mandatory List<Object[]> expandedPaths){
         for(Object[] expandedPath : expandedPaths){
             tree.expandPath(new TreePath(expandedPath));
         }
