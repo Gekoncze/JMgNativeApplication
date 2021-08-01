@@ -2,8 +2,8 @@ package cz.mg.nativeapplication.gui.components.controls;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
+import cz.mg.annotations.storage.Value;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +13,10 @@ import java.awt.event.FocusListener;
 
 public @Utility class UiTextField extends JTextField {
     private final @Mandatory @Shared Color greyColor;
-    private @Optional @Shared String text;
+    private @Value boolean isNull = false;
 
     public UiTextField() {
-        setBackground(UIManager.getDefaults().getColor("TextField.background"));
+        setBackground(copy(UIManager.getDefaults().getColor("TextField.background")));
         setBorder(BorderFactory.createEtchedBorder());
         greyColor = new Color(160, 160, 160);
         addFocusListener(new FocusListener() {
@@ -32,16 +32,28 @@ public @Utility class UiTextField extends JTextField {
         });
     }
 
-    @Override
-    public void setText(@Optional String text) {
-        super.setText(text != null ? text : "");
-        this.text = text;
+    private static @Mandatory Color copy(@Mandatory Color color){
+        return new Color(
+            color.getRed(),
+            color.getGreen(),
+            color.getBlue(),
+            color.getAlpha()
+        );
+    }
+
+    public boolean isNull() {
+        return isNull;
+    }
+
+    public void setNull(boolean value) {
+        isNull = value;
+        repaint();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(text == null && !hasFocus()){
+        if(isNull && !hasFocus()){
             g.setColor(greyColor);
             g.setFont(getFont());
             g.drawString(

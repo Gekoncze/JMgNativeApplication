@@ -9,6 +9,8 @@ import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.EntityView;
+import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,15 +32,25 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
 
     public void open(@Optional Node node){
         if(node != null){
-            Object object = node.getSelf();
-            if(!hasObjectOpened(object)){
-                if(object.getClass().isAnnotationPresent(Entity.class)){
-                    addTab(node, new EntityView(mainWindow, object));
-                }
-
-                // todo - add support for more object types
+            Integer tabIndex = getTabIndex(node.getSelf());
+            if(tabIndex == null){
+                openNew(node);
+            } else {
+                openExisting(tabIndex);
             }
         }
+    }
+
+    private void openExisting(@Mandatory Integer tabIndex){
+        setSelectedIndex(tabIndex);
+    }
+
+    private void openNew(@Mandatory Node node){
+        if(node.getSelf().getClass().isAnnotationPresent(Entity.class)){
+            addTab(node, new EntityView(mainWindow, node.getSelf()));
+        }
+
+        // todo - add support for more object types
     }
 
     public void closeActiveTab(){
@@ -68,6 +80,15 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         setSelectedIndex(i);
     }
 
+    private void selectTab(@Mandatory UiPanel header){
+        for(int i = 0; i < getTabCount(); i++){
+            Component component = getTabComponentAt(i);
+            if(component == header){
+                setSelectedIndex(i);
+            }
+        }
+    }
+
     private void addTab(@Mandatory Node node, @Mandatory ObjectView view){
         addTab(null, null, view);
         setTabComponentAt(getTabCount() - 1, createTabHeader(node, view));
@@ -77,7 +98,10 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
     private UiPanel createTabHeader(@Mandatory Node node, @Mandatory Component component) {
         UiPanel header = new UiPanel(0, PADDING, MIDDLE);
 
-        header.add(new UiLabel(node.getIcon(), node.getName()), 0, 0, 0, 0, MIDDLE, BOTH);
+        UiLabel label = new UiLabel(node.getIcon(), node.getName());
+        label.addMouseListener(new MouseClickUserEventHandler(mainWindow, event -> selectTab(header)));
+        label.addFocusListener(new FocusGainedUserEventHandler(mainWindow, () -> selectTab(header)));
+        header.add(label, 0, 0, 0, 0, MIDDLE, BOTH);
 
         UiButton closeButton = new UiButton(mainWindow, null, "x", "Close", () -> remove(component));
         closeButton.setForeground(new Color(180, 180, 180, 255));
@@ -87,17 +111,17 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         return header;
     }
 
-    private boolean hasObjectOpened(@Mandatory Object object){
+    private @Optional Integer getTabIndex(@Mandatory Object object){
         for(int i = 0; i < getTabCount(); i++){
             Component component = getComponentAt(i);
             if(component instanceof ObjectView){
                 ObjectView objectView = (ObjectView) component;
                 if(objectView.getObject() == object){
-                    return true;
+                    return i;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     @Override

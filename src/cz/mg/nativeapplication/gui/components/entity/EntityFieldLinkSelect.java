@@ -4,6 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
@@ -33,15 +34,15 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
     private static final int PADDING = 2;
 
     private final @Mandatory @Link MainWindow mainWindow;
-    private @Optional @Link JPopupMenu popupMenu;
-    private final @Mandatory @Link UiLabel label;
-    private final @Mandatory @Link UiTextField textField;
-    private final @Mandatory @Link UiPanel buttons;
-    private final @Mandatory @Link UiButton clearButton;
-    private final @Mandatory @Link UiButton searchButton;
+    private final @Mandatory @Link Object entity;
+    private final @Mandatory @Link EntityField entityField;
 
-    private final @Mandatory Object entity;
-    private final @Mandatory EntityField entityField;
+    private @Optional @Shared JPopupMenu popupMenu;
+    private final @Mandatory @Shared UiLabel label;
+    private final @Mandatory @Shared UiTextField textField;
+    private final @Mandatory @Shared UiPanel buttons;
+    private final @Mandatory @Shared UiButton clearButton;
+    private final @Mandatory @Shared UiButton searchButton;
 
     public EntityFieldLinkSelect(
         @Mandatory MainWindow mainWindow,
@@ -49,6 +50,8 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
         @Mandatory EntityField entityField
     ) {
         this.mainWindow = mainWindow;
+        this.entity = entity;
+        this.entityField = entityField;
         this.label = new UiLabel(entityField.getName());
         this.textField = new UiTextField();
         this.textField.addFocusListener(new FocusGainedUserEventHandler(mainWindow, this::onFocusGained));
@@ -60,8 +63,6 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
         this.buttons.add(clearButton, 0, 0, 0, 0, MIDDLE, BOTH);
         this.buttons.add(searchButton, 1, 0, 0, 0, MIDDLE, BOTH);
         this.buttons.rebuild();
-        this.entity = entity;
-        this.entityField = entityField;
         refresh();
     }
 
@@ -79,7 +80,9 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
 
     @Override
     public void refresh() {
-        textField.setText(new ObjectNameProvider().getDisplayName(entityField.get(entity)));
+        Object object = entityField.get(entity);
+        textField.setText(new ObjectNameProvider().getDisplayName(object));
+        textField.setNull(object == null);
     }
 
     private void setValue(@Optional Object value) {
