@@ -8,6 +8,8 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.components.MainWindow;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiHorizontalPanel;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.link.EntityFieldLinkSelect;
@@ -21,14 +23,14 @@ import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
 
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.TOP;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.*;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 
 
 public @Utility class EntityView extends ObjectView {
     private static final int BORDER = 4;
     private static final int PADDING = 4;
+    private static final int BUTTON_PADDING = 2;
 
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Part List<RefreshableView> selects = new List<>();
@@ -102,13 +104,24 @@ public @Utility class EntityView extends ObjectView {
     private void addSingleSelect(@Mandatory EntitySingleSelect select, int y){
         panel.add(select.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
         panel.add(select.getContent(), 1, y, 1, 0, MIDDLE, BOTH);
-        panel.add(select.getButtons(), 2, y, 0, 0, MIDDLE, BOTH);
+        panel.add(wrapButtons(select.getButtons()), 2, y, 0, 0, MIDDLE, BOTH);
         selects.addLast(select);
     }
 
     private void addMultiSelect(@Mandatory EntityMultiSelect select, int y){
         // todo - first row label + buttons, second row list view
         selects.addLast(select);
+    }
+
+    private @Mandatory UiHorizontalPanel wrapButtons(@Mandatory List<UiButton> buttons){
+        UiHorizontalPanel panel = new UiHorizontalPanel(0, BUTTON_PADDING, LEFT);
+        int x = 0;
+        for(UiButton button : buttons){
+            panel.add(button, x, 0, 0, 0, MIDDLE, BOTH);
+            x++;
+        }
+        panel.rebuild();
+        return panel;
     }
 
     @Override

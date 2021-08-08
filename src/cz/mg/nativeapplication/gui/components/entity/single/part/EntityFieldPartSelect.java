@@ -4,12 +4,12 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
+import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
-import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.controls.UiTextField;
+import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
@@ -19,29 +19,19 @@ import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
-import javax.swing.*;
-
 import java.awt.event.MouseEvent;
 
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.LEFT;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
 public @Utility class EntityFieldPartSelect implements EntitySingleSelect {
-    private static final int PADDING = 2;
-
     private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
 
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField textField;
-    private final @Mandatory @Shared UiPanel buttons;
-    private final @Mandatory @Shared UiButton deleteButton;
-    private final @Mandatory @Shared UiButton createButton;
-    private final @Mandatory @Shared UiButton editButton;
+    private final @Mandatory @Shared List<UiButton> buttons;
 
     public EntityFieldPartSelect(
         @Mandatory MainWindow mainWindow,
@@ -55,14 +45,11 @@ public @Utility class EntityFieldPartSelect implements EntitySingleSelect {
         this.textField = new UiTextField();
         this.textField.setEditable(false);
         this.textField.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
-        this.deleteButton = new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked);
-        this.createButton = new UiButton(mainWindow, IconGallery.CREATE, null, "Create", this::onCreateButtonClicked);
-        this.editButton = new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked);
-        this.buttons = new UiPanel(0, PADDING, LEFT);
-        this.buttons.add(deleteButton, 0, 0, 0, 0, MIDDLE, BOTH);
-        this.buttons.add(createButton, 1, 0, 0, 0, MIDDLE, BOTH);
-        this.buttons.add(editButton, 2, 0, 0, 0, MIDDLE, BOTH);
-        this.buttons.rebuild();
+        this.buttons = new List<>(
+            new UiButton(mainWindow, IconGallery.CREATE, null, "Create", this::onCreateButtonClicked),
+            new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
+            new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
+        );
         refresh();
     }
 
@@ -77,7 +64,7 @@ public @Utility class EntityFieldPartSelect implements EntitySingleSelect {
     }
 
     @Override
-    public @Mandatory UiPanel getButtons() {
+    public @Mandatory List<UiButton> getButtons() {
         return buttons;
     }
 
@@ -100,8 +87,9 @@ public @Utility class EntityFieldPartSelect implements EntitySingleSelect {
         if(entityField.get(entity) != null){
             String title = "Delete entity?";
             String message = "Are you sure you want to delete the entity? All of its parts will be deleted too.";
-            int option = JOptionPane.showConfirmDialog(mainWindow, message, title, JOptionPane.YES_NO_OPTION);
-            if(option == JOptionPane.YES_OPTION){
+
+            UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
+            if(choice == UiConfirmDialog.Choice.YES){
                 // todo: delete this entity and all its references
                 // todo: + delete all of its parts and all their references
             }

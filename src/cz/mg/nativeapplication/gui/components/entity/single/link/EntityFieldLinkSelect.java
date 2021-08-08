@@ -25,23 +25,15 @@ import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.LEFT;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
-
 
 public @Utility class EntityFieldLinkSelect implements EntitySingleSelect {
-    private static final int PADDING = 2;
-
     private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
 
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField textField;
-    private final @Mandatory @Shared UiPanel buttons;
-    private final @Mandatory @Shared UiButton clearButton;
-    private final @Mandatory @Shared UiButton searchButton;
+    private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared UiPopupMenu popupMenu;
 
     public EntityFieldLinkSelect(
@@ -57,12 +49,10 @@ public @Utility class EntityFieldLinkSelect implements EntitySingleSelect {
         this.textField.addFocusListener(new FocusGainedUserEventHandler(this::onFocusGained));
         this.textField.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
         this.textField.addKeyListener(new KeyTypedUserEventHandler(this::onKeyTyped));
-        this.clearButton = new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked);
-        this.searchButton = new UiButton(mainWindow, IconGallery.SEARCH, null, "Search (ctrl+space)", this::onSearchButtonClicked);
-        this.buttons = new UiPanel(0, PADDING, LEFT);
-        this.buttons.add(clearButton, 0, 0, 0, 0, MIDDLE, BOTH);
-        this.buttons.add(searchButton, 1, 0, 0, 0, MIDDLE, BOTH);
-        this.buttons.rebuild();
+        this.buttons = new List<>(
+            new UiButton(mainWindow, IconGallery.SEARCH, null, "Search (ctrl+space)", this::onSearchButtonClicked),
+            new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
+        );
         this.popupMenu = new UiPopupMenu();
         refresh();
     }
@@ -78,7 +68,7 @@ public @Utility class EntityFieldLinkSelect implements EntitySingleSelect {
     }
 
     @Override
-    public @Mandatory UiPanel getButtons() {
+    public List<UiButton> getButtons() {
         return buttons;
     }
 
