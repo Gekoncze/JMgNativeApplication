@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public @Utility class UiHorizontalSplitPane extends JSplitPane {
+public @Utility class UiHorizontalSplitPane extends JSplitPane implements UiComponent {
     public UiHorizontalSplitPane(@Mandatory Component first, @Mandatory Component second) {
         super(JSplitPane.HORIZONTAL_SPLIT, first, second);
     }

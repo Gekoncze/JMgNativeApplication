@@ -6,7 +6,7 @@ import javax.swing.*;
 
 
 public @Utility
-class UiTree extends JTree {
+class UiTree extends JTree implements UiComponent {
     public UiTree() {
     }
 }

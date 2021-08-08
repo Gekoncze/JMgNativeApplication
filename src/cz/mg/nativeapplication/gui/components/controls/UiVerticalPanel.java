@@ -5,7 +5,7 @@ import cz.mg.annotations.requirement.Mandatory;
 import java.awt.*;
 
 
-public class UiVerticalPanel extends UiPanel {
+public class UiVerticalPanel extends UiPanel implements UiComponent {
     public UiVerticalPanel(int border, int padding, @Mandatory Alignment alignment) {
         super(border, padding, alignment);
     }

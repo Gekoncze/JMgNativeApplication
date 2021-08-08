@@ -8,7 +8,7 @@ import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 import javax.swing.*;
 
 
-public @Utility class UiMenuItem extends JMenuItem {
+public @Utility class UiMenuItem extends JMenuItem implements UiComponent {
     public UiMenuItem(
         @Mandatory String name,
         @Optional Character mnemonic,

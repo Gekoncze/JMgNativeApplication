@@ -5,7 +5,7 @@ import cz.mg.annotations.classes.Utility;
 import javax.swing.*;
 
 
-public @Utility class UiPopupMenu extends JPopupMenu {
+public @Utility class UiPopupMenu extends JPopupMenu implements UiComponent {
     public UiPopupMenu() {
     }
 }

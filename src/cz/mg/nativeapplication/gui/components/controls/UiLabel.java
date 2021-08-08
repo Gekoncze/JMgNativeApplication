@@ -16,7 +16,7 @@ import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
 
 
-public @Utility class UiLabel extends UiPanel {
+public @Utility class UiLabel extends UiPanel implements UiComponent {
     private static final int PADDING = 4;
 
     private final @Optional @Shared JLabel label;

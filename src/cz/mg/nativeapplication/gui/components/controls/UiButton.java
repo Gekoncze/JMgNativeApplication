@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public @Utility class UiButton extends JButton {
+public @Utility class UiButton extends JButton implements UiComponent {
     public UiButton(
         @Mandatory MainWindow mainWindow,
         @Optional String iconName,

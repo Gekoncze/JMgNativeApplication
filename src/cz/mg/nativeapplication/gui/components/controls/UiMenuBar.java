@@ -6,7 +6,7 @@ import cz.mg.annotations.requirement.Mandatory;
 import javax.swing.*;
 
 
-public @Utility class UiMenuBar extends JMenuBar {
+public @Utility class UiMenuBar extends JMenuBar implements UiComponent {
     public UiMenuBar(@Mandatory UiMenu... menus) {
         for(UiMenu menu : menus){
             add(menu);

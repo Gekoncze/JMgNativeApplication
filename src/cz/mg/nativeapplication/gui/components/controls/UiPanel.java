@@ -14,7 +14,7 @@ import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 
 
-public @Utility class UiPanel extends JPanel {
+public @Utility class UiPanel extends JPanel implements UiComponent {
     private final @Value int border;
     private final @Value int padding;
     private final @Mandatory @Value HorizontalAlignment horizontalAlignment;

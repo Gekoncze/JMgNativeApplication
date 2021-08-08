@@ -7,7 +7,7 @@ import cz.mg.annotations.requirement.Optional;
 import javax.swing.*;
 
 
-public @Utility class UiMenu extends JMenu {
+public @Utility class UiMenu extends JMenu implements UiComponent {
     public UiMenu(@Mandatory String name, @Optional Character mnemonic, @Mandatory UiMenuItem... items) {
         super(name);
         if(mnemonic != null) setMnemonic(mnemonic);

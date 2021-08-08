@@ -23,6 +23,8 @@ import cz.mg.nativeapplication.sevices.EntityClass;
 import cz.mg.nativeapplication.sevices.EntityClassCache;
 import cz.mg.nativeapplication.sevices.EntityField;
 
+import java.awt.*;
+
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.*;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 
@@ -103,7 +105,7 @@ public @Utility class EntityView extends ObjectView {
 
     private void addSingleSelect(@Mandatory EntitySingleSelect select, int y){
         panel.add(select.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
-        panel.add(select.getContent(), 1, y, 1, 0, MIDDLE, BOTH);
+        panel.add((Component) select.getContent(), 1, y, 1, 0, MIDDLE, BOTH);
         panel.add(wrapButtons(select.getButtons()), 2, y, 0, 0, MIDDLE, BOTH);
         selects.addLast(select);
     }

@@ -11,7 +11,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 
-public @Utility class UiTextField extends JTextField {
+public @Utility class UiTextField extends JTextField implements UiComponent {
     private final @Mandatory @Shared Color greyColor;
     private @Value boolean isNull = false;
 
