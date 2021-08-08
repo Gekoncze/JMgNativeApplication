@@ -12,13 +12,12 @@ import java.awt.event.FocusListener;
 
 
 public @Utility class UiTextField extends JTextField implements UiComponent {
-    private final @Mandatory @Shared Color greyColor;
+    private static final @Mandatory @Shared Color GREY_COLOR = new Color(160, 160, 160);
     private @Value boolean isNull = false;
 
     public UiTextField() {
         setBackground(copy(UIManager.getDefaults().getColor("TextField.background")));
         setBorder(BorderFactory.createEtchedBorder());
-        greyColor = new Color(160, 160, 160);
         addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
@@ -55,7 +54,7 @@ public @Utility class UiTextField extends JTextField implements UiComponent {
         super.paintComponent(g);
         if(isNull && getText().length() <= 0){
             if(!hasFocus() || !isEditable()){
-                g.setColor(greyColor);
+                g.setColor(GREY_COLOR);
                 g.setFont(getFont());
                 g.drawString(
                     "null",

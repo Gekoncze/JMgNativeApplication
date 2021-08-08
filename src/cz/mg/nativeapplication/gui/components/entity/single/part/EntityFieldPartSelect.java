@@ -109,9 +109,9 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
         if(child != null){
             Node node = mainWindow.getNavigationCache().get(child);
             if(node != null){
-                mainWindow.getMainView().getMainTabView().open(node);
+                mainWindow.getMainView().getMainTabView().openNode(node);
             } else {
-                // todo: handle other types of non-component entities
+                mainWindow.getMainView().getMainTabView().openObject(child);
             }
         }
     }

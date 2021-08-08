@@ -31,11 +31,22 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         this.mainWindow = mainWindow;
     }
 
-    public void open(@Optional Node node){
+    public void openObject(@Optional Object object){
+        if(object != null){
+            Integer tabIndex = getTabIndex(object);
+            if(tabIndex == null){
+                openNewObject(object);
+            } else {
+                openExisting(tabIndex);
+            }
+        }
+    }
+
+    public void openNode(@Optional Node node){
         if(node != null){
             Integer tabIndex = getTabIndex(node.getSelf());
             if(tabIndex == null){
-                openNew(node);
+                openNewNode(node);
             } else {
                 openExisting(tabIndex);
             }
@@ -46,9 +57,17 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         setSelectedIndex(tabIndex);
     }
 
-    private void openNew(@Mandatory Node node){
-        if(node.getSelf().getClass().isAnnotationPresent(Entity.class)){
-            addTab(node, new EntityView(mainWindow, node.getSelf()));
+    private void openNewObject(@Mandatory Object object){
+        openNew(object, null);
+    }
+
+    private void openNewNode(@Mandatory Node node){
+        openNew(node.getSelf(), node);
+    }
+
+    private void openNew(@Mandatory Object object, @Optional Node node){
+        if(object.getClass().isAnnotationPresent(Entity.class)){
+            addNewTab(object, null, new EntityView(mainWindow, object));
         }
 
         // todo - add support for more object types
@@ -90,16 +109,16 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         }
     }
 
-    private void addTab(@Mandatory Node node, @Mandatory ObjectView view){
+    private void addNewTab(@Mandatory Object object, @Optional Node node, @Mandatory ObjectView view){
         addTab(null, null, view);
-        setTabComponentAt(getTabCount() - 1, createTabHeader(node, view));
+        setTabComponentAt(getTabCount() - 1, createTabHeader(object, node, view));
         setSelectedIndex(getTabCount() - 1);
     }
 
-    private UiPanel createTabHeader(@Mandatory Node node, @Mandatory Component component) {
+    private UiPanel createTabHeader(@Mandatory Object object, @Optional Node node, @Mandatory Component component) {
         UiPanel header = new UiPanel(0, PADDING, MIDDLE);
 
-        UiLabel label = new UiLabel(node.getIcon(), node.getName());
+        UiLabel label = createTabHeaderLabel(object, node);
         label.addMouseListener(new MouseClickUserEventHandler(event -> selectTab(header)));
         label.addFocusListener(new FocusGainedUserEventHandler(() -> selectTab(header)));
         header.add(label, 0, 0, 0, 0, MIDDLE, BOTH);
@@ -110,6 +129,14 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
 
         header.rebuild();
         return header;
+    }
+
+    private UiLabel createTabHeaderLabel(@Mandatory Object object, @Optional Node node){
+        if(node != null){
+            return new UiLabel(node.getIcon(), node.getName());
+        } else {
+            return new UiLabel(null, object.getClass().getSimpleName());
+        }
     }
 
     private @Optional Integer getTabIndex(@Mandatory Object object){

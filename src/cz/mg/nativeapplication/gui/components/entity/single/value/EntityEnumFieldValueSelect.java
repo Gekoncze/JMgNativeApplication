@@ -18,20 +18,20 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
+public @Utility class EntityEnumFieldValueSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
-    private final @Mandatory @Shared UiBooleanField content;
+    private final @Mandatory @Shared UiEnumField<Enum> content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared UiPopupMenu popupMenu;
 
-    public EntityBooleanFieldValueSelect(
+    public EntityEnumFieldValueSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
         @Mandatory EntityField entityField
     ) {
         super(mainWindow, entity, entityField);
         this.label = new UiLabel(entityField.getName());
-        this.content = new UiBooleanField();
+        this.content = new UiEnumField<>(entityField.getType());
         this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         this.content.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
         this.content.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
@@ -39,32 +39,33 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
-        this.popupMenu = new UiPopupMenu(
-            new UiMenuItem("true", () -> setValue(true)),
-            new UiMenuItem("false", () -> setValue(false))
-        );
+        List<UiMenuItem> menuItems = new List<>();
+        for(Object value : entityField.getType().getEnumConstants()){
+            menuItems.addLast(new UiMenuItem(((Enum)value).name(), () -> setValue(value)));
+        }
+        this.popupMenu = new UiPopupMenu(menuItems);
         lock();
     }
 
     @Override
-    public final @Mandatory UiLabel getLabel() {
+    public @Mandatory UiLabel getLabel() {
         return label;
     }
 
     @Override
-    public @Mandatory UiTextField getContent(){
+    public @Mandatory UiComponent getContent() {
         return content;
     }
 
     @Override
-    public final @Mandatory List<UiButton> getButtons() {
+    public @Mandatory List<UiButton> getButtons() {
         return buttons;
     }
 
     @Override
     public void refresh() {
         Object value = getValue();
-        content.setBoolean((Boolean)value);
+        content.setEnum((Enum) value);
         content.setNull(value == null);
     }
 
@@ -82,7 +83,7 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
         }
 
         if(event.getKeyCode() == Key.ENTER){
-            setValue(content.getBoolean());
+            setValue(content.getEnum());
             lock();
         }
 
@@ -93,9 +94,7 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
     }
 
     private void onFocusLost() {
-        if(!popupMenu.isVisible()){
-            lock();
-        }
+        lock();
     }
 
     private void onClearButtonClicked() {
@@ -105,7 +104,7 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
     private void onEditButtonClicked() {
         unlock();
     }
-    
+
     private void showSelectionMenu(){
         popupMenu.show(content, 0, content.getHeight());
     }

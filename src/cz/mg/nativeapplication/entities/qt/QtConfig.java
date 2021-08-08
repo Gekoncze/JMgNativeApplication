@@ -1,15 +1,20 @@
 package cz.mg.nativeapplication.entities.qt;
 
 
-public class QtConfig {
-    public String name;
-    public Operation operation;
-    public String value;
+import cz.mg.annotations.classes.Entity;
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.storage.Value;
+
+
+public @Entity class QtConfig {
+    public @Value String name;
+    public @Value Operation operation;
+    public @Value String value;
 
     public QtConfig() {
     }
 
-    public QtConfig(String name, Operation operation, String value) {
+    public QtConfig(@Mandatory String name, @Mandatory Operation operation, @Mandatory String value) {
         this.name = name;
         this.operation = operation;
         this.value = value;

@@ -15,6 +15,7 @@ import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.link.EntityFieldLinkSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.part.EntityFieldPartSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityBooleanFieldValueSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityEnumFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
@@ -66,6 +67,10 @@ public @Utility class EntityView extends ObjectView {
                     if(is(entityField, Boolean.class)){
                         addSingleSelect(new EntityBooleanFieldValueSelect(mainWindow, entity, entityField), y++);
                     }
+
+                    if(isEnum(entityField)){
+                        addSingleSelect(new EntityEnumFieldValueSelect(mainWindow, entity, entityField), y++);
+                    }
                 }
             } else {
                 if(isLink(entityField)){
@@ -103,7 +108,11 @@ public @Utility class EntityView extends ObjectView {
     }
 
     private boolean isList(@Mandatory EntityField entityField){
-        return List.class.isAssignableFrom(entityField.getField().getType());
+        return is(entityField, List.class);
+    }
+
+    private boolean isEnum(@Mandatory EntityField entityField){
+        return is(entityField, Enum.class);
     }
 
     private void addSingleSelect(@Mandatory EntitySingleSelect select, int y){

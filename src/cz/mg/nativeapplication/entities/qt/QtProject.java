@@ -1,9 +1,13 @@
 package cz.mg.nativeapplication.entities.qt;
 
+import cz.mg.annotations.classes.Entity;
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.storage.Part;
+import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 
 
-public class QtProject {
-    public String name;
-    public List<QtConfig> settings = new List<>();
+public @Entity class QtProject {
+    public @Value String name;
+    public @Mandatory @Part List<QtConfig> settings = new List<>();
 }

@@ -65,7 +65,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private void openSelectedItem(){
         if(tree.getLastSelectedPathComponent() != null){
             Node node = (Node) tree.getLastSelectedPathComponent();
-            mainWindow.getMainView().getMainTabView().open(node);
+            mainWindow.getMainView().getMainTabView().openNode(node);
         }
     }
 

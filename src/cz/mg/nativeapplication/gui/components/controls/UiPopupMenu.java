@@ -12,4 +12,10 @@ public @Utility class UiPopupMenu extends JPopupMenu implements UiComponent {
             add(item);
         }
     }
+
+    public UiPopupMenu(@Mandatory Iterable<UiMenuItem> items) {
+        for(UiMenuItem item : items){
+            add(item);
+        }
+    }
 }
