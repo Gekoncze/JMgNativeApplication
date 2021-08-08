@@ -5,16 +5,16 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.sevices.EntityClass;
-import cz.mg.nativeapplication.sevices.EntityClassCache;
-import cz.mg.nativeapplication.sevices.EntityField;
+import cz.mg.nativeapplication.sevices.entity.EntityClass;
+import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
+import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 
 public @Utility class EntityObjectMapper implements ObjectMapper<Object> {
     private final @Mandatory @Part EntityClass entityClass;
 
     public EntityObjectMapper(@Mandatory Class clazz) {
-        this.entityClass = EntityClassCache.getInstance().get(clazz);
+        this.entityClass = new EntityClassMetadataProvider().get(clazz);
     }
 
     @Override

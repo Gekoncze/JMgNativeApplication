@@ -12,9 +12,9 @@ import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
-import cz.mg.nativeapplication.sevices.EntityClass;
-import cz.mg.nativeapplication.sevices.EntityClassCache;
-import cz.mg.nativeapplication.sevices.EntityField;
+import cz.mg.nativeapplication.sevices.entity.EntityClass;
+import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
+import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -54,7 +54,7 @@ public @Service class NavigationCacheCreator {
         map.set(self, node);
 
         if(self.getClass().isAnnotationPresent(Entity.class)){
-            EntityClass entityClass = EntityClassCache.getInstance().get(self.getClass());
+            EntityClass entityClass = new EntityClassMetadataProvider().get(self.getClass());
             for(EntityField entityField : entityClass.getFields()){
                 if(entityField.isAnnotationPresent(Part.class)){
                     Node childNode = createNode(iconGallery, map, node, entityField, entityField.get(self));

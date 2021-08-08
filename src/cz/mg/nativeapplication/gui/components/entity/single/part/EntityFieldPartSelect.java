@@ -13,9 +13,9 @@ import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.history.SetEntityFieldAction;
-import cz.mg.nativeapplication.sevices.EntityClass;
-import cz.mg.nativeapplication.sevices.EntityClassCache;
-import cz.mg.nativeapplication.sevices.EntityField;
+import cz.mg.nativeapplication.sevices.entity.EntityClass;
+import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
+import cz.mg.nativeapplication.sevices.entity.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import java.awt.event.MouseEvent;
@@ -94,7 +94,7 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
         Object value = getValue();
         if(value == null){
             // todo: if there are subclasses, add a choice for what to create
-            EntityClass entityClass = EntityClassCache.getInstance().get(entityField.getType());
+            EntityClass entityClass = new EntityClassMetadataProvider().get(entityField.getType());
             mainWindow.getApplicationState().getHistory().run(
                 new SetEntityFieldAction(
                     entityField, entity, entityClass.newInstance(), null

@@ -14,7 +14,7 @@ import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.sevices.EntityField;
+import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;

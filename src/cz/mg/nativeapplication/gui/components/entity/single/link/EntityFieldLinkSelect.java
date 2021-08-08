@@ -13,7 +13,7 @@ import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
-import cz.mg.nativeapplication.sevices.EntityField;
+import cz.mg.nativeapplication.sevices.entity.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 

@@ -10,6 +10,7 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiHorizontalPanel;
+import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.link.EntityFieldLinkSelect;
@@ -20,10 +21,9 @@ import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerF
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
-import cz.mg.nativeapplication.gui.components.controls.UiPanel;
-import cz.mg.nativeapplication.sevices.EntityClass;
-import cz.mg.nativeapplication.sevices.EntityClassCache;
-import cz.mg.nativeapplication.sevices.EntityField;
+import cz.mg.nativeapplication.sevices.entity.EntityClass;
+import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
+import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 import java.awt.*;
 
@@ -43,7 +43,7 @@ public @Utility class EntityView extends ObjectView {
     public EntityView(@Mandatory MainWindow mainWindow, @Mandatory Object entity) {
         this.entity = entity;
 
-        EntityClass entityClass = EntityClassCache.getInstance().get(entity.getClass());
+        EntityClass entityClass = new EntityClassMetadataProvider().get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
             if(!isList(entityField)){

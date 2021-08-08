@@ -5,9 +5,9 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
-import cz.mg.nativeapplication.sevices.EntityClass;
-import cz.mg.nativeapplication.sevices.EntityClassCache;
-import cz.mg.nativeapplication.sevices.EntityField;
+import cz.mg.nativeapplication.sevices.entity.EntityClass;
+import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
+import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 
 public @Service class ObjectNameProvider {
@@ -17,7 +17,7 @@ public @Service class ObjectNameProvider {
         }
 
         if(object.getClass().isAnnotationPresent(Entity.class)){
-            EntityClass entityClass = EntityClassCache.getInstance().get(object.getClass());
+            EntityClass entityClass = new EntityClassMetadataProvider().get(object.getClass());
             EntityField entityField = entityClass.getField("name");
             if(entityField != null){
                 Object value = entityField.get(object);

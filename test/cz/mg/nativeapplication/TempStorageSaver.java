@@ -9,9 +9,7 @@ import java.nio.file.Paths;
 
 
 public @Service class TempStorageSaver {
-    public static final Path PATH = Paths.get(
-        "/mnt/6398fafc-fe88-4de2-8158-49374d4f4218/DATA/Private/Dev/Java/JMgNativeApplication/temp/test"
-    );
+    public static final Path PATH = Paths.get("/home/me/Temporary/test");
 
     private final StorageSaver storageSaver = new StorageSaver();
 
