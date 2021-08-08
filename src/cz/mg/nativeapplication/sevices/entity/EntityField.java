@@ -3,11 +3,9 @@ package cz.mg.nativeapplication.sevices.entity;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.annotations.storage.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 
 public @Utility class EntityField {
@@ -56,25 +54,5 @@ public @Utility class EntityField {
     private @Mandatory String createSetFieldErrorMessage(@Optional Object value){
         String type = value == null ? "null" : value.getClass().getSimpleName();
         return "Could not set field " + clazz.getSimpleName() + "." + field.getName() + " of type " + field.getType().getSimpleName() + " to a value of type " + type + ".";
-    }
-
-    public static @Mandatory EntityField create(@Mandatory Class clazz, @Mandatory Field field){
-        if(isEntityField(field)){
-            if(Modifier.isPublic(field.getModifiers())){
-                return new EntityField(clazz, field);
-            } else {
-                throw new IllegalArgumentException("Entity field '" + clazz.getSimpleName() + "." + field.getName() + "' must be public.");
-            }
-        } else {
-            throw new IllegalArgumentException("Missing entity field annotation for field '" + clazz.getSimpleName() + "." + field.getName() + "'.");
-        }
-    }
-
-    private static @Mandatory boolean isEntityField(@Mandatory Field field){
-        return field.isAnnotationPresent(Value.class)
-            || field.isAnnotationPresent(Part.class)
-            || field.isAnnotationPresent(Link.class)
-            || field.isAnnotationPresent(Shared.class)
-            || field.isAnnotationPresent(Cache.class);
     }
 }

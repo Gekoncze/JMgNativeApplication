@@ -14,6 +14,7 @@ public @Utility class EntityClassMetadata {
     static @Mandatory EntityClassMetadata getInstance() {
         if(instance == null){
             instance = new EntityClassMetadata();
+            new EntityClassSubclassResolver().resolve(instance);
         }
 
         return instance;
@@ -27,7 +28,7 @@ public @Utility class EntityClassMetadata {
     public @Mandatory EntityClass get(@Mandatory Class clazz){
         EntityClass entityClass = cache.get(clazz);
         if(entityClass == null){
-            entityClass = EntityClass.create(clazz);
+            entityClass = new EntityClassCreator().create(clazz);
             cache.set(clazz, entityClass);
         }
         return entityClass;
