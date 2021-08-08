@@ -49,4 +49,5 @@ public @Utility class Key {
     public static final int TAB = KeyEvent.VK_TAB;
     public static final int ENTER = KeyEvent.VK_ENTER;
     public static final int ESCAPE = KeyEvent.VK_ESCAPE;
+    public static final int SPACE = KeyEvent.VK_SPACE;
 }

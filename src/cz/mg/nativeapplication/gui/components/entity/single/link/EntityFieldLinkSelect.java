@@ -37,11 +37,10 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
         this.content = new UiTextField();
         this.content.addFocusListener(new FocusGainedUserEventHandler(this::onFocusGained));
         this.content.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
-        this.content.addKeyListener(new KeyTypedUserEventHandler(this::onKeyTyped));
         this.content.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
         this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         this.buttons = new List<>(
-            new UiButton(mainWindow, IconGallery.SEARCH, null, "Search (ctrl+space)", this::onSearchButtonClicked),
+            new UiButton(mainWindow, IconGallery.SEARCH, null, "Search", this::onSearchButtonClicked),
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
@@ -81,16 +80,14 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
         }
     }
 
-    private void onKeyTyped(KeyEvent e){
-        if(e.getKeyChar() == ' ' && e.isControlDown()){
-            showComponentSelectionMenu();
-            e.consume();
-        }
-    }
-
     private void onKeyPressed(KeyEvent event) {
         if(event.getKeyCode() == Key.ESCAPE){
             lock();
+        }
+
+        if(event.getKeyCode() == Key.SPACE && event.isControlDown()){
+            showSelectionMenu();
+            event.consume();
         }
     }
 
@@ -107,14 +104,14 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
     }
 
     private void onSearchButtonClicked(){
-        showComponentSelectionMenu();
+        showSelectionMenu();
     }
 
     private void onEditButtonClicked(){
         unlock();
     }
 
-    private void showComponentSelectionMenu(){
+    private void showSelectionMenu(){
         popupMenu.removeAll();
 
         List<MgComponent> results = new ComponentSearch().search(
@@ -126,14 +123,14 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
         for(MgComponent result : results){
             String name = findComponentPath(mainWindow.getNavigationCache(), result);
             popupMenu.add(
-                new UiMenuItem(name, null, null, null, () -> setValue(result))
+                new UiMenuItem(name, () -> setValue(result))
             );
         }
 
         if(results.count() < 1){
-            UiMenuItem item = new UiMenuItem("No results.", null, null, null, () -> {});
-            item.setEnabled(false);
-            popupMenu.add(item);
+            popupMenu.add(
+                new UiDummyMenuItem("No results.")
+            );
         }
 
         popupMenu.show(content, 0, content.getHeight());

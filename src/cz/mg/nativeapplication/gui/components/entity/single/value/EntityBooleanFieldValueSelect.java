@@ -39,7 +39,10 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
-        this.popupMenu = new UiPopupMenu();
+        this.popupMenu = new UiPopupMenu(
+            new UiMenuItem("true", () -> setValue(true)),
+            new UiMenuItem("false", () -> setValue(false))
+        );
         lock();
     }
 
@@ -74,13 +77,18 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
     }
 
     private void onKeyPressed(KeyEvent event) {
+        if(event.getKeyCode() == Key.ESCAPE){
+            lock();
+        }
+
         if(event.getKeyCode() == Key.ENTER){
             setValue(content.getBoolean());
             lock();
         }
 
-        if(event.getKeyCode() == Key.ESCAPE){
-            lock();
+        if(event.getKeyCode() == Key.SPACE){
+            showSelectionMenu();
+            event.consume();
         }
     }
 
@@ -96,6 +104,10 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
 
     private void onEditButtonClicked() {
         unlock();
+    }
+    
+    private void showSelectionMenu(){
+        popupMenu.show(content, 0, content.getHeight());
     }
 
     private void lock(){

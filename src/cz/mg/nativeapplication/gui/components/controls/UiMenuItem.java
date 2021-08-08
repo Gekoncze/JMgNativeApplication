@@ -21,4 +21,8 @@ public @Utility class UiMenuItem extends JMenuItem implements UiComponent {
         if(code != null && modifiers != null) setAccelerator(KeyStroke.getKeyStroke(code, modifiers));
         addActionListener(new ActionUserEventHandler(handler));
     }
+
+    public UiMenuItem(@Mandatory String name, @Mandatory ActionUserEventHandler.Handler handler){
+        this(name, null, null, null, handler);
+    }
 }
