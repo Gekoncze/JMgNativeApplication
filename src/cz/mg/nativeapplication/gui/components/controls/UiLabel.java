@@ -10,6 +10,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseListener;
 
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.LEFT;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
@@ -30,7 +31,7 @@ public @Utility class UiLabel extends UiPanel {
     }
 
     public UiLabel(@Optional Icon icon, @Optional String text) {
-        super(0, PADDING, MIDDLE);
+        super(0, PADDING, LEFT);
 
         if(icon != null){
             label = new JLabel();

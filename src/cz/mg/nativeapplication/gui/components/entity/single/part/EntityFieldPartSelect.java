@@ -1,15 +1,16 @@
-package cz.mg.nativeapplication.gui.components.entity;
+package cz.mg.nativeapplication.gui.components.entity.single.part;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.components.other.RefreshableView;
+import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.controls.UiTextField;
+import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.history.SetEntityFieldAction;
@@ -28,7 +29,7 @@ import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
-public @Utility class EntityFieldPartSelect implements RefreshableView {
+public @Utility class EntityFieldPartSelect implements EntitySingleSelect {
     private static final int PADDING = 2;
 
     private final @Mandatory @Link MainWindow mainWindow;
@@ -65,14 +66,17 @@ public @Utility class EntityFieldPartSelect implements RefreshableView {
         refresh();
     }
 
+    @Override
     public @Mandatory UiLabel getLabel() {
         return label;
     }
 
-    public @Mandatory UiTextField getTextField() {
+    @Override
+    public @Mandatory UiTextField getContent() {
         return textField;
     }
 
+    @Override
     public @Mandatory UiPanel getButtons() {
         return buttons;
     }

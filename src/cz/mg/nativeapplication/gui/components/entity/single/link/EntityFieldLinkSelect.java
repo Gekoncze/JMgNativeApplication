@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.entity;
+package cz.mg.nativeapplication.gui.components.entity.single.link;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -9,9 +9,12 @@ import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.components.controls.*;
-import cz.mg.nativeapplication.gui.handlers.*;
+import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
+import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.KeyTypedUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
 import cz.mg.nativeapplication.history.SetEntityFieldAction;
@@ -27,7 +30,7 @@ import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 
 
-public @Utility class EntityFieldLinkSelect implements RefreshableView {
+public @Utility class EntityFieldLinkSelect implements EntitySingleSelect {
     private static final int PADDING = 2;
 
     private final @Mandatory @Link MainWindow mainWindow;
@@ -64,14 +67,17 @@ public @Utility class EntityFieldLinkSelect implements RefreshableView {
         refresh();
     }
 
+    @Override
     public @Mandatory UiLabel getLabel() {
         return label;
     }
 
-    public @Mandatory UiTextField getTextField() {
+    @Override
+    public @Mandatory UiTextField getContent() {
         return textField;
     }
 
+    @Override
     public @Mandatory UiPanel getButtons() {
         return buttons;
     }

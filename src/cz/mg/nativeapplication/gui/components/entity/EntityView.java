@@ -4,8 +4,15 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
+import cz.mg.annotations.storage.Shared;
+import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.components.MainWindow;
+import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.link.EntityFieldLinkSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.part.EntityFieldPartSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
@@ -23,44 +30,43 @@ public @Utility class EntityView extends ObjectView {
     private static final int PADDING = 4;
 
     private final @Mandatory @Link Object entity;
-    private final @Mandatory @Part List<RefreshableView> fields = new List<>();
+    private final @Mandatory @Part List<RefreshableView> selects = new List<>();
+    private final @Mandatory @Shared UiPanel panel = new UiPanel(BORDER, PADDING, TOP);
 
     public EntityView(@Mandatory MainWindow mainWindow, @Mandatory Object entity) {
         this.entity = entity;
 
-        UiPanel panel = new UiPanel(BORDER, PADDING, TOP);
-
         EntityClass entityClass = EntityClassCache.getInstance().get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
-            if(entityField.isAnnotationPresent(Link.class)){
-                if(!Iterable.class.isAssignableFrom(entityField.getField().getType())){
-                    EntityFieldLinkSelect field = new EntityFieldLinkSelect(mainWindow, entity, entityField);
-                    panel.add(field.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
-                    panel.add(field.getTextField(), 1, y, 1, 0, MIDDLE, BOTH);
-                    panel.add(field.getButtons(), 2, y, 0, 0, MIDDLE, BOTH);
-                    fields.addLast(field);
-                    y++;
+            if(!isList(entityField)){
+                if(isLink(entityField)){
+                    addSingleSelect(new EntityFieldLinkSelect(mainWindow, entity, entityField), y++);
                 }
 
-                // todo - handle other field types
-            }
-
-            if(entityField.isAnnotationPresent(Part.class)){
-                if(!Iterable.class.isAssignableFrom(entityField.getField().getType())){
-                    EntityFieldPartSelect field = new EntityFieldPartSelect(mainWindow, entity, entityField);
-                    panel.add(field.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
-                    panel.add(field.getTextField(), 1, y, 1, 0, MIDDLE, BOTH);
-                    panel.add(field.getButtons(), 2, y, 0, 0, MIDDLE, BOTH);
-                    fields.addLast(field);
-                    y++;
+                if(isPart(entityField)){
+                    addSingleSelect(new EntityFieldPartSelect(mainWindow, entity, entityField), y++);
                 }
 
-                // todo - handle other field types
-            }
+                if(isValue(entityField)){
+                    if(is(entityField, String.class)){
+                        addSingleSelect(new EntityStringFieldValueSelect(mainWindow, entity, entityField), y++);
+                    }
 
-            if(entityField.isAnnotationPresent(Link.class)){
-                // todo - handle other field types
+                    // todo
+                }
+            } else {
+                if(isLink(entityField)){
+                    // todo
+                }
+
+                if(isPart(entityField)){
+                    // todo
+                }
+
+                if(isValue(entityField)){
+                    // todo
+                }
             }
         }
 
@@ -68,9 +74,41 @@ public @Utility class EntityView extends ObjectView {
         setViewportView(panel);
     }
 
+    private boolean isLink(@Mandatory EntityField entityField){
+        return entityField.isAnnotationPresent(Link.class);
+    }
+
+    private boolean isPart(@Mandatory EntityField entityField){
+        return entityField.isAnnotationPresent(Part.class);
+    }
+
+    private boolean isValue(@Mandatory EntityField entityField){
+        return entityField.isAnnotationPresent(Value.class);
+    }
+
+    private boolean is(@Mandatory EntityField entityField, @Mandatory Class clazz){
+        return clazz.isAssignableFrom(entityField.getField().getType());
+    }
+
+    private boolean isList(@Mandatory EntityField entityField){
+        return List.class.isAssignableFrom(entityField.getField().getType());
+    }
+
+    private void addSingleSelect(@Mandatory EntitySingleSelect select, int y){
+        panel.add(select.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
+        panel.add(select.getContent(), 1, y, 1, 0, MIDDLE, BOTH);
+        panel.add(select.getButtons(), 2, y, 0, 0, MIDDLE, BOTH);
+        selects.addLast(select);
+    }
+
+    private void addMultiSelect(@Mandatory EntityMultiSelect select, int y){
+        // todo - first row label + buttons, second row list view
+        selects.addLast(select);
+    }
+
     @Override
     public void refresh() {
-        for(RefreshableView field : fields){
+        for(RefreshableView field : selects){
             field.refresh();
         }
     }
