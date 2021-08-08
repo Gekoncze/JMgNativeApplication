@@ -13,7 +13,7 @@ public @Utility class UiIntegerField extends UiTextField {
 
     public @Optional Integer getInteger(){
         try {
-            return Integer.parseInt(getText().replace(" ", ""));
+            return Integer.parseInt(getText().trim().replace(" ", ""));
         } catch (Exception e){
             return null;
         }

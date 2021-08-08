@@ -8,5 +8,5 @@ import cz.mg.collections.list.List;
 
 public @Entity class MgStructure extends MgType {
     public @Part List<MgVariable> variables = new List<>();
-    public @Value boolean withMemoryManagement;
+    public @Value Boolean memoryManagement;
 }

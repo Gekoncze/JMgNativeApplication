@@ -7,10 +7,7 @@ import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiLabel;
-import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.components.controls.UiTextField;
+import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.*;
@@ -20,7 +17,6 @@ import cz.mg.nativeapplication.sevices.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
-import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -128,15 +124,14 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
         );
 
         for(MgComponent result : results){
-            JMenuItem item = new JMenuItem();
-            item.addActionListener(new ActionUserEventHandler(() -> setValue(result)));
-            item.setText(findComponentPath(mainWindow.getNavigationCache(), result));
-            popupMenu.add(item);
+            String name = findComponentPath(mainWindow.getNavigationCache(), result);
+            popupMenu.add(
+                new UiMenuItem(name, null, null, null, () -> setValue(result))
+            );
         }
 
         if(results.count() < 1){
-            JMenuItem item = new JMenuItem();
-            item.setText("No results.");
+            UiMenuItem item = new UiMenuItem("No results.", null, null, null, () -> {});
             item.setEnabled(false);
             popupMenu.add(item);
         }

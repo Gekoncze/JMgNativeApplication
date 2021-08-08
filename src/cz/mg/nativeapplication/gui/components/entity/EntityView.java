@@ -14,6 +14,7 @@ import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.link.EntityFieldLinkSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.part.EntityFieldPartSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityBooleanFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
@@ -62,7 +63,9 @@ public @Utility class EntityView extends ObjectView {
                         addSingleSelect(new EntityIntegerFieldValueSelect(mainWindow, entity, entityField), y++);
                     }
 
-                    // todo
+                    if(is(entityField, Boolean.class)){
+                        addSingleSelect(new EntityBooleanFieldValueSelect(mainWindow, entity, entityField), y++);
+                    }
                 }
             } else {
                 if(isLink(entityField)){

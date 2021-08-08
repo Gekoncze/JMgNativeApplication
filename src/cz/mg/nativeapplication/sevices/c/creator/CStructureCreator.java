@@ -60,7 +60,7 @@ public @Service class CStructureCreator { // todo - simplify
 
         // ---------- ---------- ---------- ---------- ----------
 
-        if(mgStructure.withMemoryManagement){
+        if(mgStructure.memoryManagement){
             CFile functionDeclarationFile = new CFile();
             functionDeclarationFile.name = mgStructure.name + "_fi.h";
 

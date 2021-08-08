@@ -23,7 +23,7 @@ public class MgTestProjectCreator {
 
         MgStructure structure = new MgStructure();
         structure.name = "TestStructure";
-        structure.withMemoryManagement = true;
+        structure.memoryManagement = true;
         structure.variables.addLast(createVariable(getNumericType(project), 0, "count"));
         structure.variables.addLast(createVariable(structure, 1, "next"));
 
