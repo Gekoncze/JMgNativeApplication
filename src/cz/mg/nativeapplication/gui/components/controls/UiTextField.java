@@ -53,14 +53,16 @@ public @Utility class UiTextField extends JTextField {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(isNull && !hasFocus() && getText().length() <= 0){
-            g.setColor(greyColor);
-            g.setFont(getFont());
-            g.drawString(
-                "null",
-                getInsets().left,
-                getHeight() / 2 + g.getFontMetrics().getAscent() / 2 - 2
-            );
+        if(isNull && getText().length() <= 0){
+            if(!hasFocus() || !isEditable()){
+                g.setColor(greyColor);
+                g.setFont(getFont());
+                g.drawString(
+                    "null",
+                    getInsets().left,
+                    getHeight() / 2 + g.getFontMetrics().getAscent() / 2 - 2
+                );
+            }
         }
     }
 }

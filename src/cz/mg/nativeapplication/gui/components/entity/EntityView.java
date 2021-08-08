@@ -12,6 +12,7 @@ import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.link.EntityFieldLinkSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.part.EntityFieldPartSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
@@ -51,6 +52,10 @@ public @Utility class EntityView extends ObjectView {
                 if(isValue(entityField)){
                     if(is(entityField, String.class)){
                         addSingleSelect(new EntityStringFieldValueSelect(mainWindow, entity, entityField), y++);
+                    }
+
+                    if(is(entityField, Integer.class)){
+                        addSingleSelect(new EntityIntegerFieldValueSelect(mainWindow, entity, entityField), y++);
                     }
 
                     // todo
