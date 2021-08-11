@@ -15,6 +15,7 @@ import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
 import cz.mg.nativeapplication.sevices.entity.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
+import cz.mg.nativeapplication.sevices.gui.ObjectIconProvider;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import java.awt.event.KeyEvent;
@@ -121,9 +122,12 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
         );
 
         for(MgComponent result : results){
-            String name = findComponentPath(mainWindow.getNavigationCache(), result);
             popupMenu.add(
-                new UiMenuItem(name, () -> setValue(result))
+                new UiMenuItem(
+                    new ObjectIconProvider().get(result),
+                    findComponentPath(mainWindow.getNavigationCache(), result),
+                    () -> setValue(result)
+                )
             );
         }
 

@@ -41,7 +41,7 @@ public @Utility class EntityEnumFieldValueSelect extends EntitySingleSelect {
         );
         List<UiMenuItem> menuItems = new List<>();
         for(Object value : entityField.getType().getEnumConstants()){
-            menuItems.addLast(new UiMenuItem(((Enum)value).name(), () -> setValue(value)));
+            menuItems.addLast(new UiMenuItem(null, ((Enum)value).name(), () -> setValue(value)));
         }
         this.popupMenu = new UiPopupMenu(menuItems);
         lock();

@@ -40,8 +40,8 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         this.popupMenu = new UiPopupMenu(
-            new UiMenuItem("true", () -> setValue(true)),
-            new UiMenuItem("false", () -> setValue(false))
+            new UiMenuItem(null, "true", () -> setValue(true)),
+            new UiMenuItem(null, "false", () -> setValue(false))
         );
         lock();
     }

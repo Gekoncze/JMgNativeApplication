@@ -10,6 +10,7 @@ import javax.swing.*;
 
 public @Utility class UiMenuItem extends JMenuItem implements UiComponent {
     public UiMenuItem(
+        @Optional Icon icon,
         @Mandatory String name,
         @Optional Character mnemonic,
         @Optional Integer code,
@@ -17,12 +18,17 @@ public @Utility class UiMenuItem extends JMenuItem implements UiComponent {
         @Mandatory ActionUserEventHandler.Handler handler
     ) {
         super(name);
+        if(icon != null) setIcon(icon);
         if(mnemonic != null) setMnemonic(mnemonic);
         if(code != null && modifiers != null) setAccelerator(KeyStroke.getKeyStroke(code, modifiers));
         addActionListener(new ActionUserEventHandler(handler));
     }
 
-    public UiMenuItem(@Mandatory String name, @Mandatory ActionUserEventHandler.Handler handler){
-        this(name, null, null, null, handler);
+    public UiMenuItem(
+        @Optional Icon icon,
+        @Mandatory String name,
+        @Mandatory ActionUserEventHandler.Handler handler
+    ){
+        this(icon, name, null, null, null, handler);
     }
 }

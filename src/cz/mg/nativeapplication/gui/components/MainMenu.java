@@ -17,28 +17,28 @@ public @Utility class MainMenu extends UiMenuBar {
             new UiMenu(
                 "File", 'F',
 
-                new UiMenuItem("New project", 'N', N, CTRL, actions::newProject),
-                new UiMenuItem("Open project", 'O', O, CTRL, actions::openProject),
-                new UiMenuItem("Save project", 'S', S, CTRL, actions::saveProject),
-                new UiMenuItem("Save project as", 'A', S, CTRL | SHIFT, actions::saveProjectAs),
-                new UiMenuItem("Close project", 'C', null, null, actions::closeProject),
-                new UiMenuItem("Exit", 'E', null, null, actions::exit)
+                new UiMenuItem(null, "New project", 'N', N, CTRL, actions::newProject),
+                new UiMenuItem(null, "Open project", 'O', O, CTRL, actions::openProject),
+                new UiMenuItem(null, "Save project", 'S', S, CTRL, actions::saveProject),
+                new UiMenuItem(null, "Save project as", 'A', S, CTRL | SHIFT, actions::saveProjectAs),
+                new UiMenuItem(null, "Close project", 'C', null, null, actions::closeProject),
+                new UiMenuItem(null, "Exit", 'E', null, null, actions::exit)
             ),
 
             new UiMenu(
                 "Edit", 'E',
 
-                new UiMenuItem("Undo", 'U', Z, CTRL, actions::undo),
-                new UiMenuItem("Redo", 'E', Z, CTRL | SHIFT, actions::redo)
+                new UiMenuItem(null, "Undo", 'U', Z, CTRL, actions::undo),
+                new UiMenuItem(null, "Redo", 'E', Z, CTRL | SHIFT, actions::redo)
             ),
 
             new UiMenu(
                 "View", 'V',
 
-                new UiMenuItem("Refresh", null, F5, 0, actions::refresh),
-                new UiMenuItem("Close active tab", null, W, CTRL, actions::closeActiveTab),
-                new UiMenuItem("Next Tab", null, TAB, CTRL, actions::selectNextTab),
-                new UiMenuItem("Previous Tab", null, TAB, CTRL | SHIFT, actions::selectPreviousTab)
+                new UiMenuItem(null, "Refresh", null, F5, 0, actions::refresh),
+                new UiMenuItem(null, "Close active tab", null, W, CTRL, actions::closeActiveTab),
+                new UiMenuItem(null, "Next Tab", null, TAB, CTRL, actions::selectNextTab),
+                new UiMenuItem(null, "Previous Tab", null, TAB, CTRL | SHIFT, actions::selectPreviousTab)
             )
         );
     }

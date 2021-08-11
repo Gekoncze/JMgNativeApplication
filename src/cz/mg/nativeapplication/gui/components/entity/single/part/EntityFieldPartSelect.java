@@ -4,6 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
+import cz.mg.nativeapplication.entities.mg.existing.MgExisting;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
@@ -13,6 +14,7 @@ import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.sevices.entity.EntityClass;
 import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
 import cz.mg.nativeapplication.sevices.entity.EntityField;
+import cz.mg.nativeapplication.sevices.gui.ClassIconProvider;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import java.awt.event.MouseEvent;
@@ -96,7 +98,13 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
             } else if(entityClass.getSubclasses().count() > 1) {
                 popupMenu.removeAll();
                 for(EntityClass option : entityClass.getSubclasses()){
-                    popupMenu.add(new UiMenuItem(option.getName(), () -> setValue(option.newInstance())));
+                    if(!MgExisting.class.isAssignableFrom(option.getClazz())){
+                        popupMenu.add(new UiMenuItem(
+                            new ClassIconProvider().get(option.getClazz()),
+                            option.getName(),
+                            () -> setValue(option.newInstance())
+                        ));
+                    }
                 }
                 popupMenu.show(content, 0, content.getHeight());
             }

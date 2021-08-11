@@ -7,4 +7,5 @@ import cz.mg.collections.list.List;
 
 public @Entity class MgLocation extends MgComponent {
     public @Part List<MgComponent> components = new List<>();
+    public @Part MgComponent component;
 }
