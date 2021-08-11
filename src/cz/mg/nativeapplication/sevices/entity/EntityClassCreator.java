@@ -3,16 +3,16 @@ package cz.mg.nativeapplication.sevices.entity;
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.collections.array.Array;
+import cz.mg.collections.list.ArrayList;
 import cz.mg.collections.list.List;
+import cz.mg.collections.list.ListSorter;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.Comparator;
 
 
-@Service class EntityClassCreator {
-    public @Mandatory EntityClass create(@Mandatory Class clazz){
+public @Service class EntityClassCreator {
+    public @Mandatory EntityClass create(@Mandatory Class clazz, @Mandatory List<EntityClass> subclasses){
         if(isEntity(clazz)){
             try {
                 clazz.getConstructor();
@@ -20,7 +20,7 @@ import java.util.Comparator;
                 throw new IllegalArgumentException("Could not find constructor for class '" + clazz.getSimpleName() + "'.");
             }
 
-            List<EntityField> fields = new List<>();
+            List<EntityField> fields = new ArrayList<>();
             Class current = clazz;
             while(current != null){
                 for(Field field : current.getDeclaredFields()){
@@ -28,7 +28,11 @@ import java.util.Comparator;
                 }
                 current = current.getSuperclass();
             }
-            return new EntityClass(clazz, sort(fields));
+
+            ListSorter.sortInPlace(fields, Comparator.comparing(EntityField::getName));
+            ListSorter.sortInPlace(subclasses, Comparator.comparing(EntityClass::getName));
+
+            return new EntityClass(clazz, fields, subclasses);
         } else {
             throw new IllegalArgumentException("Missing entity annotation for class '" + clazz.getSimpleName() + "'.");
         }
@@ -36,16 +40,5 @@ import java.util.Comparator;
 
     private @Mandatory boolean isEntity(@Mandatory Class clazz){
         return clazz.isAnnotationPresent(Entity.class);
-    }
-
-    private @Mandatory Array<EntityField> sort(@Mandatory List<EntityField> fields){
-        EntityField[] fieldArray = new EntityField[fields.count()];
-        int i = 0;
-        for(EntityField field : fields){
-            fieldArray[i] = field;
-            i++;
-        }
-        Arrays.sort(fieldArray, Comparator.comparing(EntityField::getName));
-        return new Array<>(fieldArray);
     }
 }

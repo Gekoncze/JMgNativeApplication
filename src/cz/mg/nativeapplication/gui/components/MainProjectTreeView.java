@@ -11,6 +11,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiTree;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.sevices.gui.ObjectIconProvider;
 
 import javax.swing.*;
 import javax.swing.event.TreeModelListener;
@@ -65,7 +66,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private void openSelectedItem(){
         if(tree.getLastSelectedPathComponent() != null){
             Node node = (Node) tree.getLastSelectedPathComponent();
-            mainWindow.getMainView().getMainTabView().openNode(node);
+            mainWindow.getMainView().getMainTabView().open(node.getSelf());
         }
     }
 
@@ -190,7 +191,10 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
             int row, boolean hasFocus
         ) {
             Node node = (Node) o;
-            UiLabel label = new UiLabel(node.getIcon(), node.getName());
+            UiLabel label = new UiLabel(
+                new ObjectIconProvider().get(node.getSelf()),
+                node.getLabel()
+            );
             label.setToolTipText(node.getSelf().getClass().getSimpleName());
 
             if(selected){

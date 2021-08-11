@@ -3,27 +3,30 @@ package cz.mg.nativeapplication.sevices.entity;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.collections.array.Array;
-import cz.mg.collections.array.ReadableArray;
 import cz.mg.collections.list.List;
 import cz.mg.collections.list.ReadableList;
 
 
 public @Utility class EntityClass {
     private final @Mandatory Class clazz;
-    private final @Mandatory Array<EntityField> fields;
-    @Mandatory List<EntityClass> subclasses = new List<>();
+    private final @Mandatory List<EntityField> fields;
+    private final @Mandatory List<EntityClass> subclasses;
 
-    EntityClass(@Mandatory Class clazz, @Mandatory Array<EntityField> fields) {
+    EntityClass(
+        @Mandatory Class clazz,
+        @Mandatory List<EntityField> fields,
+        @Mandatory List<EntityClass> subclasses
+    ) {
         this.clazz = clazz;
         this.fields = fields;
+        this.subclasses = subclasses;
     }
 
     public @Mandatory Class getClazz() {
         return clazz;
     }
 
-    public @Mandatory ReadableArray<EntityField> getFields() {
+    public @Mandatory ReadableList<EntityField> getFields() {
         return fields;
     }
 

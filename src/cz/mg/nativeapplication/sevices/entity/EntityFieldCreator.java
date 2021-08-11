@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 
-@Service class EntityFieldCreator {
+public @Service class EntityFieldCreator {
     public @Mandatory EntityField create(@Mandatory Class clazz, @Mandatory Field field){
         if(isEntityField(field)){
             if(Modifier.isPublic(field.getModifiers())){

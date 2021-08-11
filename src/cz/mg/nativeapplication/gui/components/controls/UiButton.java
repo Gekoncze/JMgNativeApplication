@@ -5,6 +5,7 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
+import cz.mg.nativeapplication.sevices.gui.IconGalleryProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,7 @@ public @Utility class UiButton extends JButton implements UiComponent {
         setOpaque(false);
 
         if(iconName != null){
-            setIcon(mainWindow.getIconGallery().getIcon(iconName));
+            setIcon(new IconGalleryProvider().get().getIcon(iconName));
         }
 
         if(text != null){

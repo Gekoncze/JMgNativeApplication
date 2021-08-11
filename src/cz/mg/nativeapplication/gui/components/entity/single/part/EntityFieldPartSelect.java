@@ -17,8 +17,6 @@ import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import java.awt.event.MouseEvent;
 
-import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
-
 
 public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
@@ -63,7 +61,7 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
     @Override
     public void refresh() {
         Object object = getValue();
-        content.setText(new ObjectNameProvider().getDisplayName(object));
+        content.setText(new ObjectNameProvider().get(object));
         content.setNull(object == null);
     }
 
@@ -108,12 +106,7 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
     private void onEditButtonClicked() {
         Object child = entityField.get(entity);
         if(child != null){
-            Node node = mainWindow.getNavigationCache().get(child);
-            if(node != null){
-                mainWindow.getMainView().getMainTabView().openNode(node);
-            } else {
-                mainWindow.getMainView().getMainTabView().openObject(child);
-            }
+            mainWindow.getMainView().getMainTabView().open(child);
         }
     }
 }

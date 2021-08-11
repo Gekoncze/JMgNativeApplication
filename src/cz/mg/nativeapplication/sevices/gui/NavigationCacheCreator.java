@@ -10,7 +10,6 @@ import cz.mg.collections.list.List;
 import cz.mg.collections.map.Map;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
 import cz.mg.nativeapplication.sevices.entity.EntityClass;
 import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
@@ -23,15 +22,14 @@ import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
 public @Service class NavigationCacheCreator {
-    public @Mandatory NavigationCache create(@Optional MgProject project, @Mandatory IconGallery iconGallery) {
+    public @Mandatory NavigationCache create(@Optional MgProject project) {
         Map<Object, Node> map = new Map<>();
         return new NavigationCache(
-            map, createNode(iconGallery, map, null, null, project)
+            map, createNode(map, null, null, project)
         );
     }
 
     private @Optional Node createNode(
-        @Mandatory IconGallery iconGallery,
         @Mandatory Map<Object, Node> map,
         @Optional Node parent,
         @Optional EntityField parentField,
@@ -47,17 +45,14 @@ public @Service class NavigationCacheCreator {
 
         checkCircularOwnership(parent, self);
 
-        Node node = new Node(parent, self,
-            new ObjectNameProvider().getName(self, parentField),
-            new ObjectIconProvider().getIcon(self, iconGallery)
-        );
+        Node node = new Node(parent, self, getLabel(parentField, self));
         map.set(self, node);
 
         if(self.getClass().isAnnotationPresent(Entity.class)){
             EntityClass entityClass = new EntityClassMetadataProvider().get(self.getClass());
             for(EntityField entityField : entityClass.getFields()){
                 if(entityField.isAnnotationPresent(Part.class)){
-                    Node childNode = createNode(iconGallery, map, node, entityField, entityField.get(self));
+                    Node childNode = createNode(map, node, entityField, entityField.get(self));
                     if(childNode != null){
                         node.getChildren().addLast(childNode);
                     }
@@ -65,14 +60,12 @@ public @Service class NavigationCacheCreator {
             }
         } else if(self instanceof Iterable){
             for(Object part : (Iterable) self){
-                Node childNode = createNode(iconGallery, map, node, null, part);
+                Node childNode = createNode(map, node, null, part);
                 if(childNode != null){
                     node.getChildren().addLast(childNode);
                 }
             }
         }
-
-        sort(node.getChildren());
 
         if(self.getClass().isAnnotationPresent(Entity.class)){
             // hide standalone lists
@@ -90,7 +83,15 @@ public @Service class NavigationCacheCreator {
             }
         }
 
+        sort(node.getChildren());
+
         return node;
+    }
+
+    private @Mandatory String getLabel(@Optional EntityField parentField, @Optional Object self){
+        String objectName = new ObjectNameProvider().get(self);
+        String parentFieldName = parentField != null ? parentField.getName() : null;
+        return parentFieldName != null ? parentFieldName : objectName;
     }
 
     private void checkCircularOwnership(@Mandatory Node parent, @Mandatory Object self){
@@ -108,7 +109,9 @@ public @Service class NavigationCacheCreator {
             Array<Node> array = new Array(list);
             Arrays.sort(
                 array.getJavaArray(),
-                Comparator.comparing(node -> ((Node) node).getName().toLowerCase())
+                Comparator.comparing(
+                    node -> ((Node) node).getLabel().toLowerCase()
+                )
             );
             list.clear();
             list.addCollectionLast(array);

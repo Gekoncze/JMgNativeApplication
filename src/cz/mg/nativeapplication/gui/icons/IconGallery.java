@@ -4,7 +4,6 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.collections.map.Map;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,28 +28,12 @@ public class IconGallery {
     public static final String STRUCTURE = "mgstructure.png";
     public static final String VARIABLE = "mgvariable.png";
 
-    private final @Mandatory Map<String, Image> images = new Map<>();
-    private final @Mandatory Map<String, Icon> icons = new Map<>();
+    private final @Mandatory Map<String, Image> images;
+    private final @Mandatory Map<String, Icon> icons;
 
-    public IconGallery(){
-        load(MG);
-        load(UNKNOWN);
-
-        load(CLEAR);
-        load(CREATE);
-        load(DELETE);
-        load(EDIT);
-        load(SEARCH);
-
-        load(LIST);
-
-        load(ATOM);
-        load(FUNCTION);
-        load(INTERFACE);
-        load(LOCATION);
-        load(PROJECT);
-        load(STRUCTURE);
-        load(VARIABLE);
+    public IconGallery(@Mandatory Map<String, Image> images, @Mandatory Map<String, Icon> icons) {
+        this.images = images;
+        this.icons = icons;
     }
 
     public @Optional Image getImage(@Mandatory String name){
@@ -59,15 +42,5 @@ public class IconGallery {
 
     public @Optional Icon getIcon(@Mandatory String name){
         return icons.get(name);
-    }
-
-    private void load(@Mandatory String name){
-        try {
-            Image image = ImageIO.read(IconGallery.class.getResourceAsStream(name));
-            images.set(name, image);
-            icons.set(name, new ImageIcon(image));
-        } catch (Exception e) {
-            throw new RuntimeException("Could not load icon '" + name + "'.", e);
-        }
     }
 }

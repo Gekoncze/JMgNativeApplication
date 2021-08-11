@@ -66,7 +66,7 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
     @Override
     public void refresh() {
         Object value = getValue();
-        content.setText(new ObjectNameProvider().getDisplayName(value));
+        content.setText(new ObjectNameProvider().get(value));
         content.setNull(value == null);
     }
 

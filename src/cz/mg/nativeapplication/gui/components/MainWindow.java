@@ -11,6 +11,7 @@ import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.ApplicationState;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
+import cz.mg.nativeapplication.sevices.gui.IconGalleryProvider;
 import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
 
 import javax.swing.*;
@@ -24,7 +25,6 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     private static final int DEFAULT_HEIGHT = 900;
 
     private final @Mandatory @Part ApplicationState applicationState = new ApplicationState();
-    private final @Mandatory @Part IconGallery iconGallery = new IconGallery();
     private final @Mandatory @Part MainActions mainActions = new MainActions(this);
     private final @Mandatory @Link MainMenu mainMenu;
     private final @Mandatory @Link MainView mainView;
@@ -35,7 +35,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new CloseUserEventHandler(mainActions::exit));
         setTitle(TITLE);
-        setIconImage(iconGallery.getImage(IconGallery.MG));
+        setIconImage(new IconGalleryProvider().get().getImage(IconGallery.MG));
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
         setJMenuBar(mainMenu = new MainMenu(mainActions));
@@ -51,14 +51,10 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
 
     public @Mandatory NavigationCache getNavigationCache() {
         if(navigationCache == null){
-            navigationCache = new NavigationCacheCreator().create(applicationState.getProject(), iconGallery);
+            navigationCache = new NavigationCacheCreator().create(applicationState.getProject());
         }
 
         return navigationCache;
-    }
-
-    public @Mandatory IconGallery getIconGallery() {
-        return iconGallery;
     }
 
     public @Mandatory MainActions getMainActions() {

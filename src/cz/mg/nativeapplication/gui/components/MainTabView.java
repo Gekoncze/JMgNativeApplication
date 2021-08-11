@@ -12,6 +12,8 @@ import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.sevices.gui.ObjectIconProvider;
+import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +21,6 @@ import java.awt.*;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
-import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
 
 
 public class MainTabView extends JTabbedPane implements RefreshableView {
@@ -31,22 +32,11 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         this.mainWindow = mainWindow;
     }
 
-    public void openObject(@Optional Object object){
+    public void open(@Optional Object object){
         if(object != null){
             Integer tabIndex = getTabIndex(object);
             if(tabIndex == null){
-                openNewObject(object);
-            } else {
-                openExisting(tabIndex);
-            }
-        }
-    }
-
-    public void openNode(@Optional Node node){
-        if(node != null){
-            Integer tabIndex = getTabIndex(node.getSelf());
-            if(tabIndex == null){
-                openNewNode(node);
+                openNew(object);
             } else {
                 openExisting(tabIndex);
             }
@@ -57,17 +47,9 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         setSelectedIndex(tabIndex);
     }
 
-    private void openNewObject(@Mandatory Object object){
-        openNew(object, null);
-    }
-
-    private void openNewNode(@Mandatory Node node){
-        openNew(node.getSelf(), node);
-    }
-
-    private void openNew(@Mandatory Object object, @Optional Node node){
+    private void openNew(@Mandatory Object object){
         if(object.getClass().isAnnotationPresent(Entity.class)){
-            addNewTab(object, null, new EntityView(mainWindow, object));
+            addNewTab(object, new EntityView(mainWindow, object));
         }
 
         // todo - add support for more object types
@@ -109,16 +91,16 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         }
     }
 
-    private void addNewTab(@Mandatory Object object, @Optional Node node, @Mandatory ObjectView view){
+    private void addNewTab(@Mandatory Object object, @Mandatory ObjectView view){
         addTab(null, null, view);
-        setTabComponentAt(getTabCount() - 1, createTabHeader(object, node, view));
+        setTabComponentAt(getTabCount() - 1, createTabHeader(object, view));
         setSelectedIndex(getTabCount() - 1);
     }
 
-    private UiPanel createTabHeader(@Mandatory Object object, @Optional Node node, @Mandatory Component component) {
+    private UiPanel createTabHeader(@Mandatory Object object, @Mandatory Component component) {
         UiPanel header = new UiPanel(0, PADDING, MIDDLE);
 
-        UiLabel label = createTabHeaderLabel(object, node);
+        UiLabel label = createTabHeaderLabel(object);
         label.addMouseListener(new MouseClickUserEventHandler(event -> selectTab(header)));
         label.addFocusListener(new FocusGainedUserEventHandler(() -> selectTab(header)));
         header.add(label, 0, 0, 0, 0, MIDDLE, BOTH);
@@ -131,12 +113,11 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         return header;
     }
 
-    private UiLabel createTabHeaderLabel(@Mandatory Object object, @Optional Node node){
-        if(node != null){
-            return new UiLabel(node.getIcon(), node.getName());
-        } else {
-            return new UiLabel(null, object.getClass().getSimpleName());
-        }
+    private UiLabel createTabHeaderLabel(@Mandatory Object object){
+        return new UiLabel(
+            new ObjectIconProvider().get(object),
+            new ObjectNameProvider().get(object)
+        );
     }
 
     private @Optional Integer getTabIndex(@Mandatory Object object){
