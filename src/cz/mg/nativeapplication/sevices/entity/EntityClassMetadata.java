@@ -20,7 +20,7 @@ public @Utility class EntityClassMetadata {
         return instance;
     }
 
-    private final @Mandatory @Part Map<@Link Class, EntityClass> cache = new Map<>();
+    final @Mandatory @Part Map<@Link Class, EntityClass> cache = new Map<>();
 
     private EntityClassMetadata() {
     }

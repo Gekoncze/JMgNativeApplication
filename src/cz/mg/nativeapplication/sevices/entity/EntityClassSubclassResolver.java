@@ -3,8 +3,10 @@ package cz.mg.nativeapplication.sevices.entity;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
+import cz.mg.collections.list.ListSorter;
 
 import java.lang.reflect.Modifier;
+import java.util.Comparator;
 
 
 public @Service class EntityClassSubclassResolver {
@@ -15,17 +17,22 @@ public @Service class EntityClassSubclassResolver {
                 resolve(metadata, clazz);
             }
         }
+
+        for(EntityClass entityClass : metadata.cache.iterator()){
+            entityClass.subclasses = ListSorter.sort(
+                entityClass.subclasses,
+                Comparator.comparing(EntityClass::getName)
+            );
+        }
     }
 
     private void resolve(@Mandatory EntityClassMetadata metadata, @Mandatory Class clazz){
         EntityClass entityClass = metadata.get(clazz);
-        Class current = clazz.getSuperclass();
+        Class current = clazz;
         while(current != null){
             if(current != Object.class){
-                if(isInstantiable(current)){
-                    EntityClass parentEntityClass = metadata.get(current);
-                    parentEntityClass.subclasses.addLast(entityClass);
-                }
+                EntityClass parentEntityClass = metadata.get(current);
+                parentEntityClass.subclasses.addLast(entityClass);
             }
             current = current.getSuperclass();
         }

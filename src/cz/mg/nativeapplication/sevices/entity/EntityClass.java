@@ -12,7 +12,7 @@ import cz.mg.collections.list.ReadableList;
 public @Utility class EntityClass {
     private final @Mandatory Class clazz;
     private final @Mandatory Array<EntityField> fields;
-    final @Mandatory List<EntityClass> subclasses = new List<>();
+    @Mandatory List<EntityClass> subclasses = new List<>();
 
     EntityClass(@Mandatory Class clazz, @Mandatory Array<EntityField> fields) {
         this.clazz = clazz;

@@ -30,9 +30,11 @@ public @Utility abstract class EntitySingleSelect extends EntitySelect {
     }
 
     protected final void setValue(@Optional Object value) {
-        mainWindow.getApplicationState().getHistory().run(new SetEntityFieldAction(
-            entityField, entity, value, entityField.get(entity)
-        ));
+        mainWindow.getApplicationState().getHistory().run(
+            new SetEntityFieldAction(
+                entityField, entity, value, entityField.get(entity)
+            )
+        );
         refresh();
     }
 }

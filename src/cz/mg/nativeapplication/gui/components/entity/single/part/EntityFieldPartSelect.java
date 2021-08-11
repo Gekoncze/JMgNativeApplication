@@ -5,14 +5,11 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiLabel;
-import cz.mg.nativeapplication.gui.components.controls.UiTextField;
+import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.history.SetEntityFieldAction;
 import cz.mg.nativeapplication.sevices.entity.EntityClass;
 import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
 import cz.mg.nativeapplication.sevices.entity.EntityField;
@@ -27,6 +24,7 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField content;
     private final @Mandatory @Shared List<UiButton> buttons;
+    private final @Mandatory @Shared UiPopupMenu popupMenu;
 
     public EntityFieldPartSelect(
         @Mandatory MainWindow mainWindow,
@@ -43,6 +41,7 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
         );
+        this.popupMenu = new UiPopupMenu();
         refresh();
     }
 
@@ -93,14 +92,16 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
     private void onCreateButtonClicked() {
         Object value = getValue();
         if(value == null){
-            // todo: if there are subclasses, add a choice for what to create
             EntityClass entityClass = new EntityClassMetadataProvider().get(entityField.getType());
-            mainWindow.getApplicationState().getHistory().run(
-                new SetEntityFieldAction(
-                    entityField, entity, entityClass.newInstance(), null
-                )
-            );
-            refresh();
+            if(entityClass.getSubclasses().count() == 1){
+                setValue(entityClass.newInstance());
+            } else if(entityClass.getSubclasses().count() > 1) {
+                popupMenu.removeAll();
+                for(EntityClass option : entityClass.getSubclasses()){
+                    popupMenu.add(new UiMenuItem(option.getName(), () -> setValue(option.newInstance())));
+                }
+                popupMenu.show(content, 0, content.getHeight());
+            }
         }
     }
 
