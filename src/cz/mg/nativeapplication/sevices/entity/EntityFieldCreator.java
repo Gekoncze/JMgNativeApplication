@@ -9,15 +9,15 @@ import java.lang.reflect.Modifier;
 
 
 public @Service class EntityFieldCreator {
-    public @Mandatory EntityField create(@Mandatory Class clazz, @Mandatory Field field){
+    public @Mandatory EntityField create(@Mandatory EntityClass entityClass, @Mandatory Field field){
         if(isEntityField(field)){
             if(Modifier.isPublic(field.getModifiers())){
-                return new EntityField(clazz, field);
+                return new EntityField(entityClass, field);
             } else {
-                throw new IllegalArgumentException("Entity field '" + clazz.getSimpleName() + "." + field.getName() + "' must be public.");
+                throw new IllegalArgumentException("Entity field '" + entityClass.getName() + "." + field.getName() + "' must be public.");
             }
         } else {
-            throw new IllegalArgumentException("Missing entity field annotation for field '" + clazz.getSimpleName() + "." + field.getName() + "'.");
+            throw new IllegalArgumentException("Missing entity field annotation for field '" + entityClass.getName() + "." + field.getName() + "'.");
         }
     }
 

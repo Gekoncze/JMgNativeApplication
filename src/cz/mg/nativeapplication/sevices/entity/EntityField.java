@@ -9,12 +9,16 @@ import java.lang.reflect.Field;
 
 
 public @Utility class EntityField {
-    private final @Mandatory Class clazz;
+    private final @Mandatory EntityClass entityClass;
     private final @Mandatory Field field;
 
-    public EntityField(@Mandatory Class clazz, @Mandatory Field field) {
-        this.clazz = clazz;
+    public EntityField(@Mandatory EntityClass entityClass, @Mandatory Field field) {
+        this.entityClass = entityClass;
         this.field = field;
+    }
+
+    public @Mandatory EntityClass getEntityClass() {
+        return entityClass;
     }
 
     public @Mandatory Field getField() {
@@ -53,6 +57,6 @@ public @Utility class EntityField {
 
     private @Mandatory String createSetFieldErrorMessage(@Optional Object value){
         String type = value == null ? "null" : value.getClass().getSimpleName();
-        return "Could not set field " + clazz.getSimpleName() + "." + field.getName() + " of type " + field.getType().getSimpleName() + " to a value of type " + type + ".";
+        return "Could not set field " + entityClass.getName() + "." + field.getName() + " of type " + field.getType().getSimpleName() + " to a value of type " + type + ".";
     }
 }

@@ -21,10 +21,12 @@ public @Service class EntityClassCreator {
             }
 
             List<EntityField> fields = new ArrayList<>();
+            EntityClass entityClass = new EntityClass(clazz, fields, subclasses);
+
             Class current = clazz;
             while(current != null){
                 for(Field field : current.getDeclaredFields()){
-                    fields.addLast(new EntityFieldCreator().create(clazz, field));
+                    fields.addLast(new EntityFieldCreator().create(entityClass, field));
                 }
                 current = current.getSuperclass();
             }
@@ -32,7 +34,7 @@ public @Service class EntityClassCreator {
             ListSorter.sortInPlace(fields, Comparator.comparing(EntityField::getName));
             ListSorter.sortInPlace(subclasses, Comparator.comparing(EntityClass::getName));
 
-            return new EntityClass(clazz, fields, subclasses);
+            return entityClass;
         } else {
             throw new IllegalArgumentException("Missing entity annotation for class '" + clazz.getSimpleName() + "'.");
         }
