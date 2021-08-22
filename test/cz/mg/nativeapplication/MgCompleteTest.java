@@ -1,10 +1,10 @@
 package cz.mg.nativeapplication;
 
 import cz.mg.nativeapplication.gui.Repositories;
-import cz.mg.nativeapplication.sevices.c.creator.CProjectCreator;
-import cz.mg.nativeapplication.sevices.c.exporter.CProjectExporter;
-import cz.mg.nativeapplication.sevices.mg.storage.MgProjectLoader;
-import cz.mg.nativeapplication.sevices.mg.storage.MgProjectSaver;
+import cz.mg.nativeapplication.c.services.creator.CProjectCreator;
+import cz.mg.nativeapplication.c.services.exporter.CProjectExporter;
+import cz.mg.nativeapplication.mg.services.storage.MgProjectLoader;
+import cz.mg.nativeapplication.mg.services.storage.MgProjectSaver;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.SingleTestRunner;

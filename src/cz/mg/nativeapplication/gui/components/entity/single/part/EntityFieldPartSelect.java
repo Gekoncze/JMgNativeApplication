@@ -7,15 +7,15 @@ import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.entities.mg.existing.MgExisting;
+import cz.mg.nativeapplication.mg.entities.existing.MgExisting;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.sevices.gui.ClassIconProvider;
-import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
+import cz.mg.nativeapplication.gui.services.ClassIconProvider;
+import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 
 import java.awt.event.MouseEvent;
 

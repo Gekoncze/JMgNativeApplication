@@ -1,15 +1,15 @@
 package cz.mg.nativeapplication;
 
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.entities.mg.MgProject;
-import cz.mg.nativeapplication.entities.mg.components.MgComponent;
-import cz.mg.nativeapplication.entities.mg.components.MgFunction;
-import cz.mg.nativeapplication.entities.mg.components.MgLocation;
-import cz.mg.nativeapplication.entities.mg.components.MgStructure;
+import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.mg.entities.components.MgComponent;
+import cz.mg.nativeapplication.mg.entities.components.MgFunction;
+import cz.mg.nativeapplication.mg.entities.components.MgLocation;
+import cz.mg.nativeapplication.mg.entities.components.MgStructure;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
-import cz.mg.nativeapplication.sevices.gui.ComponentSearch;
-import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
-import cz.mg.nativeapplication.sevices.mg.creator.MgProjectCreator;
+import cz.mg.nativeapplication.gui.services.ComponentSearch;
+import cz.mg.nativeapplication.gui.services.NavigationCacheCreator;
+import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
 
 
 public class ComponentSearchTest {

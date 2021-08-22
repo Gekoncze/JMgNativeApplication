@@ -11,7 +11,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiTree;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.sevices.gui.ObjectIconProvider;
+import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 
 import javax.swing.*;
 import javax.swing.event.TreeModelListener;

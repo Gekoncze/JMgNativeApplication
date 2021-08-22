@@ -7,7 +7,7 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
-import cz.mg.nativeapplication.history.SetEntityFieldAction;
+import cz.mg.nativeapplication.gui.history.SetEntityFieldAction;
 
 
 public @Utility abstract class EntitySingleSelect extends EntitySelect {

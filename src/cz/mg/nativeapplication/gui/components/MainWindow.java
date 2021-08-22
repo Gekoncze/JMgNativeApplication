@@ -11,8 +11,8 @@ import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.ApplicationState;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
-import cz.mg.nativeapplication.sevices.gui.IconGalleryProvider;
-import cz.mg.nativeapplication.sevices.gui.NavigationCacheCreator;
+import cz.mg.nativeapplication.gui.services.IconGalleryProvider;
+import cz.mg.nativeapplication.gui.services.NavigationCacheCreator;
 
 import javax.swing.*;
 import java.awt.*;

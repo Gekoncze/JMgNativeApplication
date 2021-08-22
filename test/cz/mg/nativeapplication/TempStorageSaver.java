@@ -1,8 +1,8 @@
 package cz.mg.nativeapplication;
 
 import cz.mg.annotations.classes.Service;
-import cz.mg.nativeapplication.entities.storage.Folder;
-import cz.mg.nativeapplication.sevices.storage.StorageSaver;
+import cz.mg.nativeapplication.storage.entities.Folder;
+import cz.mg.nativeapplication.storage.services.StorageSaver;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

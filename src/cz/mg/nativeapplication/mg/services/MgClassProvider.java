@@ -1,0 +1,57 @@
+package cz.mg.nativeapplication.mg.services;
+
+import cz.mg.annotations.classes.Service;
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.collections.list.List;
+
+
+/**
+ * @see MgClassProviderGenerator
+ **/
+public @Service class MgClassProvider {
+    public @Mandatory List<Class> get(){
+        try {
+            return new List<>(
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgLunaryOperatorExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgDereferenceOperatorExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgFunctionExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgRunaryOperatorExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgDeclarationExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgValueExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgBinaryOperatorExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgMemberExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgVariableExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgAssignmentOperatorExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgReferenceOperatorExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.expression.MgExpression"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.MgProject"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.parts.MgValue"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.parts.MgOperator"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgExpressionCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgReturnCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgCaseCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgSwitchCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgBlockCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgWhileCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgBreakCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgContinueCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.command.MgCommand"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.existing.MgExistingStructure"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.existing.MgExistingLocation"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.existing.MgExistingInterface"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.existing.MgExisting"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.existing.MgExistingFunction"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgInterface"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgStructure"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgVariable"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgFunction"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgType"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgAtom"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgComponent"),
+                Class.forName("cz.mg.nativeapplication.mg.entities.components.MgLocation")
+            );
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+}

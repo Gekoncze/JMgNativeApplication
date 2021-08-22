@@ -4,11 +4,11 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.entities.mg.MgProject;
-import cz.mg.nativeapplication.history.History;
-import cz.mg.nativeapplication.sevices.mg.creator.MgProjectCreator;
-import cz.mg.nativeapplication.sevices.mg.storage.MgProjectLoader;
-import cz.mg.nativeapplication.sevices.mg.storage.MgProjectSaver;
+import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.gui.history.History;
+import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
+import cz.mg.nativeapplication.mg.services.storage.MgProjectLoader;
+import cz.mg.nativeapplication.mg.services.storage.MgProjectSaver;
 
 import java.nio.file.Path;
 

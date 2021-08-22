@@ -12,8 +12,8 @@ import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.sevices.gui.ObjectIconProvider;
-import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
+import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
+import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 
 import javax.swing.*;
 import java.awt.*;

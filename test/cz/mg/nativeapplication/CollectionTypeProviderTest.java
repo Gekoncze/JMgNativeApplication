@@ -1,8 +1,8 @@
 package cz.mg.nativeapplication;
 
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.entities.mg.components.MgStructure;
-import cz.mg.nativeapplication.sevices.gui.CollectionTypeProvider;
+import cz.mg.nativeapplication.mg.entities.components.MgStructure;
+import cz.mg.nativeapplication.gui.services.CollectionTypeProvider;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.SingleTestRunner;

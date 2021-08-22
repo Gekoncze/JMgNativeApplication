@@ -1,18 +1,18 @@
 package cz.mg.nativeapplication;
 
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.entities.mg.*;
-import cz.mg.nativeapplication.entities.mg.command.*;
-import cz.mg.nativeapplication.entities.mg.components.*;
-import cz.mg.nativeapplication.entities.mg.expression.*;
-import cz.mg.nativeapplication.entities.mg.parts.MgOperator;
-import cz.mg.nativeapplication.entities.mg.parts.MgValue;
-import cz.mg.nativeapplication.entities.mg.components.MgVariable;
-import cz.mg.nativeapplication.sevices.mg.MgAtomCreator;
-import cz.mg.nativeapplication.sevices.mg.creator.MgProjectCreator;
-import cz.mg.nativeapplication.sevices.mg.resolver.MgComponentLocator;
+import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.mg.entities.command.*;
+import cz.mg.nativeapplication.mg.entities.components.*;
+import cz.mg.nativeapplication.mg.entities.expression.*;
+import cz.mg.nativeapplication.mg.entities.parts.MgOperator;
+import cz.mg.nativeapplication.mg.entities.parts.MgValue;
+import cz.mg.nativeapplication.mg.entities.components.MgVariable;
+import cz.mg.nativeapplication.mg.services.MgAtomCreator;
+import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
+import cz.mg.nativeapplication.mg.services.resolver.MgComponentLocator;
 
-import static cz.mg.nativeapplication.sevices.mg.MgAtomCreator.SMALLER_OPERATOR;
+import static cz.mg.nativeapplication.mg.services.MgAtomCreator.SMALLER_OPERATOR;
 
 
 public class MgTestProjectCreator {

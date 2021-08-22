@@ -2,8 +2,8 @@ package cz.mg.nativeapplication.gui;
 
 import cz.mg.entity.EntityClassRepositoryBuilder;
 import cz.mg.entity.EntityClasses;
-import cz.mg.nativeapplication.entities.mg.parts.MgOperator;
-import cz.mg.nativeapplication.sevices.mg.MgClassProvider;
+import cz.mg.nativeapplication.mg.entities.parts.MgOperator;
+import cz.mg.nativeapplication.mg.services.MgClassProvider;
 import cz.mg.objectmapper.ObjectMapperRepositoryBuilder;
 import cz.mg.objectmapper.ObjectMappers;
 
