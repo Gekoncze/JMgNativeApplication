@@ -5,7 +5,7 @@ import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.command.*;
 import cz.mg.nativeapplication.mg.entities.components.*;
 import cz.mg.nativeapplication.mg.entities.expression.*;
-import cz.mg.nativeapplication.mg.entities.parts.MgOperator;
+import cz.mg.nativeapplication.mg.entities.parts.MgOperatorType;
 import cz.mg.nativeapplication.mg.entities.parts.MgValue;
 import cz.mg.nativeapplication.mg.entities.components.MgVariable;
 import cz.mg.nativeapplication.mg.services.MgAtomCreator;
@@ -183,7 +183,7 @@ public class MgTestProjectCreator {
             if(atomComponent instanceof MgFunction){
                 MgFunction function = (MgFunction) atomComponent;
                 if(function.operator != null){
-                    if(function.operator.type == MgOperator.Type.BINARY){
+                    if(function.operator.type == MgOperatorType.BINARY){
                         if(function.operator.signs.equals(operator)){
                             if(function.input.getFirst().type.name.equals(MgAtomCreator.UINT32_NAME)){
                                 return function;

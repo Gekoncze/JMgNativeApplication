@@ -1,7 +1,8 @@
 package cz.mg.nativeapplication.mg.entities.components;
 
 import cz.mg.annotations.classes.Entity;
+import cz.mg.nativeapplication.mg.Mg;
 
 
-public @Entity class MgAtom extends MgType {
+public @Mg @Entity class MgAtom extends MgType {
 }

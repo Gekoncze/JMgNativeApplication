@@ -3,9 +3,11 @@ package cz.mg.nativeapplication.mg.services;
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
+import cz.mg.nativeapplication.mg.Mg;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Modifier;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -54,19 +56,15 @@ public class MgClassProviderGenerator {
     }
 
     private boolean isMgEntity(@Mandatory Class clazz){
-        if(isEntity(clazz)){
-            if(clazz.getName().startsWith("cz.mg.nativeapplication")){
-                if(clazz.getName().contains("mg.entities")){
-                    if(clazz.getSimpleName().startsWith("Mg")){
+        if(!clazz.isInterface()){
+            if(!Modifier.isAbstract(clazz.getModifiers())){
+                if(clazz.isAnnotationPresent(Mg.class)){
+                    if(clazz.isAnnotationPresent(Entity.class)){
                         return true;
                     }
                 }
             }
         }
         return false;
-    }
-
-    private boolean isEntity(@Mandatory Class clazz){
-        return clazz.isAnnotationPresent(Entity.class);
     }
 }

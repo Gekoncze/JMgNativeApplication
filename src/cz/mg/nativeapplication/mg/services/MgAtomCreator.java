@@ -1,11 +1,14 @@
 package cz.mg.nativeapplication.mg.services;
 
 import cz.mg.annotations.classes.Service;
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.requirement.Optional;
 import cz.mg.nativeapplication.mg.entities.components.MgAtom;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.parts.MgOperator;
 import cz.mg.nativeapplication.mg.entities.components.MgVariable;
 import cz.mg.nativeapplication.mg.entities.existing.MgExistingFunction;
+import cz.mg.nativeapplication.mg.entities.parts.MgOperatorType;
 
 
 public @Service class MgAtomCreator {
@@ -39,7 +42,7 @@ public @Service class MgAtomCreator {
     public static final String LOGICAL_OR_OPERATOR = "||";
     public static final String LOGICAL_NOT_OPERATOR = "!";
 
-    public void create(MgLocation atoms){
+    public void create(@Mandatory MgLocation atoms){
         MgAtom SINT8 = createAtom(SINT8_NAME);
         MgAtom SINT16 = createAtom(SINT16_NAME);
         MgAtom SINT32 = createAtom(SINT32_NAME);
@@ -346,19 +349,24 @@ public @Service class MgAtomCreator {
         atoms.components.addLast(operators);
     }
 
-    private static MgAtom createAtom(String name){
+    private static @Mandatory MgAtom createAtom(@Mandatory String name){
         MgAtom atom = new MgAtom();
         atom.name = name;
         return atom;
     }
 
-    private static MgExistingFunction createExistingFunction(String signs, MgAtom left, MgAtom right, MgAtom result){
+    private static @Mandatory MgExistingFunction createExistingFunction(
+        @Mandatory String signs,
+        @Optional MgAtom left,
+        @Optional MgAtom right,
+        @Optional MgAtom result
+    ){
         MgExistingFunction function = new MgExistingFunction();
         function.operator = new MgOperator();
         function.operator.signs = signs;
-        function.operator.type = left != null && right != null ? MgOperator.Type.BINARY : (
-            left != null ? MgOperator.Type.RUNARY : (
-                right != null ? MgOperator.Type.LUNARY : null
+        function.operator.type = left != null && right != null ? MgOperatorType.BINARY : (
+            left != null ? MgOperatorType.RUNARY : (
+                right != null ? MgOperatorType.LUNARY : null
             )
         );
         function.name = signs;
@@ -374,7 +382,7 @@ public @Service class MgAtomCreator {
         return function;
     }
 
-    private static MgVariable createVariable(MgAtom atom, String name){
+    private static @Mandatory MgVariable createVariable(@Mandatory MgAtom atom, @Mandatory String name){
         MgVariable variable = new MgVariable();
         variable.type = atom;
         variable.pointers = 0;
