@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.sevices.entity;
+package cz.mg.nativeapplication.sevices.mg;
 
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
@@ -6,9 +6,9 @@ import cz.mg.collections.list.List;
 
 
 /**
- * @see EntityClassProviderGenerator
+ * @see MgClassProviderGenerator
  **/
-public @Service class EntityClassProvider {
+public @Service class MgClassProvider {
     public @Mandatory List<Class> get(){
         try {
             return new List<>(

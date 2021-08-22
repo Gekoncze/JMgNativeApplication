@@ -3,7 +3,7 @@ package cz.mg.nativeapplication.sevices.mg.storage;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.mapper.Entity;
+import cz.mg.objectmapper.Entity;
 import cz.mg.sql.light.builder.SqlBuilder;
 import cz.mg.sql.light.connection.SqlConnection;
 import cz.mg.sql.light.connection.SqlResult;

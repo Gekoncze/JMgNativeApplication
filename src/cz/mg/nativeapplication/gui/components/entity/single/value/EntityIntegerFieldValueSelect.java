@@ -4,6 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
+import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiIntegerField;
@@ -14,7 +15,6 @@ import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;

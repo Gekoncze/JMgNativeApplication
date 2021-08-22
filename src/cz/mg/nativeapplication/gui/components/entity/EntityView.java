@@ -7,6 +7,9 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
+import cz.mg.entity.EntityClass;
+import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiHorizontalPanel;
@@ -21,9 +24,6 @@ import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerF
 import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringFieldValueSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
-import cz.mg.nativeapplication.sevices.entity.EntityClass;
-import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
-import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 import java.awt.*;
 
@@ -43,7 +43,7 @@ public @Utility class EntityView extends ObjectView {
     public EntityView(@Mandatory MainWindow mainWindow, @Mandatory Object entity) {
         this.entity = entity;
 
-        EntityClass entityClass = new EntityClassMetadataProvider().get(entity.getClass());
+        EntityClass entityClass = EntityClasses.getRepository().get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
             if(!isList(entityField)){

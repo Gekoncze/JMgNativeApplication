@@ -1,5 +1,6 @@
 package cz.mg.nativeapplication;
 
+import cz.mg.nativeapplication.gui.Repositories;
 import cz.mg.nativeapplication.sevices.c.creator.CProjectCreator;
 import cz.mg.nativeapplication.sevices.c.exporter.CProjectExporter;
 import cz.mg.nativeapplication.sevices.mg.storage.MgProjectLoader;
@@ -17,6 +18,7 @@ public class MgCompleteTest implements Test {
     public static final Path PATH = Paths.get(TempStorageSaver.PATH.toString(), FILENAME);
 
     public static void main(String[] args) {
+        Repositories.init();
         new SingleTestRunner().run(new MgCompleteTest());
     }
 

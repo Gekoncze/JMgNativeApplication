@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.sevices.entity;
+package cz.mg.nativeapplication.sevices.mg;
 
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
@@ -10,11 +10,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 
-public class EntityClassProviderGenerator {
+public class MgClassProviderGenerator {
     private static final String JAR_PATH = "/home/me/Temporary/artifacts/JMgNativeApplication_jar/JMgNativeApplication.jar";
 
     public static void main(String[] args) {
-        List<Class> classes = new EntityClassProviderGenerator().getClasses(JAR_PATH);
+        List<Class> classes = new MgClassProviderGenerator().getClasses(JAR_PATH);
         for(Class clazz : classes){
             System.out.println("Class.forName(\"" + clazz.getName() + "\"),");
         }

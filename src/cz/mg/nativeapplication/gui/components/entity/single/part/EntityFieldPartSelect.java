@@ -4,6 +4,9 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
+import cz.mg.entity.EntityClass;
+import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.entities.mg.existing.MgExisting;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.*;
@@ -11,9 +14,6 @@ import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.sevices.entity.EntityClass;
-import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
-import cz.mg.nativeapplication.sevices.entity.EntityField;
 import cz.mg.nativeapplication.sevices.gui.ClassIconProvider;
 import cz.mg.nativeapplication.sevices.gui.ObjectNameProvider;
 
@@ -92,7 +92,7 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
     private void onCreateButtonClicked() {
         Object value = getValue();
         if(value == null){
-            EntityClass entityClass = new EntityClassMetadataProvider().get(entityField.getType());
+            EntityClass entityClass = EntityClasses.getRepository().get(entityField.getType());
             if(entityClass.getSubclasses().count() == 1){
                 setValue(entityClass.newInstance());
             } else if(entityClass.getSubclasses().count() > 1) {

@@ -8,12 +8,12 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
 import cz.mg.collections.map.Map;
+import cz.mg.entity.EntityClass;
+import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.entities.mg.MgProject;
 import cz.mg.nativeapplication.entities.mg.components.MgComponent;
 import cz.mg.nativeapplication.gui.other.NavigationCache;
-import cz.mg.nativeapplication.sevices.entity.EntityClass;
-import cz.mg.nativeapplication.sevices.entity.EntityClassMetadataProvider;
-import cz.mg.nativeapplication.sevices.entity.EntityField;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -49,7 +49,7 @@ public @Service class NavigationCacheCreator {
         map.set(self, node);
 
         if(self.getClass().isAnnotationPresent(Entity.class)){
-            EntityClass entityClass = new EntityClassMetadataProvider().get(self.getClass());
+            EntityClass entityClass = EntityClasses.getRepository().get(self.getClass());
             for(EntityField entityField : entityClass.getFields()){
                 if(entityField.isAnnotationPresent(Part.class)){
                     Node childNode = createNode(map, node, entityField, entityField.get(self));

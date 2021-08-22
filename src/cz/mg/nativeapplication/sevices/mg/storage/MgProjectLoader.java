@@ -3,9 +3,11 @@ package cz.mg.nativeapplication.sevices.mg.storage;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.entities.mg.MgProject;
-import cz.mg.nativeapplication.mapper.Entity;
+import cz.mg.objectmapper.Entity;
+import cz.mg.objectmapper.Mapper;
 import cz.mg.sql.light.connection.SqlConnection;
 import cz.mg.sql.light.connection.connections.SqliteConnection;
 
@@ -13,8 +15,9 @@ import java.nio.file.Path;
 
 
 public @Service class MgProjectLoader {
+    private final @Mandatory @Shared Mapper<MgProject> mapper = new Mapper<>();
+
     public @Optional MgProject load(@Mandatory Path path){
-        MgProjectMapper projectMapper = MgProjectMapper.getInstance();
         MgEntityTable entityTable = MgEntityTable.getInstance();
         MgEntityFieldTable fieldTable = MgEntityFieldTable.getInstance();
 
@@ -36,6 +39,6 @@ public @Service class MgProjectLoader {
             throw new RuntimeException(e);
         }
 
-        return projectMapper.unmap(entities);
+        return mapper.unmap(entities);
     }
 }
