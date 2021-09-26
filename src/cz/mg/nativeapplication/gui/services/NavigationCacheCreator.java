@@ -5,33 +5,37 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Part;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
 import cz.mg.collections.map.Map;
 import cz.mg.entity.EntityClass;
+import cz.mg.entity.EntityClassRepository;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
-import cz.mg.nativeapplication.gui.other.NavigationCache;
+import cz.mg.nativeapplication.gui.other.Navigation;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
+import cz.mg.nativeapplication.gui.other.NavigationNode;
 
 
 public @Service class NavigationCacheCreator {
-    public @Mandatory NavigationCache create(@Optional MgProject project) {
-        Map<Object, Node> map = new Map<>();
-        return new NavigationCache(
+    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+
+    public @Mandatory Navigation create(@Optional MgProject project) {
+        Map<Object, NavigationNode> map = new Map<>();
+        return new Navigation(
             map, createNode(map, null, null, project)
         );
     }
 
-    private @Optional Node createNode(
-        @Mandatory Map<Object, Node> map,
-        @Optional Node parent,
+    private @Optional NavigationNode createNode(
+        @Mandatory Map<Object, NavigationNode> map,
+        @Optional NavigationNode parent,
         @Optional EntityField parentField,
         @Optional Object self
     ){
@@ -45,14 +49,14 @@ public @Service class NavigationCacheCreator {
 
         checkCircularOwnership(parent, self);
 
-        Node node = new Node(parent, self, getLabel(parentField, self));
+        NavigationNode node = new NavigationNode(parent, self, getLabel(parentField, self));
         map.set(self, node);
 
         if(self.getClass().isAnnotationPresent(Entity.class)){
-            EntityClass entityClass = EntityClasses.getRepository().get(self.getClass());
+            EntityClass entityClass = entityClassRepository.get(self.getClass());
             for(EntityField entityField : entityClass.getFields()){
                 if(entityField.isAnnotationPresent(Part.class)){
-                    Node childNode = createNode(map, node, entityField, entityField.get(self));
+                    NavigationNode childNode = createNode(map, node, entityField, entityField.get(self));
                     if(childNode != null){
                         node.getChildren().addLast(childNode);
                     }
@@ -60,7 +64,7 @@ public @Service class NavigationCacheCreator {
             }
         } else if(self instanceof Iterable){
             for(Object part : (Iterable) self){
-                Node childNode = createNode(map, node, null, part);
+                NavigationNode childNode = createNode(map, node, null, part);
                 if(childNode != null){
                     node.getChildren().addLast(childNode);
                 }
@@ -70,7 +74,7 @@ public @Service class NavigationCacheCreator {
         if(self.getClass().isAnnotationPresent(Entity.class)){
             // hide standalone lists
             if(node.getChildren().count() == 1){
-                Node child = node.getChildren().getFirst();
+                NavigationNode child = node.getChildren().getFirst();
                 if(child.getSelf() instanceof Iterable){
                     node.getChildren().clear();
                     node.getChildren().addCollectionLast(child.getChildren());
@@ -94,8 +98,8 @@ public @Service class NavigationCacheCreator {
         return parentFieldName != null ? parentFieldName : objectName;
     }
 
-    private void checkCircularOwnership(@Mandatory Node parent, @Mandatory Object self){
-        Node current = parent;
+    private void checkCircularOwnership(@Mandatory NavigationNode parent, @Mandatory Object self){
+        NavigationNode current = parent;
         while(current != null){
             if(current.getSelf() == self){
                 throw new IllegalStateException("Circular ownership detected.");
@@ -104,13 +108,13 @@ public @Service class NavigationCacheCreator {
         }
     }
 
-    private void sort(@Mandatory List<Node> list){
+    private void sort(@Mandatory List<NavigationNode> list){
         if(!list.isEmpty()){
-            Array<Node> array = new Array(list);
+            Array<NavigationNode> array = new Array(list);
             Arrays.sort(
                 array.getJavaArray(),
                 Comparator.comparing(
-                    node -> ((Node) node).getLabel().toLowerCase()
+                    node -> ((NavigationNode) node).getLabel().toLowerCase()
                 )
             );
             list.clear();

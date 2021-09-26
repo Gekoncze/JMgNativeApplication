@@ -21,7 +21,7 @@ import javax.swing.tree.TreePath;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
+import cz.mg.nativeapplication.gui.other.NavigationNode;
 
 
 public @Utility class MainProjectTreeView extends JScrollPane implements RefreshableView {
@@ -65,7 +65,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
 
     private void openSelectedItem(){
         if(tree.getLastSelectedPathComponent() != null){
-            Node node = (Node) tree.getLastSelectedPathComponent();
+            NavigationNode node = (NavigationNode) tree.getLastSelectedPathComponent();
             mainWindow.getMainView().getMainTabView().open(node.getSelf());
         }
     }
@@ -109,13 +109,13 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private @Optional Object[] restorePath(@Mandatory Object[] oldPath){
         List<Object> newPath = new List<>();
         for(Object oldNodeObject : oldPath){
-            Node oldNode = (Node) oldNodeObject;
-            Node oldNodeParent = oldNode.getParent();
+            NavigationNode oldNode = (NavigationNode) oldNodeObject;
+            NavigationNode oldNodeParent = oldNode.getParent();
             Object oldParent = oldNodeParent != null ? oldNodeParent.getSelf() : null;
             Object entity = oldNode.getSelf();
-            Node newNode = mainWindow.getNavigationCache().get(entity);
+            NavigationNode newNode = mainWindow.getNavigationCache().get(entity);
             if(newNode != null){
-                Node newNodeParent = newNode.getParent();
+                NavigationNode newNodeParent = newNode.getParent();
                 Object newParent = newNodeParent != null ? newNodeParent.getSelf() : null;
                 if(oldParent == newParent){
                     newPath.addLast(newNode);
@@ -138,14 +138,14 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
         @Override
         public Object getChild(Object o, int i) {
             if(o == null) return null;
-            Node self = (Node) o;
+            NavigationNode self = (NavigationNode) o;
             return self.getChildren().get(i);
         }
 
         @Override
         public int getChildCount(Object o) {
             if(o == null) return 0;
-            Node self = (Node) o;
+            NavigationNode self = (NavigationNode) o;
             return self.getChildren().count();
         }
 
@@ -162,10 +162,10 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
         @Override
         public int getIndexOfChild(Object parent, Object child) {
             if(parent == null || child == null) return -1;
-            Node parentNode = (Node) parent;
-            Node childNode = (Node) child;
+            NavigationNode parentNode = (NavigationNode) parent;
+            NavigationNode childNode = (NavigationNode) child;
             int i = 0;
-            for(Node currentNode : parentNode.getChildren()){
+            for(NavigationNode currentNode : parentNode.getChildren()){
                 if(currentNode == childNode){
                     return i;
                 }
@@ -190,7 +190,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
             boolean selected, boolean expanded, boolean leaf,
             int row, boolean hasFocus
         ) {
-            Node node = (Node) o;
+            NavigationNode node = (NavigationNode) o;
             UiLabel label = new UiLabel(
                 new ObjectIconProvider().get(node.getSelf()),
                 node.getLabel()

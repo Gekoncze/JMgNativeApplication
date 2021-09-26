@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.history;
+package cz.mg.nativeapplication.mg.services.history;
 
 import cz.mg.annotations.classes.Utility;
 

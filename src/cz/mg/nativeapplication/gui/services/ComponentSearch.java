@@ -5,9 +5,9 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
-import cz.mg.nativeapplication.gui.other.NavigationCache;
+import cz.mg.nativeapplication.gui.other.Navigation;
 
-import static cz.mg.nativeapplication.gui.other.NavigationCache.Node;
+import cz.mg.nativeapplication.gui.other.NavigationNode;
 
 
 public @Service class ComponentSearch {
@@ -15,7 +15,7 @@ public @Service class ComponentSearch {
     private static final int SEARCH_NAME_LIMIT = 1000;
 
     public @Mandatory List<MgComponent> search(
-        @Mandatory NavigationCache navigationCache,
+        @Mandatory Navigation navigation,
         @Mandatory Class typeFilter,
         @Mandatory String nameFilter
     ){
@@ -24,7 +24,7 @@ public @Service class ComponentSearch {
             results,
             typeFilter,
             nameFilter,
-            navigationCache.getRoot()
+            navigation.getRoot()
         );
         return results;
     }
@@ -33,7 +33,7 @@ public @Service class ComponentSearch {
         @Mandatory List<MgComponent> results,
         @Mandatory Class typeFilter,
         @Mandatory String nameFilter,
-        @Optional Node node
+        @Optional NavigationNode node
     ) {
         if(results.count() < SEARCH_RESULTS_LIMIT){
             if(node != null){
@@ -46,7 +46,7 @@ public @Service class ComponentSearch {
                     }
                 }
 
-                for(Node child : node.getChildren()){
+                for(NavigationNode child : node.getChildren()){
                     search(results, typeFilter, nameFilter, child);
                 }
             }

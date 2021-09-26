@@ -10,7 +10,7 @@ import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.ApplicationState;
-import cz.mg.nativeapplication.gui.other.NavigationCache;
+import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.gui.services.IconGalleryProvider;
 import cz.mg.nativeapplication.gui.services.NavigationCacheCreator;
 
@@ -29,7 +29,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     private final @Mandatory @Link MainMenu mainMenu;
     private final @Mandatory @Link MainView mainView;
 
-    private @Optional @Cache NavigationCache navigationCache;
+    private @Optional @Cache Navigation navigation;
 
     public MainWindow() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -49,12 +49,12 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         return applicationState;
     }
 
-    public @Mandatory NavigationCache getNavigationCache() {
-        if(navigationCache == null){
-            navigationCache = new NavigationCacheCreator().create(applicationState.getProject());
+    public @Mandatory Navigation getNavigationCache() {
+        if(navigation == null){
+            navigation = new NavigationCacheCreator().create(applicationState.getProject());
         }
 
-        return navigationCache;
+        return navigation;
     }
 
     public @Mandatory MainActions getMainActions() {
@@ -71,7 +71,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
 
     @Override
     public void refresh() {
-        navigationCache = null;
+        navigation = null;
         getMainView().getProjectTreeView().refresh();
         getMainView().getMainTabView().refresh();
     }

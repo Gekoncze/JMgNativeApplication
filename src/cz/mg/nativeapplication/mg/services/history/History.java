@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.history;
+package cz.mg.nativeapplication.mg.services.history;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -30,15 +30,15 @@ public @Utility class History {
     }
 
     public void run(@Mandatory Action action){
-        action.redo();
         add(action);
-        position++;
+        action.redo();
     }
 
     public void add(@Mandatory Action action){
         trimRight();
         actions.addLast(action);
         trimLeft();
+        position++;
     }
 
     public void redo(){

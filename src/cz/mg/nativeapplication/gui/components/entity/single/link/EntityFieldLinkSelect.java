@@ -6,6 +6,7 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.gui.other.NavigationNode;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.*;
@@ -13,7 +14,7 @@ import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.other.NavigationCache;
+import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.gui.services.ComponentSearch;
 import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
@@ -141,11 +142,11 @@ public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
     }
 
     private @Mandatory String findComponentPath(
-        @Mandatory NavigationCache navigationCache,
+        @Mandatory Navigation navigation,
         @Mandatory MgComponent component
     ){
         List<MgComponent> path = new List<>();
-        NavigationCache.Node current = navigationCache.get(component);
+        NavigationNode current = navigation.get(component);
         while(current != null){
             if(current.getSelf() instanceof MgComponent){
                 path.addFirst((MgComponent) current.getSelf());

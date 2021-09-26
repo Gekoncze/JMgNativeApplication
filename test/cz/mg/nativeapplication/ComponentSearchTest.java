@@ -6,7 +6,7 @@ import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 import cz.mg.nativeapplication.mg.entities.components.MgFunction;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.components.MgStructure;
-import cz.mg.nativeapplication.gui.other.NavigationCache;
+import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.gui.services.ComponentSearch;
 import cz.mg.nativeapplication.gui.services.NavigationCacheCreator;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
@@ -30,10 +30,10 @@ public class ComponentSearchTest {
         bar.components.addLast(createStructure("Abc"));
         bar.components.addLast(createStructure("AbFooBar"));
 
-        NavigationCache navigationCache = new NavigationCacheCreator().create(project);
+        Navigation navigation = new NavigationCacheCreator().create(project);
 
         ComponentSearch componentSearch = new ComponentSearch();
-        List<MgComponent> results = componentSearch.search(navigationCache, MgStructure.class, "FooBar");
+        List<MgComponent> results = componentSearch.search(navigation, MgStructure.class, "FooBar");
 
         System.out.println("Found " + results.count() + " results:");
         for(MgComponent result : results){

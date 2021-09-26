@@ -7,7 +7,7 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
-import cz.mg.nativeapplication.gui.history.SetEntityFieldAction;
+import cz.mg.nativeapplication.mg.services.history.SetEntityFieldAction;
 
 
 public @Utility abstract class EntitySingleSelect extends EntitySelect {
@@ -32,7 +32,7 @@ public @Utility abstract class EntitySingleSelect extends EntitySelect {
     protected final void setValue(@Optional Object value) {
         mainWindow.getApplicationState().getHistory().run(
             new SetEntityFieldAction(
-                entityField, entity, value, entityField.get(entity)
+                entity, entityField, entityField.get(entity), value
             )
         );
         refresh();

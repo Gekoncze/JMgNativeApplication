@@ -8,6 +8,7 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
+import cz.mg.entity.EntityClassRepository;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
@@ -40,10 +41,12 @@ public @Utility class EntityView extends ObjectView {
     private final @Mandatory @Part List<RefreshableView> selects = new List<>();
     private final @Mandatory @Shared UiPanel panel = new UiPanel(BORDER, PADDING, TOP);
 
+    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+
     public EntityView(@Mandatory MainWindow mainWindow, @Mandatory Object entity) {
         this.entity = entity;
 
-        EntityClass entityClass = EntityClasses.getRepository().get(entity.getClass());
+        EntityClass entityClass = entityClassRepository.get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
             if(!isList(entityField)){

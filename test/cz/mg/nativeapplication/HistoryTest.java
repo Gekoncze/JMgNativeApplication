@@ -1,11 +1,10 @@
 package cz.mg.nativeapplication;
 
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.history.Action;
-import cz.mg.nativeapplication.gui.history.History;
+import cz.mg.nativeapplication.mg.services.history.Action;
+import cz.mg.nativeapplication.mg.services.history.History;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.SingleTestRunner;
@@ -212,7 +211,7 @@ public class HistoryTest implements Test {
     }
 
     private static class TestAction implements Action {
-        private final @Mandatory @Link List<String> log;
+        private final @Mandatory @Value List<String> log;
         private final @Value int id;
 
         public TestAction(@Mandatory List<String> log, int id) {

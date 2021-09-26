@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.history;
+package cz.mg.nativeapplication.mg.services.history;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -8,21 +8,21 @@ import cz.mg.entity.EntityField;
 
 
 public @Utility class SetEntityFieldAction implements Action {
-    private final @Mandatory @Link EntityField entityField;
     private final @Mandatory @Link Object entity;
-    private final @Optional @Link Object newValue;
+    private final @Mandatory @Link EntityField entityField;
     private final @Optional @Link Object oldValue;
+    private final @Optional @Link Object newValue;
 
     public SetEntityFieldAction(
-        @Optional EntityField entityField,
         @Optional Object entity,
-        @Optional Object newValue,
-        @Optional Object oldValue
+        @Optional EntityField entityField,
+        @Optional Object oldValue,
+        @Optional Object newValue
     ) {
         this.entityField = entityField;
         this.entity = entity;
-        this.newValue = newValue;
         this.oldValue = oldValue;
+        this.newValue = newValue;
     }
 
     @Override
