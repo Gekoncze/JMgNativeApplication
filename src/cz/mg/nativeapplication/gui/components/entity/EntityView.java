@@ -15,8 +15,10 @@ import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiHorizontalPanel;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
+import cz.mg.nativeapplication.gui.components.controls.UiVerticalPanel;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.multi.link.EntityLinkMultiSelect;
+import cz.mg.nativeapplication.gui.components.entity.multi.part.EntityPartMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.link.EntityLinkSingleSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.part.EntityPartSingleSelect;
@@ -30,7 +32,7 @@ import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import java.awt.*;
 
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.*;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
+import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.*;
 
 
 public @Utility class EntityView extends ObjectView {
@@ -56,7 +58,7 @@ public @Utility class EntityView extends ObjectView {
                 }
 
                 if(isPart(entityField)){
-                    // todo
+                    addMultiSelect(new EntityPartMultiSelect(mainWindow, entity, entityField), y++);
                 }
 
                 if(isValue(entityField)){
@@ -127,7 +129,17 @@ public @Utility class EntityView extends ObjectView {
     }
 
     private void addMultiSelect(@Mandatory EntityMultiSelect select, int y){
-        // todo - first row label + buttons, second row list view
+        UiHorizontalPanel horizontalPanel = new UiHorizontalPanel(0, PADDING, LEFT);
+        horizontalPanel.add(select.getLabel(), 0, 0, 1, 0, LEFT, HORIZONTAL);
+        horizontalPanel.add(wrapButtons(select.getButtons()), 1, 0, 0, 0, RIGHT, NONE);
+        horizontalPanel.rebuild();
+
+        UiVerticalPanel verticalPanel = new UiVerticalPanel(0, PADDING, TOP);
+        verticalPanel.add(horizontalPanel, 0, 0, 1, 0, LEFT, HORIZONTAL);
+        verticalPanel.add(select.getContent(), 0, 1, 1, 1, MIDDLE, BOTH);
+        verticalPanel.rebuild();
+
+        panel.add(verticalPanel, 0, y, 1, 1, MIDDLE, BOTH, 3, 1);
         selects.addLast(select);
     }
 

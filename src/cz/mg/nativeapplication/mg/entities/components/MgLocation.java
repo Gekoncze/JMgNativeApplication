@@ -8,5 +8,4 @@ import cz.mg.nativeapplication.mg.Mg;
 
 public @Mg @Entity class MgLocation extends MgComponent {
     public @Part List<MgComponent> components = new List<>();
-    public @Part MgComponent component;
 }

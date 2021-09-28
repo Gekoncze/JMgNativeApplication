@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.entity.multi.link;
+package cz.mg.nativeapplication.gui.components.entity.multi.part;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -13,12 +13,12 @@ import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 
 
-public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
+public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiList content;
     private final @Mandatory @Shared List<UiButton> buttons;
 
-    public EntityLinkMultiSelect(
+    public EntityPartMultiSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
         @Mandatory EntityField entityField
@@ -29,7 +29,7 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
         this.buttons = new List<>(
             new UiButton(mainWindow, IconGallery.CREATE, null, "Add", this::onAddButtonClicked),
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
-            new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked),
+            new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked),
             new UiButton(mainWindow, IconGallery.UP, null, "Move up", this::onMoveUpButtonClicked),
             new UiButton(mainWindow, IconGallery.DOWN, null, "Move down", this::onMoveDownButtonClicked)
         );
@@ -37,7 +37,7 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
     }
 
     @Override
-    public @Mandatory UiLabel getLabel() {
+    public UiLabel getLabel() {
         return label;
     }
 
@@ -76,7 +76,7 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
         }
     }
 
-    private void onClearButtonClicked() {
+    private void onDeleteButtonClicked() {
         if(content.getSelectedIndex() >= 0){
             // TODO
         }

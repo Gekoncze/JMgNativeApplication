@@ -35,7 +35,17 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         @Mandatory Alignment alignment,
         @Mandatory Fill fill
     ){
-        components.addLast(new ComponentSettings(component, x, y, wx, wy, alignment, fill));
+        add(component, x, y, wx, wy, alignment, fill, 1, 1);
+    }
+
+    public void add(
+        @Mandatory Component component,
+        int x, int y, int wx, int wy,
+        @Mandatory Alignment alignment,
+        @Mandatory Fill fill,
+        int spanX, int spanY
+    ){
+        components.addLast(new ComponentSettings(component, x, y, wx, wy, alignment, fill, spanX, spanY));
     }
 
     public void rebuild(){
@@ -63,27 +73,28 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
             add(component.component, constraints(
                 component.x, component.y, component.wx, component.wy,
                 pTop, pLeft, pBottom, pRight,
-                component.alignment, component.fill
+                component.alignment, component.fill,
+                component.spanX, component.spanY
             ));
         }
 
         if(maxWX == 0){
             if(horizontalAlignment == HorizontalAlignment.LEFT){
-                add(createDummy(), constraints(-1, 0, 1, 0, 0, 0, 0, 0, MIDDLE, BOTH));
+                add(createDummy(), constraints(-1, 0, 1, 0, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
 
             if(horizontalAlignment == HorizontalAlignment.RIGHT){
-                add(createDummy(), constraints(maxX + 1, 0, 1, 0, 0, 0, 0, 0, MIDDLE, BOTH));
+                add(createDummy(), constraints(maxX + 1, 0, 1, 0, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
         }
 
         if(maxWY == 0){
             if(verticalAlignment == VerticalAlignment.TOP){
-                add(createDummy(), constraints(0, -1, 0, 1, 0, 0, 0, 0, MIDDLE, BOTH));
+                add(createDummy(), constraints(0, -1, 0, 1, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
 
             if(verticalAlignment == VerticalAlignment.BOTTOM){
-                add(createDummy(), constraints(0, maxY + 1, 0, 1, 0, 0, 0, 0, MIDDLE, BOTH));
+                add(createDummy(), constraints(0, maxY + 1, 0, 1, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
         }
     }
@@ -100,7 +111,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         int x, int y, int wx, int wy,
         int pTop, int pLeft, int pBottom, int pRight,
         @Mandatory Alignment alignment,
-        @Mandatory Fill fill
+        @Mandatory Fill fill,
+        int spanX, int spanY
     ){
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = x;
@@ -110,6 +122,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         constraints.fill = fill.getFill();
         constraints.insets = new Insets(pTop, pLeft, pBottom, pRight);
         constraints.anchor = alignment.getAnchor();
+        constraints.gridwidth = spanX;
+        constraints.gridheight = spanY;
         return constraints;
     }
 
@@ -121,12 +135,15 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         public final @Value int wy;
         public final @Mandatory @Value Alignment alignment;
         public final @Mandatory @Value Fill fill;
+        public final @Value int spanX;
+        public final @Value int spanY;
 
         public ComponentSettings(
             @Mandatory Component component,
             int x, int y, int wx, int wy,
             @Mandatory Alignment alignment,
-            @Mandatory Fill fill
+            @Mandatory Fill fill,
+            int spanX, int spanY
         ) {
             this.component = component;
             this.x = x;
@@ -135,6 +152,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
             this.wy = wy;
             this.alignment = alignment;
             this.fill = fill;
+            this.spanX = spanX;
+            this.spanY = spanY;
         }
     }
 
