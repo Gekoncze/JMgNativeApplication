@@ -43,7 +43,7 @@ public @Utility class ListNode implements Node {
 
     @Override
     public @Mandatory ReadableArray<Node> getNodes() {
-        Array<Node> nodes = new Array<>();
+        Array<Node> nodes = new Array<>(object.count());
         int i = 0;
         for(Object item : object){
             nodes.set(Node.create(this, item, part), i);

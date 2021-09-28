@@ -46,12 +46,12 @@ public @Service class DeleteService {
         int index
     ){
         List<Action> actions = new List<>();
+        Object target = readFromParent(parent, index);
 
         actions.addLast(
             removeFromParent(parent, index)
         );
 
-        Object target = readFromParent(parent, index);
         if(!hasOwner(project, target)){
             actions.addLast(
                 delete(project, target)
