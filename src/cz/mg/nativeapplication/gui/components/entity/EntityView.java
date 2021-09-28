@@ -16,13 +16,14 @@ import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiHorizontalPanel;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
+import cz.mg.nativeapplication.gui.components.entity.multi.link.EntityLinkMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.link.EntityFieldLinkSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.part.EntityFieldPartSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityBooleanFieldValueSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityEnumFieldValueSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerFieldValueSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringFieldValueSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.link.EntityLinkSingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.part.EntityPartSingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityBooleanValueSingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityEnumValueSingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerValueSingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringValueSingleSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 
@@ -49,43 +50,43 @@ public @Utility class EntityView extends ObjectView {
         EntityClass entityClass = entityClassRepository.get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
-            if(!isList(entityField)){
+            if(isList(entityField)){
                 if(isLink(entityField)){
-                    addSingleSelect(new EntityFieldLinkSelect(mainWindow, entity, entityField), y++);
+                    addMultiSelect(new EntityLinkMultiSelect(mainWindow, entity, entityField), y++);
                 }
 
                 if(isPart(entityField)){
-                    addSingleSelect(new EntityFieldPartSelect(mainWindow, entity, entityField), y++);
+                    // todo
+                }
+
+                if(isValue(entityField)){
+                    // todo
+                }
+            } else {
+                if(isLink(entityField)){
+                    addSingleSelect(new EntityLinkSingleSelect(mainWindow, entity, entityField), y++);
+                }
+
+                if(isPart(entityField)){
+                    addSingleSelect(new EntityPartSingleSelect(mainWindow, entity, entityField), y++);
                 }
 
                 if(isValue(entityField)){
                     if(is(entityField, String.class)){
-                        addSingleSelect(new EntityStringFieldValueSelect(mainWindow, entity, entityField), y++);
+                        addSingleSelect(new EntityStringValueSingleSelect(mainWindow, entity, entityField), y++);
                     }
 
                     if(is(entityField, Integer.class)){
-                        addSingleSelect(new EntityIntegerFieldValueSelect(mainWindow, entity, entityField), y++);
+                        addSingleSelect(new EntityIntegerValueSingleSelect(mainWindow, entity, entityField), y++);
                     }
 
                     if(is(entityField, Boolean.class)){
-                        addSingleSelect(new EntityBooleanFieldValueSelect(mainWindow, entity, entityField), y++);
+                        addSingleSelect(new EntityBooleanValueSingleSelect(mainWindow, entity, entityField), y++);
                     }
 
                     if(isEnum(entityField)){
-                        addSingleSelect(new EntityEnumFieldValueSelect(mainWindow, entity, entityField), y++);
+                        addSingleSelect(new EntityEnumValueSingleSelect(mainWindow, entity, entityField), y++);
                     }
-                }
-            } else {
-                if(isLink(entityField)){
-                    // todo
-                }
-
-                if(isPart(entityField)){
-                    // todo
-                }
-
-                if(isValue(entityField)){
-                    // todo
                 }
             }
         }

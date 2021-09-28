@@ -23,13 +23,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityFieldLinkSelect extends EntitySingleSelect {
+public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared UiPopupMenu popupMenu;
 
-    public EntityFieldLinkSelect(
+    public EntityLinkSingleSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
         @Mandatory EntityField entityField

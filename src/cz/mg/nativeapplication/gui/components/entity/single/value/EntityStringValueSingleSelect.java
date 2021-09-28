@@ -20,12 +20,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityStringFieldValueSelect extends EntitySingleSelect {
+public @Utility class EntityStringValueSingleSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField content;
     private final @Mandatory @Shared List<UiButton> buttons;
 
-    public EntityStringFieldValueSelect(
+    public EntityStringValueSingleSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
         @Mandatory EntityField entityField

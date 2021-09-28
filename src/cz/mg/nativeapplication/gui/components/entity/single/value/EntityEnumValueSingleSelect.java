@@ -18,13 +18,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityEnumFieldValueSelect extends EntitySingleSelect {
+public @Utility class EntityEnumValueSingleSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiEnumField<Enum> content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared UiPopupMenu popupMenu;
 
-    public EntityEnumFieldValueSelect(
+    public EntityEnumValueSingleSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
         @Mandatory EntityField entityField

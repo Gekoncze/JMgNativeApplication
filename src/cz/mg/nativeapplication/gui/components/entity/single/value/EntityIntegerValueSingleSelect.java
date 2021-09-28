@@ -6,7 +6,9 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.components.controls.*;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiIntegerField;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
@@ -18,30 +20,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
+public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
-    private final @Mandatory @Shared UiBooleanField content;
+    private final @Mandatory @Shared UiIntegerField content;
     private final @Mandatory @Shared List<UiButton> buttons;
-    private final @Mandatory @Shared UiPopupMenu popupMenu;
 
-    public EntityBooleanFieldValueSelect(
+    public EntityIntegerValueSingleSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
         @Mandatory EntityField entityField
     ) {
         super(mainWindow, entity, entityField);
         this.label = new UiLabel(entityField.getName());
-        this.content = new UiBooleanField();
+        this.content = new UiIntegerField();
         this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         this.content.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
         this.content.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
         this.buttons = new List<>(
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
-        );
-        this.popupMenu = new UiPopupMenu(
-            new UiMenuItem(null, "true", () -> setValue(true)),
-            new UiMenuItem(null, "false", () -> setValue(false))
         );
         lock();
     }
@@ -52,7 +49,7 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
     }
 
     @Override
-    public @Mandatory UiTextField getContent(){
+    public @Mandatory UiIntegerField getContent(){
         return content;
     }
 
@@ -64,7 +61,7 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
     @Override
     public void refresh() {
         Object value = getValue();
-        content.setBoolean((Boolean)value);
+        content.setInteger((Integer)value);
         content.setNull(value == null);
     }
 
@@ -77,25 +74,18 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
     }
 
     private void onKeyPressed(KeyEvent event) {
+        if(event.getKeyCode() == Key.ENTER){
+            setValue(content.getInteger());
+            lock();
+        }
+
         if(event.getKeyCode() == Key.ESCAPE){
             lock();
-        }
-
-        if(event.getKeyCode() == Key.ENTER){
-            setValue(content.getBoolean());
-            lock();
-        }
-
-        if(event.getKeyCode() == Key.SPACE){
-            showSelectionMenu();
-            event.consume();
         }
     }
 
     private void onFocusLost() {
-        if(!popupMenu.isVisible()){
-            lock();
-        }
+        lock();
     }
 
     private void onClearButtonClicked() {
@@ -104,10 +94,6 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
 
     private void onEditButtonClicked() {
         unlock();
-    }
-    
-    private void showSelectionMenu(){
-        popupMenu.show(content, 0, content.getHeight());
     }
 
     private void lock(){
@@ -120,6 +106,5 @@ public @Utility class EntityBooleanFieldValueSelect extends EntitySingleSelect {
         content.setEditable(true);
         content.requestFocus();
         content.getCaret().setVisible(true);
-        showSelectionMenu();
     }
 }

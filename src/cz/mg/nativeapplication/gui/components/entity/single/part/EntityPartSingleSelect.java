@@ -22,7 +22,7 @@ import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
+public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField content;
     private final @Mandatory @Shared List<UiButton> buttons;
@@ -33,7 +33,7 @@ public @Utility class EntityFieldPartSelect extends EntitySingleSelect {
     private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
     private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
 
-    public EntityFieldPartSelect(
+    public EntityPartSingleSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
         @Mandatory EntityField entityField

@@ -16,6 +16,8 @@ public class IconGallery {
     public static final String CREATE = "create.png";
     public static final String EDIT = "edit.png";
     public static final String DELETE = "delete.png";
+    public static final String DOWN = "down.png";
+    public static final String UP = "up.png";
     public static final String SEARCH = "search.png";
 
     public static final String LIST = "list.png";

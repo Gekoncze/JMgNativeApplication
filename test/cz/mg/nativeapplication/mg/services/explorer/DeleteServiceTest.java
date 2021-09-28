@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication;
+package cz.mg.nativeapplication.mg.services.explorer;
 
 import cz.mg.nativeapplication.gui.Repositories;
 import cz.mg.nativeapplication.mg.entities.MgProject;
@@ -8,7 +8,6 @@ import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.components.MgStructure;
 import cz.mg.nativeapplication.mg.entities.components.MgVariable;
 import cz.mg.nativeapplication.mg.entities.expression.MgMemberExpression;
-import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.SingleTestRunner;
