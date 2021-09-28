@@ -1,8 +1,4 @@
-check that delete works as expected
-    maybe write a unit test for it
-
 do refresh after delete ???
 do refresh after new part ???
-do refresh after new link ???
-
-add test for delete service
+add more unit tests
+add entity ui components for lists
