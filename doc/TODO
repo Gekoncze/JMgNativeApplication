@@ -3,7 +3,6 @@ do refresh after new part ???
 add more unit tests
     add unit test for component search
 add entity ui components for lists
-    finish todos in entity multi select
     finish todos in entity link multi select
     finish todos in entity part multi select
     add entity value multi select

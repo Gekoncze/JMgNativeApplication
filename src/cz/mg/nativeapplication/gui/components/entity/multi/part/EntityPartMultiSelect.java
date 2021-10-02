@@ -96,6 +96,7 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
 
     @Override
     public void refresh() {
+        super.refresh();
         // TODO
     }
 }

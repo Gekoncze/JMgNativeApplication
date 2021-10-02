@@ -96,6 +96,7 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
 
     @Override
     public void refresh() {
+        super.refresh();
         // TODO
     }
 }

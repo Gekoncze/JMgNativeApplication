@@ -4,8 +4,10 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
+import cz.mg.nativeapplication.gui.components.controls.UiConstants;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiTree;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
@@ -30,12 +32,14 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Link UiTree tree;
 
+    private final @Mandatory @Shared ObjectIconProvider objectIconProvider = new ObjectIconProvider();
+
     public MainProjectTreeView(@Mandatory MainWindow mainWindow) {
         this.mainWindow = mainWindow;
 
         tree = new UiTree();
         tree.setModel(new EntityTreeModel());
-        tree.setCellRenderer(new EntityCellRenderer());
+        tree.setCellRenderer(new EntityTreeRenderer());
         tree.setBorder(BorderFactory.createEmptyBorder(PADDING, PADDING, PADDING, PADDING));
         tree.setToggleClickCount(0);
         tree.addMouseListener(new MouseClickUserEventHandler(this::onMouseDoubleClick));
@@ -129,7 +133,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
         return new Array(newPath).getJavaArray();
     }
 
-    private class EntityTreeModel implements TreeModel {
+    private @Utility class EntityTreeModel implements TreeModel {
         @Override
         public Object getRoot() {
             return mainWindow.getNavigation().getRoot();
@@ -183,23 +187,27 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
         }
     }
 
-    private static class EntityCellRenderer implements TreeCellRenderer {
+    private @Utility class EntityTreeRenderer implements TreeCellRenderer {
         @Override
         public java.awt.Component getTreeCellRendererComponent(
-            JTree tree, Object o,
-            boolean selected, boolean expanded, boolean leaf,
-            int row, boolean hasFocus
+            JTree tree,
+            Object value,
+            boolean selected,
+            boolean expanded,
+            boolean leaf,
+            int row,
+            boolean hasFocus
         ) {
-            NavigationNode node = (NavigationNode) o;
+            NavigationNode node = (NavigationNode) value;
             UiLabel label = new UiLabel(
-                new ObjectIconProvider().get(node.getSelf()),
+                objectIconProvider.get(node.getSelf()),
                 node.getLabel()
             );
             label.setToolTipText(node.getSelf().getClass().getSimpleName());
 
             if(selected){
                 label.setOpaque(true);
-                label.setBackground(UIManager.getDefaults().getColor("List.selectionBackground"));
+                label.setBackground(UiConstants.getListSelectionBackgroundColor());
             }
 
             return label;
