@@ -14,5 +14,5 @@ public @Mg @Entity class MgProject {
     public @Value String name;
     public @Link MgFunction main;
     public @Part MgLocation root;
-    public @Part List<String> nativeLibraries = new List<>();
+    public @Value List<String> nativeLibraries = new List<>();
 }

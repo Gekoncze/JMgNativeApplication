@@ -44,7 +44,7 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
         this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         this.buttons = new List<>(
             new UiButton(mainWindow, IconGallery.CREATE, null, "Create", this::onCreateButtonClicked),
-            new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
+            new UiButton(mainWindow, IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
             new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
         );
         this.popupMenu = new EntityClassPopupMenu(
@@ -79,7 +79,7 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
     private void onMouseClicked(MouseEvent event) {
         if(event.getButton() == MouseEvent.BUTTON1){
             if(event.getClickCount() == 2){
-                onEditButtonClicked();
+                onOpenButtonClicked();
             }
         }
     }
@@ -110,7 +110,7 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
         }
     }
 
-    private void onEditButtonClicked() {
+    private void onOpenButtonClicked() {
         Object value = getValue();
         if(value != null){
             mainWindow.getMainView().getMainTabView().open(value);

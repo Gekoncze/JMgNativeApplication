@@ -19,6 +19,7 @@ public class IconGallery {
     public static final String DOWN = "down.png";
     public static final String UP = "up.png";
     public static final String SEARCH = "search.png";
+    public static final String OPEN = "open.png";
 
     public static final String LIST = "list.png";
 

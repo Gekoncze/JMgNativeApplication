@@ -36,7 +36,7 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
         this.content = new UiList();
         this.buttons = new List<>(
             new UiButton(mainWindow, IconGallery.CREATE, null, "Add", this::onAddButtonClicked),
-            new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
+            new UiButton(mainWindow, IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
             new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked),
             new UiButton(mainWindow, IconGallery.UP, null, "Move up", this::onMoveUpButtonClicked),
             new UiButton(mainWindow, IconGallery.DOWN, null, "Move down", this::onMoveDownButtonClicked)
@@ -70,7 +70,7 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
         }
     }
 
-    private void onEditButtonClicked() {
+    private void onOpenButtonClicked() {
         if(content.getSelectedIndex() >= 0){
             // TODO
         }
