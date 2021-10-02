@@ -13,6 +13,7 @@ public class MgProjectCreator {
         project.name = name;
         project.root = new MgLocation();
         project.root.name = "root";
+        project.root.external = false;
 
         new MgAtomCreator().create(
             new MgLocationCreator().create(project.root, ATOMS_LOCATION)

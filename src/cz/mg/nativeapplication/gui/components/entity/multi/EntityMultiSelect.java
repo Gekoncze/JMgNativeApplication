@@ -57,12 +57,14 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
         mainWindow.getApplicationState().getHistory().run(
             new AddListItemAction(list, i, value)
         );
+        refresh();
     }
 
     protected final void removeValue(int i){
         mainWindow.getApplicationState().getHistory().run(
             new RemoveListItemAction(list, i, list.get(i))
         );
+        refresh();
     }
 
     @Override
@@ -70,9 +72,6 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
         getContent().setModel(new ObjectListModel());
         getContent().setCellRenderer(new ObjectListRenderer());
     }
-
-    protected abstract @Mandatory Object createValue();
-    protected abstract void editValue(@Mandatory Object object);
 
     private @Utility class ObjectListModel implements ListModel {
         @Override

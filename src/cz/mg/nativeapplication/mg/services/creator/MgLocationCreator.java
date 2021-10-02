@@ -28,6 +28,8 @@ public @Service class MgLocationCreator {
 
         MgLocation location = new MgLocation();
         location.name = name;
+        location.external = false;
+
         parent.components.addLast(location);
 
         if(i >= names.length - 1){

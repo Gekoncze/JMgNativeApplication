@@ -73,6 +73,7 @@ public @Service class MgAtomCreator {
 
         MgLocation operators = new MgLocation();
         operators.name = "operators";
+        operators.external = false;
 
         MgFunction SINT8_POSITIVE = createFunction(POSITIVE_OPERATOR, null, SINT8, SINT8);
         MgFunction SINT8_NEGATIVE = createFunction(NEGATIVE_OPERATOR, null, SINT8, SINT8);

@@ -51,17 +51,6 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
         return buttons;
     }
 
-    @Override
-    protected @Mandatory Object createValue() {
-        // TODO
-        return null;
-    }
-
-    @Override
-    protected void editValue(@Mandatory Object object) {
-        // TODO
-    }
-
     private void onAddButtonClicked() {
         if(content.getSelectedIndex() >= 0){
             // TODO
