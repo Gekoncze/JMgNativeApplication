@@ -3,20 +3,15 @@ package cz.mg.nativeapplication.gui.components.entity.single.link;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.other.NavigationNode;
-import cz.mg.nativeapplication.mg.entities.components.MgComponent;
+import cz.mg.nativeapplication.gui.components.popups.ComponentSearchPopupMenu;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.*;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.other.Navigation;
-import cz.mg.nativeapplication.gui.services.ComponentSearch;
-import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 
 import java.awt.event.KeyEvent;
@@ -27,7 +22,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiTextField content;
     private final @Mandatory @Shared List<UiButton> buttons;
-    private final @Mandatory @Shared UiPopupMenu popupMenu;
+    private final @Mandatory @Shared ComponentSearchPopupMenu popupMenu;
 
     public EntityLinkSingleSelect(
         @Mandatory MainWindow mainWindow,
@@ -46,7 +41,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
-        this.popupMenu = new UiPopupMenu();
+        this.popupMenu = new ComponentSearchPopupMenu(this::onItemSelected);
         lock();
     }
 
@@ -114,47 +109,18 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
     }
 
     private void showSelectionMenu(){
-        popupMenu.removeAll();
-
-        List<MgComponent> results = new ComponentSearch().search(
-            mainWindow.getNavigationCache(),
+        popupMenu.search(
+            content,
             entityField.getField().getType(),
-            content.getText()
+            content.getText(),
+            mainWindow.getNavigation()
         );
-
-        for(MgComponent result : results){
-            popupMenu.add(
-                new UiMenuItem(
-                    new ObjectIconProvider().get(result),
-                    findComponentPath(mainWindow.getNavigationCache(), result),
-                    () -> setValue(result)
-                )
-            );
-        }
-
-        if(results.count() < 1){
-            popupMenu.add(
-                new UiDummyMenuItem("No results.")
-            );
-        }
-
-        popupMenu.show(content, 0, content.getHeight());
     }
 
-    private @Mandatory String findComponentPath(
-        @Mandatory Navigation navigation,
-        @Mandatory MgComponent component
-    ){
-        List<MgComponent> path = new List<>();
-        NavigationNode current = navigation.get(component);
-        while(current != null){
-            if(current.getSelf() instanceof MgComponent){
-                path.addFirst((MgComponent) current.getSelf());
-            }
-            current = current.getParent();
+    private void onItemSelected(){
+        if(popupMenu.getSelectedComponent() != null){
+            setValue(popupMenu.getSelectedComponent());
         }
-        path.removeFirst(); // remove root location
-        return new ToStringBuilder<>(path).convert(c -> c.name).delim(".").build();
     }
 
     private void lock(){

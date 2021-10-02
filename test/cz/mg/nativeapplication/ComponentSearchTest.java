@@ -8,7 +8,7 @@ import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.components.MgStructure;
 import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.gui.services.ComponentSearch;
-import cz.mg.nativeapplication.gui.services.NavigationCacheCreator;
+import cz.mg.nativeapplication.gui.services.NavigationCreator;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
 
 
@@ -30,7 +30,7 @@ public class ComponentSearchTest {
         bar.components.addLast(createStructure("Abc"));
         bar.components.addLast(createStructure("AbFooBar"));
 
-        Navigation navigation = new NavigationCacheCreator().create(project);
+        Navigation navigation = new NavigationCreator().create(project);
 
         ComponentSearch componentSearch = new ComponentSearch();
         List<MgComponent> results = componentSearch.search(navigation, MgStructure.class, "FooBar");

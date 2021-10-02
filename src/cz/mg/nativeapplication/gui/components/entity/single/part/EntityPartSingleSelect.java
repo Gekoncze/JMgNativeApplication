@@ -12,7 +12,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiTextField;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
-import cz.mg.nativeapplication.gui.components.entity.EntityClassPopupMenu;
+import cz.mg.nativeapplication.gui.components.popups.EntityClassPopupMenu;
 import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;

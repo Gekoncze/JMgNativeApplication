@@ -12,7 +12,7 @@ import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.ApplicationState;
 import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.gui.services.IconGalleryProvider;
-import cz.mg.nativeapplication.gui.services.NavigationCacheCreator;
+import cz.mg.nativeapplication.gui.services.NavigationCreator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,9 +49,9 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         return applicationState;
     }
 
-    public @Mandatory Navigation getNavigationCache() {
+    public @Mandatory Navigation getNavigation() {
         if(navigation == null){
-            navigation = new NavigationCacheCreator().create(applicationState.getProject());
+            navigation = new NavigationCreator().create(applicationState.getProject());
         }
 
         return navigation;

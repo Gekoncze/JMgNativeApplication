@@ -113,7 +113,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
             NavigationNode oldNodeParent = oldNode.getParent();
             Object oldParent = oldNodeParent != null ? oldNodeParent.getSelf() : null;
             Object entity = oldNode.getSelf();
-            NavigationNode newNode = mainWindow.getNavigationCache().get(entity);
+            NavigationNode newNode = mainWindow.getNavigation().get(entity);
             if(newNode != null){
                 NavigationNode newNodeParent = newNode.getParent();
                 Object newParent = newNodeParent != null ? newNodeParent.getSelf() : null;
@@ -132,7 +132,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private class EntityTreeModel implements TreeModel {
         @Override
         public Object getRoot() {
-            return mainWindow.getNavigationCache().getRoot();
+            return mainWindow.getNavigation().getRoot();
         }
 
         @Override

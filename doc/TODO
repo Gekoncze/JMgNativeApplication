@@ -1,6 +1,7 @@
 do refresh after delete ???
 do refresh after new part ???
 add more unit tests
+    add unit test for coponent search
 add entity ui components for lists
     finish todos in entity multi select
     finish todos in entity link multi select

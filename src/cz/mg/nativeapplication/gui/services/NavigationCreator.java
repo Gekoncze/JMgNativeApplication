@@ -23,7 +23,7 @@ import java.util.Comparator;
 import cz.mg.nativeapplication.gui.other.NavigationNode;
 
 
-public @Service class NavigationCacheCreator {
+public @Service class NavigationCreator {
     private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
 
     public @Mandatory Navigation create(@Optional MgProject project) {

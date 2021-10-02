@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.entity;
+package cz.mg.nativeapplication.gui.components.popups;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -50,7 +50,7 @@ public @Utility class EntityClassPopupMenu extends UiPopupMenu {
     }
 
     public void show(@Mandatory Component component) {
-        super.show(component, 0, component.getHeight());
+        show(component, 0, component.getHeight());
     }
 
     public void select(@Mandatory Component component){
