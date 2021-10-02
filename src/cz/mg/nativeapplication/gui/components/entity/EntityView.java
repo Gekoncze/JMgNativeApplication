@@ -139,7 +139,7 @@ public @Utility class EntityView extends ObjectView {
         verticalPanel.add(select.getContent(), 0, 1, 1, 1, MIDDLE, BOTH);
         verticalPanel.rebuild();
 
-        panel.add(verticalPanel, 0, y, 1, 1, MIDDLE, BOTH, 3, 1);
+        panel.add(verticalPanel, 0, y, 1, 0, MIDDLE, BOTH, 3, 1);
         selects.addLast(select);
     }
 

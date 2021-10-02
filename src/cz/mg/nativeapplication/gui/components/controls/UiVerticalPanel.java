@@ -11,6 +11,6 @@ public class UiVerticalPanel extends UiPanel implements UiComponent {
     }
 
     public void add(@Mandatory Component component, int wx, int wy, @Mandatory Alignment alignment, @Mandatory Fill fill) {
-        add(component, 0, getComponentCount(), wx, wy, alignment, fill);
+        add(component, 0, components.count(), wx, wy, alignment, fill);
     }
 }

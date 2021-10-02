@@ -11,6 +11,6 @@ public class UiHorizontalPanel extends UiPanel {
     }
 
     public void add(@Mandatory Component component, int wx, int wy, @Mandatory Alignment alignment, @Mandatory Fill fill) {
-        add(component, getComponentCount(), 0, wx, wy, alignment, fill);
+        add(component, components.count(), 0, wx, wy, alignment, fill);
     }
 }

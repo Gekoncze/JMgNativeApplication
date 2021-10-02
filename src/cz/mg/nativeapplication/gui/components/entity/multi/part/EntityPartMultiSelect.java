@@ -18,6 +18,9 @@ import cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider;
 
 
 public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
+    private static final int LIST_BORDER = 2;
+    private static final int LIST_PADDING = 2;
+
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiList content;
     private final @Mandatory @Shared List<UiButton> buttons;
@@ -33,13 +36,13 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
     ) {
         super(mainWindow, entity, entityField);
         this.label = new UiLabel(entityField.getName());
-        this.content = new UiList();
+        this.content = new UiList(LIST_BORDER, LIST_PADDING);
         this.buttons = new List<>(
+            new UiButton(mainWindow, IconGallery.UP, null, "Move up", this::onMoveUpButtonClicked),
+            new UiButton(mainWindow, IconGallery.DOWN, null, "Move down", this::onMoveDownButtonClicked),
             new UiButton(mainWindow, IconGallery.CREATE, null, "Add", this::onAddButtonClicked),
             new UiButton(mainWindow, IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
-            new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked),
-            new UiButton(mainWindow, IconGallery.UP, null, "Move up", this::onMoveUpButtonClicked),
-            new UiButton(mainWindow, IconGallery.DOWN, null, "Move down", this::onMoveDownButtonClicked)
+            new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
         );
         this.popupMenu = new EntityClassPopupMenu(
             entityClassRepository.get(collectionTypeProvider.get(entityField.getField())),
@@ -62,34 +65,31 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
         return buttons;
     }
 
-    private void onAddButtonClicked() {
-        if(content.getSelectedIndex() >= 0){
-            // TODO
-        } else {
-            // TODO
-        }
-    }
-
-    private void onOpenButtonClicked() {
-        if(content.getSelectedIndex() >= 0){
-            // TODO
-        }
-    }
-
-    private void onDeleteButtonClicked() {
-        if(content.getSelectedIndex() >= 0){
-            // TODO
-        }
-    }
-
     private void onMoveUpButtonClicked() {
-        if(content.getSelectedIndex() >= 0){
+        if(content.getSelectedIndex() != null){
             // TODO
         }
     }
 
     private void onMoveDownButtonClicked() {
-        if(content.getSelectedIndex() >= 0){
+        if(content.getSelectedIndex() != null){
+            // TODO
+        }
+    }
+
+    private void onAddButtonClicked() {
+        int i = content.getSelectedIndex() != null ? content.getSelectedIndex() : valueCount();
+        // TODO
+    }
+
+    private void onOpenButtonClicked() {
+        if(content.getSelectedIndex() != null){
+            // TODO
+        }
+    }
+
+    private void onDeleteButtonClicked() {
+        if(content.getSelectedIndex() != null){
             // TODO
         }
     }

@@ -19,7 +19,7 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
     private final @Value int padding;
     private final @Mandatory @Value HorizontalAlignment horizontalAlignment;
     private final @Mandatory @Value VerticalAlignment verticalAlignment;
-    private final @Mandatory @Part List<ComponentSettings> components = new List<>();
+    protected final @Mandatory @Part List<ComponentSettings> components = new List<>();
 
     public UiPanel(int border, int padding, @Mandatory Alignment alignment) {
         this.border = border;
@@ -27,6 +27,7 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         this.horizontalAlignment = alignment.getHorizontal();
         this.verticalAlignment = alignment.getVertical();
         setOpaque(false);
+        rebuild();
     }
 
     public void add(
@@ -46,6 +47,11 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         int spanX, int spanY
     ){
         components.addLast(new ComponentSettings(component, x, y, wx, wy, alignment, fill, spanX, spanY));
+    }
+
+    public void clear(){
+        removeAll();
+        components.clear();
     }
 
     public void rebuild(){
@@ -97,6 +103,9 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
                 add(createDummy(), constraints(0, maxY + 1, 0, 1, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
         }
+
+        repaint();
+        revalidate();
     }
 
     private JPanel createDummy(){
@@ -104,6 +113,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         dummy.setMinimumSize(new Dimension(0, 0));
         dummy.setPreferredSize(new Dimension(0, 0));
         dummy.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        dummy.setOpaque(false);
+        dummy.setBackground(null);
         return dummy;
     }
 

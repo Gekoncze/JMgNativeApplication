@@ -24,6 +24,8 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared ComponentSearchPopupMenu popupMenu;
 
+    private final @Mandatory @Shared ObjectNameProvider objectNameProvider = new ObjectNameProvider();
+
     public EntityLinkSingleSelect(
         @Mandatory MainWindow mainWindow,
         @Mandatory Object entity,
@@ -38,6 +40,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
         this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         this.buttons = new List<>(
             new UiButton(mainWindow, IconGallery.SEARCH, null, "Search", this::onSearchButtonClicked),
+            new UiButton(mainWindow, IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
@@ -63,7 +66,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
     @Override
     public void refresh() {
         Object value = getValue();
-        content.setText(new ObjectNameProvider().get(value));
+        content.setText(objectNameProvider.get(value));
         content.setNull(value == null);
     }
 
@@ -102,6 +105,13 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
 
     private void onSearchButtonClicked(){
         showSelectionMenu();
+    }
+
+    private void onOpenButtonClicked(){
+        Object value = getValue();
+        if(value != null){
+            mainWindow.getMainView().getMainTabView().open(value);
+        }
     }
 
     private void onEditButtonClicked(){
