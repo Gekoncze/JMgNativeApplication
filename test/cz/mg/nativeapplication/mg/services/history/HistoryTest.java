@@ -1,10 +1,8 @@
-package cz.mg.nativeapplication;
+package cz.mg.nativeapplication.mg.services.history;
 
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.mg.services.history.Action;
-import cz.mg.nativeapplication.mg.services.history.History;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.SingleTestRunner;

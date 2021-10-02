@@ -2,7 +2,6 @@ package cz.mg.nativeapplication.c.services.creator;
 
 import cz.mg.nativeapplication.c.entities.CFolder;
 import cz.mg.nativeapplication.mg.entities.components.*;
-import cz.mg.nativeapplication.mg.entities.existing.MgExisting;
 
 
 public class CComponentCreator {
@@ -18,13 +17,11 @@ public class CComponentCreator {
     }
 
     private void addComponent(CFolder folder, MgComponent component){
-        if(component instanceof MgExisting){
-            return; // existing (usually external or native) components don't need to be (re)created
-        }
-
         if(component instanceof MgLocation){
             MgLocation location = (MgLocation) component;
-            folder.folders.addLast(create(location));
+            if(!location.external){
+                folder.folders.addLast(create(location));
+            }
             return;
         }
 

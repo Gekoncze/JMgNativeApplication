@@ -3,7 +3,6 @@ package cz.mg.nativeapplication.gui.services;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.nativeapplication.mg.entities.existing.MgExisting;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 
 import javax.swing.*;
@@ -25,8 +24,6 @@ public @Service class ClassIconProvider {
     }
 
     private @Mandatory String getIconName(@Mandatory Class clazz){
-        return MgExisting.class.isAssignableFrom(clazz)
-            ? clazz.getSuperclass().getSimpleName().toLowerCase() + ".png"
-            : clazz.getSimpleName().toLowerCase() + ".png";
+        return clazz.getSimpleName().toLowerCase() + ".png";
     }
 }

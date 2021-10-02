@@ -9,7 +9,6 @@ import cz.mg.nativeapplication.gui.components.controls.UiMenuItem;
 import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 import cz.mg.nativeapplication.gui.services.ClassIconProvider;
-import cz.mg.nativeapplication.mg.entities.existing.MgExisting;
 
 import java.awt.*;
 
@@ -28,16 +27,14 @@ public @Utility class EntityClassPopupMenu extends UiPopupMenu {
         this.selectedEntityClass = entityClass;
 
         for(EntityClass option : entityClass.getSubclasses()){
-            if(!MgExisting.class.isAssignableFrom(option.getClazz())){
-                add(new UiMenuItem(
-                    classIconProvider.get(option.getClazz()),
-                    option.getName(),
-                    () -> {
-                        selectedEntityClass = option;
-                        actionEventHandler.run();
-                    }
-                ));
-            }
+            add(new UiMenuItem(
+                classIconProvider.get(option.getClazz()),
+                option.getName(),
+                () -> {
+                    selectedEntityClass = option;
+                    actionEventHandler.run();
+                }
+            ));
         }
     }
 
