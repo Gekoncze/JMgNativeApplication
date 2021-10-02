@@ -4,19 +4,27 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
+import cz.mg.entity.EntityClassRepository;
+import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiList;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
+import cz.mg.nativeapplication.gui.components.popups.EntityClassPopupMenu;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider;
 
 
 public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiList content;
     private final @Mandatory @Shared List<UiButton> buttons;
+    private final @Mandatory @Shared EntityClassPopupMenu popupMenu;
+
+    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+    private final @Mandatory @Shared CollectionTypeProvider collectionTypeProvider = new CollectionTypeProvider();
 
     public EntityPartMultiSelect(
         @Mandatory MainWindow mainWindow,
@@ -33,7 +41,10 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
             new UiButton(mainWindow, IconGallery.UP, null, "Move up", this::onMoveUpButtonClicked),
             new UiButton(mainWindow, IconGallery.DOWN, null, "Move down", this::onMoveDownButtonClicked)
         );
-        // TODO
+        this.popupMenu = new EntityClassPopupMenu(
+            entityClassRepository.get(collectionTypeProvider.get(entityField.getField())),
+            this::onCreateEntityClass
+        );
     }
 
     @Override
@@ -81,6 +92,10 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
         if(content.getSelectedIndex() >= 0){
             // TODO
         }
+    }
+
+    private void onCreateEntityClass() {
+        // TODO
     }
 
     @Override

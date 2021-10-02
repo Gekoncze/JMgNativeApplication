@@ -10,6 +10,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiList;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
+import cz.mg.nativeapplication.gui.components.popups.ComponentSearchPopupMenu;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 
 
@@ -17,6 +18,7 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared UiList content;
     private final @Mandatory @Shared List<UiButton> buttons;
+    private final @Mandatory @Shared ComponentSearchPopupMenu popupMenu;
 
     public EntityLinkMultiSelect(
         @Mandatory MainWindow mainWindow,
@@ -33,7 +35,7 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
             new UiButton(mainWindow, IconGallery.UP, null, "Move up", this::onMoveUpButtonClicked),
             new UiButton(mainWindow, IconGallery.DOWN, null, "Move down", this::onMoveDownButtonClicked)
         );
-        // TODO
+        popupMenu = new ComponentSearchPopupMenu(this::onItemSelected);
     }
 
     @Override
@@ -81,6 +83,10 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
         if(content.getSelectedIndex() >= 0){
             // TODO
         }
+    }
+
+    private void onItemSelected(){
+        // TODO
     }
 
     @Override

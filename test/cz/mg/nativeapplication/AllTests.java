@@ -4,6 +4,7 @@ import cz.mg.nativeapplication.gui.Repositories;
 import cz.mg.nativeapplication.mg.services.explorer.DeleteServiceTest;
 import cz.mg.nativeapplication.mg.services.explorer.SearchServiceTest;
 import cz.mg.nativeapplication.mg.services.history.HistoryTest;
+import cz.mg.nativeapplication.mg.services.other.CollectionTypeProviderTest;
 import cz.mg.test.runner.BulkTestRunner;
 
 
@@ -15,7 +16,9 @@ public class AllTests {
             new DeleteServiceTest(),
             new SearchServiceTest(),
 
-            new HistoryTest()
+            new HistoryTest(),
+
+            new CollectionTypeProviderTest()
         );
     }
 }
