@@ -18,4 +18,8 @@ public @Utility class UiPopupMenu extends JPopupMenu implements UiComponent {
             add(item);
         }
     }
+
+    public UiMenuItem getMenuItem(int i) {
+        return (UiMenuItem) getComponent(i);
+    }
 }

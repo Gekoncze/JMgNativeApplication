@@ -63,6 +63,7 @@ public class DeleteServiceTest implements Test {
     @TestCase(order = 1)
     public void testShared(){
         MgProject project = new MgProject();
+        project.name = "TestProject";
         MgLocation root = new MgLocation();
         project.root = root;
         MgStructure structure = new MgStructure();

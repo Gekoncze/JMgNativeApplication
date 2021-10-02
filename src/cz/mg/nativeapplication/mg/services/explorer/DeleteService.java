@@ -10,8 +10,6 @@ import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.mg.entities.MgProject;
-import cz.mg.nativeapplication.mg.services.explorer.search.SearchResult;
-import cz.mg.nativeapplication.mg.services.explorer.search.SearchService;
 import cz.mg.nativeapplication.mg.services.history.Action;
 import cz.mg.nativeapplication.mg.services.history.CompositeAction;
 import cz.mg.nativeapplication.mg.services.history.RemoveListItemAction;

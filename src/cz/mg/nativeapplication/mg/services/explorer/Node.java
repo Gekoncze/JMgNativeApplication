@@ -28,6 +28,6 @@ public @Utility interface Node {
             return new EntityNode(parent, object, part);
         }
 
-        throw new UnsupportedOperationException("Unsupported object for node: '" + object.getClass().getSimpleName() + "'.");
+        return new LeafNode(parent, object, part);
     }
 }

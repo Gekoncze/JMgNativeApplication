@@ -1,10 +1,9 @@
-package cz.mg.nativeapplication.mg.services.explorer.search;
+package cz.mg.nativeapplication.mg.services.explorer;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Value;
-import cz.mg.nativeapplication.mg.services.explorer.Node;
 
 
 public @Utility class SearchResult {

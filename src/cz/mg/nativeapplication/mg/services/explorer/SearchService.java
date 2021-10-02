@@ -1,11 +1,10 @@
-package cz.mg.nativeapplication.mg.services.explorer.search;
+package cz.mg.nativeapplication.mg.services.explorer;
 
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
 import cz.mg.collections.set.Set;
 import cz.mg.nativeapplication.mg.entities.MgProject;
-import cz.mg.nativeapplication.mg.services.explorer.Node;
 
 
 public @Service class SearchService {
@@ -21,21 +20,23 @@ public @Service class SearchService {
         @Mandatory List<SearchResult> results,
         @Mandatory Set<Object> searched
     ){
-        searched.set(target);
+        Object parent = parentNode.getObject();
 
-        int i = 0;
-        for(Node childNode : parentNode.getNodes()){
-            Object child = childNode.getObject();
-            if(child != null){
-                if(child == target){
-                    results.addLast(new SearchResult(childNode, i));
-                }
+        if(!searched.contains(parent)){
+            searched.set(parent);
 
-                if(!searched.contains(child)){
+            int i = 0;
+            for(Node childNode : parentNode.getNodes()){
+                Object child = childNode.getObject();
+                if(child != null){
+                    if(child == target){
+                        results.addLast(new SearchResult(childNode, i));
+                    }
+
                     search(childNode, target, results, searched);
                 }
+                i++;
             }
-            i++;
         }
     }
 }
