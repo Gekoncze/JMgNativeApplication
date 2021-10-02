@@ -1,12 +1,12 @@
-package cz.mg.nativeapplication;
+package other;
 
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.c.entities.*;
-import cz.mg.nativeapplication.qt.entities.QtProject;
-import cz.mg.nativeapplication.storage.entities.Folder;
 import cz.mg.nativeapplication.c.services.exporter.CProjectExporter;
+import cz.mg.nativeapplication.qt.entities.QtProject;
 import cz.mg.nativeapplication.qt.services.QtProjectCreator;
 import cz.mg.nativeapplication.qt.services.QtProjectExporter;
+import cz.mg.nativeapplication.storage.entities.Folder;
 
 
 public class CExportTest {

@@ -1,19 +1,26 @@
-package cz.mg.nativeapplication;
+package cz.mg.nativeapplication.gui.services;
 
 import cz.mg.collections.list.List;
+import cz.mg.nativeapplication.gui.Repositories;
+import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
-import cz.mg.nativeapplication.mg.entities.components.MgFunction;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.components.MgStructure;
-import cz.mg.nativeapplication.gui.other.Navigation;
-import cz.mg.nativeapplication.gui.services.ComponentSearch;
-import cz.mg.nativeapplication.gui.services.NavigationCreator;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
+import cz.mg.test.Test;
+import cz.mg.test.annotations.TestCase;
+import cz.mg.test.runner.SingleTestRunner;
 
 
-public class ComponentSearchTest {
+public class ComponentSearchTest implements Test {
     public static void main(String[] args) {
+        Repositories.init();
+        new SingleTestRunner().run(new ComponentSearchTest());
+    }
+
+    @TestCase
+    public void test(){
         MgProject project = new MgProjectCreator().create("TestProject");
 
         MgLocation foo = createLocation("foo");
@@ -35,10 +42,10 @@ public class ComponentSearchTest {
         ComponentSearch componentSearch = new ComponentSearch();
         List<MgComponent> results = componentSearch.search(navigation, MgStructure.class, "FooBar");
 
-        System.out.println("Found " + results.count() + " results:");
-        for(MgComponent result : results){
-            System.out.println(result.name);
-        }
+        assertEquals(3, results.count());
+        assertContains(results, bar.components.get(2));
+        assertContains(results, bar.components.get(3));
+        assertContains(results, bar.components.get(6));
     }
 
     private static MgLocation createLocation(String name){
@@ -51,11 +58,5 @@ public class ComponentSearchTest {
         MgStructure structure = new MgStructure();
         structure.name = name;
         return structure;
-    }
-
-    private static MgFunction createFunction(String name){
-        MgFunction function = new MgFunction();
-        function.name = name;
-        return function;
     }
 }

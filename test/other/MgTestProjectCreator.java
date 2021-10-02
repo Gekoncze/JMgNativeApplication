@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication;
+package other;
 
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.mg.entities.MgProject;

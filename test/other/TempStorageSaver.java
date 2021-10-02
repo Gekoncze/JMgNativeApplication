@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication;
+package other;
 
 import cz.mg.annotations.classes.Service;
 import cz.mg.nativeapplication.storage.entities.Folder;

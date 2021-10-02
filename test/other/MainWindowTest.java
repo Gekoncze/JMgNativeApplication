@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication;
+package other;
 
 import cz.mg.nativeapplication.gui.Repositories;
 import cz.mg.nativeapplication.gui.components.MainWindow;
