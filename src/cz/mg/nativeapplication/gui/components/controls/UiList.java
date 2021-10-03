@@ -9,6 +9,7 @@ import cz.mg.collections.list.ReadableList;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 
 import javax.swing.*;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 
@@ -20,6 +21,7 @@ public class UiList extends UiVerticalPanel implements UiComponent {
     private @Optional Integer selectedIndex;
     private final List<KeyListener> itemKeyListeners = new List<>();
     private final List<MouseListener> itemMouseListeners = new List<>();
+    private final List<FocusListener> itemFocusListeners = new List<>();
 
     public UiList(int border, int padding) {
         super(border, padding, Alignment.TOP);
@@ -57,6 +59,10 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         itemMouseListeners.addLast(listener);
     }
 
+    public void addItemFocusListener(@Mandatory FocusListener listener){
+        itemFocusListeners.addLast(listener);
+    }
+
     public void setRows(@Mandatory List values){
         this.values.clear();
         this.textFields.clear();
@@ -77,6 +83,9 @@ public class UiList extends UiVerticalPanel implements UiComponent {
             }
             for(MouseListener mouseListener : itemMouseListeners){
                 textField.addMouseListener(mouseListener);
+            }
+            for(FocusListener focusListener : itemFocusListeners){
+                textField.addFocusListener(focusListener);
             }
             this.textFields.addLast(textField);
             this.add(textField, 1, 0, Alignment.LEFT, Fill.BOTH);
