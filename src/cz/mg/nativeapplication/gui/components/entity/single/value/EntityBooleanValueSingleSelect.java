@@ -86,11 +86,6 @@ public @Utility class EntityBooleanValueSingleSelect extends EntitySingleSelect 
             setValue(content.getBoolean());
             refresh();
         }
-
-        if(event.getKeyCode() == Key.SPACE){
-            showSelectionMenu();
-            event.consume();
-        }
     }
 
     private void onFocusLost() {

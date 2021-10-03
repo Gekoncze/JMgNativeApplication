@@ -87,11 +87,6 @@ public @Utility class EntityEnumValueSingleSelect extends EntitySingleSelect {
             setValue(content.getEnum());
             refresh();
         }
-
-        if(event.getKeyCode() == Key.SPACE){
-            showSelectionMenu();
-            event.consume();
-        }
     }
 
     private void onFocusLost() {
