@@ -41,6 +41,7 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         popupMenu = new ComponentSearchPopupMenu(this::onItemSelected);
+        refresh();
     }
 
     @Override
@@ -58,21 +59,16 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
         return buttons;
     }
 
-    private void onMoveUpButtonClicked() {
-        if(content.getSelectedIndex() != null){
-            // TODO
-        }
+    protected void onMoveUpButtonClicked() {
+        moveRowUp();
     }
 
-    private void onMoveDownButtonClicked() {
-        if(content.getSelectedIndex() != null){
-            // TODO
-        }
+    protected void onMoveDownButtonClicked() {
+        moveRowDown();
     }
 
     private void onAddButtonClicked() {
-        int i = content.getSelectedIndex() != null ? content.getSelectedIndex() : valueCount();
-        addValue(i, null);
+        addRow();
     }
 
     private void onSearchButtonClicked(){
@@ -82,8 +78,9 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
     }
 
     private void onOpenButtonClicked(){
-        if(content.getSelectedIndex() != null){
-            // TODO
+        Object value = getValue();
+        if(value != null){
+            mainWindow.getMainView().getMainTabView().open(value);
         }
     }
 
@@ -94,18 +91,10 @@ public @Utility class EntityLinkMultiSelect extends EntityMultiSelect {
     }
 
     private void onClearButtonClicked() {
-        if(content.getSelectedIndex() != null){
-            removeValue(content.getSelectedIndex());
-        }
+        removeRow();
     }
 
     private void onItemSelected(){
-        // TODO
-    }
-
-    @Override
-    public void refresh() {
-        super.refresh();
         // TODO
     }
 }

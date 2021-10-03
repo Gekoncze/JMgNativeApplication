@@ -14,6 +14,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiList;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.components.popups.EntityClassPopupMenu;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
 import cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider;
 
 
@@ -28,6 +29,7 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
 
     private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
     private final @Mandatory @Shared CollectionTypeProvider collectionTypeProvider = new CollectionTypeProvider();
+    private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
 
     public EntityPartMultiSelect(
         @Mandatory MainWindow mainWindow,
@@ -48,6 +50,7 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
             entityClassRepository.get(collectionTypeProvider.get(entityField.getField())),
             this::onCreateEntityClass
         );
+        refresh();
     }
 
     @Override
@@ -66,41 +69,37 @@ public @Utility class EntityPartMultiSelect extends EntityMultiSelect {
     }
 
     private void onMoveUpButtonClicked() {
-        if(content.getSelectedIndex() != null){
-            // TODO
-        }
+        moveRowUp();
     }
 
     private void onMoveDownButtonClicked() {
-        if(content.getSelectedIndex() != null){
-            // TODO
-        }
+        moveRowDown();
     }
 
     private void onAddButtonClicked() {
-        int i = content.getSelectedIndex() != null ? content.getSelectedIndex() : valueCount();
-        // TODO
+        addRow();
     }
 
     private void onOpenButtonClicked() {
-        if(content.getSelectedIndex() != null){
-            // TODO
+        Object value = getValue();
+        if(value != null){
+            mainWindow.getMainView().getMainTabView().open(value);
         }
     }
 
     private void onDeleteButtonClicked() {
-        if(content.getSelectedIndex() != null){
-            // TODO
-        }
+        // TODO - use delete service and ask user for confirmation
+//        if(content.getSelectedIndex() != null){
+//            deleteService.remove(
+//                mainWindow.getApplicationState().getProject(),
+//                list,
+//                content.getSelectedIndex()
+//            );
+//            removeRow();
+//        }
     }
 
     private void onCreateEntityClass() {
-        // TODO
-    }
-
-    @Override
-    public void refresh() {
-        super.refresh();
         // TODO
     }
 }

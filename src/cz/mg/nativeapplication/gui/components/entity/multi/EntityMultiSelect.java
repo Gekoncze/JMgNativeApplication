@@ -12,7 +12,9 @@ import cz.mg.nativeapplication.gui.components.controls.UiList;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 import cz.mg.nativeapplication.mg.services.history.AddListItemAction;
+import cz.mg.nativeapplication.mg.services.history.CompositeAction;
 import cz.mg.nativeapplication.mg.services.history.RemoveListItemAction;
+import cz.mg.nativeapplication.mg.services.history.SetListItemAction;
 
 
 public @Utility abstract class EntityMultiSelect extends EntitySelect {
@@ -37,26 +39,100 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
     @Override
     public abstract @Mandatory UiList getContent();
 
-    protected final int valueCount(){
-        return list.count();
-    }
-
-    protected final @Optional Object getValue(int i){
+    protected final @Optional Object getValueAt(int i){
         return list.get(i);
     }
 
-    protected final void addValue(int i, @Optional Object value){
-        mainWindow.getApplicationState().getHistory().run(
-            new AddListItemAction(list, i, value)
-        );
-        refresh();
+    protected final @Optional Object getValue(){
+        Integer i = getContent().getSelectedIndex();
+        if(i != null){
+            return getValueAt(i);
+        } else {
+            return null;
+        }
     }
 
-    protected final void removeValue(int i){
-        mainWindow.getApplicationState().getHistory().run(
-            new RemoveListItemAction(list, i, list.get(i))
-        );
-        refresh();
+    protected void setValueAt(int i, @Optional Object value){
+        if(i >= 0 && i < list.count()){
+            mainWindow.getApplicationState().getHistory().run(
+                new SetListItemAction(list, i, getValueAt(i), value)
+            );
+            refresh();
+        }
+    }
+
+    protected final void setValue(@Optional Object value){
+        Integer i = getContent().getSelectedIndex();
+        if(i != null){
+            setValueAt(i, value);
+        }
+    }
+
+    protected void addRowAt(int i){
+        if(i >= 0 && i <= list.count()){
+            mainWindow.getApplicationState().getHistory().run(
+                new AddListItemAction(list, i, null)
+            );
+            refresh();
+        }
+    }
+
+    protected void addRow(){
+        Integer i = getContent().getSelectedIndex();
+        if(i != null){
+            addRowAt(i);
+        } else {
+            addRowAt(list.count());
+        }
+    }
+
+    protected void removeRowAt(int i){
+        if(i >= 0 && i < list.count()){
+            mainWindow.getApplicationState().getHistory().run(
+                new RemoveListItemAction(list, i, list.get(i))
+            );
+            refresh();
+        }
+    }
+
+    protected void removeRow(){
+        Integer i = getContent().getSelectedIndex();
+        if(i != null){
+            removeRowAt(i);
+        }
+    }
+
+    protected void moveRow(int srcIndex, int dstIndex){
+        if(srcIndex != dstIndex){
+            if(srcIndex >= 0 && srcIndex < list.count()){
+                if(dstIndex >= 0 && dstIndex < list.count()){
+                    Object value = getValueAt(srcIndex);
+                    mainWindow.getApplicationState().getHistory().run(
+                        new CompositeAction(
+                            new RemoveListItemAction(list, srcIndex, value),
+                            new AddListItemAction(list, dstIndex, value)
+                        )
+                    );
+                    refresh();
+                }
+            }
+        }
+    }
+
+    protected void moveRowUp(){
+        Integer i = getContent().getSelectedIndex();
+        if(i != null){
+            moveRow(i, i - 1);
+            getContent().setSelectedIndex(i - 1);
+        }
+    }
+
+    protected void moveRowDown(){
+        Integer i = getContent().getSelectedIndex();
+        if(i != null){
+            moveRow(i, i + 1);
+            getContent().setSelectedIndex(i + 1);
+        }
     }
 
     @Override

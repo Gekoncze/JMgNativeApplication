@@ -1,9 +1,14 @@
-do refresh after delete ???
-do refresh after new part ???
 add more unit tests
     add unit test for component search
+
 add entity ui components for lists
     finish todos in entity link multi select
     finish todos in entity part multi select
     add entity value multi select
     add entity value multi select creation to entity view
+
+improve move actions
+    add drag and drop move
+    add keyboard shortcuts to move up and down
+
+add field select display order customization for each entity class

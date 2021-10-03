@@ -14,6 +14,10 @@ public @Utility class CompositeAction implements Action {
         this.actions = new List<>(actions);
     }
 
+    public CompositeAction(Action... actions){
+        this.actions = new List<>(actions);
+    }
+
     @Override
     public void redo() {
         for(Action action : actions){

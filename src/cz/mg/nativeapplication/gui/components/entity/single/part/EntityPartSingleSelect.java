@@ -98,8 +98,8 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
                         entityField
                     )
                 );
+                mainWindow.refresh();
             }
-            refresh();
         }
     }
 
@@ -119,5 +119,6 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
 
     private void onCreateEntityClass(){
         setValue(popupMenu.getSelectedEntityClass().newInstance());
+        mainWindow.refresh();
     }
 }
