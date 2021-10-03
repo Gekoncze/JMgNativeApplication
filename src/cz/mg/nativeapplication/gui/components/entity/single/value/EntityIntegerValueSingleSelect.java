@@ -40,7 +40,7 @@ public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect 
             new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
-        lock();
+        refresh();
     }
 
     @Override
@@ -63,29 +63,30 @@ public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect 
         Object value = getValue();
         content.setInteger((Integer)value);
         content.setNull(value == null);
+        content.lock();
     }
 
     private void onMouseClicked(MouseEvent event) {
         if(event.getButton() == MouseEvent.BUTTON1){
             if(event.getClickCount() == 2){
-                unlock();
+                onEditButtonClicked();
             }
         }
     }
 
     private void onKeyPressed(KeyEvent event) {
-        if(event.getKeyCode() == Key.ENTER){
-            setValue(content.getInteger());
-            lock();
+        if(event.getKeyCode() == Key.ESCAPE){
+            refresh();
         }
 
-        if(event.getKeyCode() == Key.ESCAPE){
-            lock();
+        if(event.getKeyCode() == Key.ENTER){
+            setValue(content.getInteger());
+            refresh();
         }
     }
 
     private void onFocusLost() {
-        lock();
+        refresh();
     }
 
     private void onClearButtonClicked() {
@@ -93,18 +94,6 @@ public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect 
     }
 
     private void onEditButtonClicked() {
-        unlock();
-    }
-
-    private void lock(){
-        content.setEditable(false);
-        content.getCaret().setVisible(false);
-        refresh();
-    }
-
-    private void unlock(){
-        content.setEditable(true);
-        content.requestFocus();
-        content.getCaret().setVisible(true);
+        content.unlock();
     }
 }

@@ -14,6 +14,7 @@ import java.awt.event.FocusListener;
 public @Utility class UiTextField extends JTextField implements UiComponent {
     private static final @Mandatory @Shared Color GREY_COLOR = new Color(160, 160, 160);
     private @Value boolean isNull = false;
+    private @Value boolean locked = false;
 
     public UiTextField() {
         setBackground(copy(UIManager.getDefaults().getColor("TextField.background")));
@@ -29,6 +30,7 @@ public @Utility class UiTextField extends JTextField implements UiComponent {
                 repaint();
             }
         });
+        lock();
     }
 
     private static @Mandatory Color copy(@Mandatory Color color){
@@ -47,6 +49,23 @@ public @Utility class UiTextField extends JTextField implements UiComponent {
     public void setNull(boolean value) {
         isNull = value;
         repaint();
+    }
+
+    public void lock(){
+        locked = true;
+        setEditable(false);
+        getCaret().setVisible(false);
+    }
+
+    public void unlock(){
+        locked = false;
+        setEditable(true);
+        requestFocus();
+        getCaret().setVisible(true);
+    }
+
+    public boolean isLocked() {
+        return locked;
     }
 
     @Override

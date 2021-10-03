@@ -44,7 +44,7 @@ public @Utility class EntityEnumValueSingleSelect extends EntitySingleSelect {
             menuItems.addLast(new UiMenuItem(null, ((Enum)value).name(), () -> setValue(value)));
         }
         this.popupMenu = new UiPopupMenu(menuItems);
-        lock();
+        refresh();
     }
 
     @Override
@@ -67,24 +67,25 @@ public @Utility class EntityEnumValueSingleSelect extends EntitySingleSelect {
         Object value = getValue();
         content.setEnum((Enum) value);
         content.setNull(value == null);
+        content.lock();
     }
 
     private void onMouseClicked(MouseEvent event) {
         if(event.getButton() == MouseEvent.BUTTON1){
             if(event.getClickCount() == 2){
-                unlock();
+                onEditButtonClicked();
             }
         }
     }
 
     private void onKeyPressed(KeyEvent event) {
         if(event.getKeyCode() == Key.ESCAPE){
-            lock();
+            refresh();
         }
 
         if(event.getKeyCode() == Key.ENTER){
             setValue(content.getEnum());
-            lock();
+            refresh();
         }
 
         if(event.getKeyCode() == Key.SPACE){
@@ -94,7 +95,7 @@ public @Utility class EntityEnumValueSingleSelect extends EntitySingleSelect {
     }
 
     private void onFocusLost() {
-        lock();
+        refresh();
     }
 
     private void onClearButtonClicked() {
@@ -102,23 +103,13 @@ public @Utility class EntityEnumValueSingleSelect extends EntitySingleSelect {
     }
 
     private void onEditButtonClicked() {
-        unlock();
-    }
-
-    private void showSelectionMenu(){
-        popupMenu.show(content, 0, content.getHeight());
-    }
-
-    private void lock(){
-        content.setEditable(false);
-        content.getCaret().setVisible(false);
-        refresh();
-    }
-
-    private void unlock(){
         content.setEditable(true);
         content.requestFocus();
         content.getCaret().setVisible(true);
         showSelectionMenu();
+    }
+
+    private void showSelectionMenu(){
+        popupMenu.show(content, 0, content.getHeight());
     }
 }

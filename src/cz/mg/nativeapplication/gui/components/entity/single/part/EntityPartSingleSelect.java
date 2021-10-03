@@ -40,7 +40,6 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
         super(mainWindow, entity, entityField);
         this.label = new UiLabel(entityField.getName());
         this.content = new UiTextField();
-        this.content.setEditable(false);
         this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         this.buttons = new List<>(
             new UiButton(mainWindow, IconGallery.CREATE, null, "Create", this::onCreateButtonClicked),

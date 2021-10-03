@@ -12,3 +12,8 @@ improve move actions
     add keyboard shortcuts to move up and down
 
 add field select display order customization for each entity class
+add icons to multi selects ?
+
+change keyboard shortcuts bound to certain context to use KeyEventDispatcher
+    it should automatically route key events to the current tab
+        current tab should route the key event to certain field if it has focus

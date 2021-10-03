@@ -45,7 +45,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
             new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         this.popupMenu = new ComponentSearchPopupMenu(this::onItemSelected);
-        lock();
+        refresh();
     }
 
     @Override
@@ -68,6 +68,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
         Object value = getValue();
         content.setText(objectNameProvider.get(value));
         content.setNull(value == null);
+        content.lock();
     }
 
     private void onFocusGained(){
@@ -76,13 +77,13 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
 
     private void onFocusLost(){
         if(!popupMenu.isVisible()){
-            lock();
+            refresh();
         }
     }
 
     private void onKeyPressed(KeyEvent event) {
         if(event.getKeyCode() == Key.ESCAPE){
-            lock();
+            refresh();
         }
 
         if(event.getKeyCode() == Key.SPACE && event.isControlDown()){
@@ -94,7 +95,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
     private void onMouseClicked(MouseEvent event) {
         if(event.getButton() == MouseEvent.BUTTON1){
             if(event.getClickCount() == 2){
-                unlock();
+                content.unlock();
             }
         }
     }
@@ -115,7 +116,7 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
     }
 
     private void onEditButtonClicked(){
-        unlock();
+        content.unlock();
     }
 
     private void showSelectionMenu(){
@@ -131,17 +132,5 @@ public @Utility class EntityLinkSingleSelect extends EntitySingleSelect {
         if(popupMenu.getSelectedComponent() != null){
             setValue(popupMenu.getSelectedComponent());
         }
-    }
-
-    private void lock(){
-        content.setEditable(false);
-        content.getCaret().setVisible(false);
-        refresh();
-    }
-
-    private void unlock(){
-        content.setEditable(true);
-        content.requestFocus();
-        content.getCaret().setVisible(true);
     }
 }
