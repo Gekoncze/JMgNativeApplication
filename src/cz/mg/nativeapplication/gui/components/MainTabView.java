@@ -91,13 +91,25 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         }
     }
 
+    public @Optional ObjectView getSelectedTab(){
+        if(getSelectedIndex() != -1){
+            return getTab(getSelectedIndex());
+        } else {
+            return null;
+        }
+    }
+
+    public @Mandatory ObjectView getTab(int i){
+        return (ObjectView) getComponentAt(i);
+    }
+
     private void addNewTab(@Mandatory Object object, @Mandatory ObjectView view){
         addTab(null, null, view);
         setTabComponentAt(getTabCount() - 1, createTabHeader(object, view));
         setSelectedIndex(getTabCount() - 1);
     }
 
-    private UiPanel createTabHeader(@Mandatory Object object, @Mandatory Component component) {
+    private @Mandatory UiPanel createTabHeader(@Mandatory Object object, @Mandatory Component component) {
         UiPanel header = new UiPanel(0, PADDING, MIDDLE);
 
         UiLabel label = createTabHeaderLabel(object);
@@ -113,7 +125,7 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         return header;
     }
 
-    private UiLabel createTabHeaderLabel(@Mandatory Object object){
+    private @Mandatory UiLabel createTabHeaderLabel(@Mandatory Object object){
         return new UiLabel(
             new ObjectIconProvider().get(object),
             new ObjectNameProvider().get(object)
@@ -136,11 +148,7 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
     @Override
     public void refresh() {
         for(int i = 0; i < getTabCount(); i++){
-            Component component = getComponentAt(i);
-            if(component instanceof ObjectView){
-                ObjectView objectView = (ObjectView) component;
-                objectView.refresh();
-            }
+            getTab(i).refresh();
         }
     }
 }

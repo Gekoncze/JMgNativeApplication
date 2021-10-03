@@ -77,11 +77,13 @@ public @Utility class EntityStringValueSingleSelect extends EntitySingleSelect {
     private void onKeyPressed(KeyEvent event) {
         if(event.getKeyCode() == Key.ESCAPE){
             refresh();
+            event.consume();
         }
 
         if(event.getKeyCode() == Key.ENTER){
             setValue(content.getText());
             refresh();
+            event.consume();
         }
     }
 

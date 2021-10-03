@@ -12,10 +12,7 @@ import cz.mg.entity.EntityClassRepository;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiHorizontalPanel;
-import cz.mg.nativeapplication.gui.components.controls.UiPanel;
-import cz.mg.nativeapplication.gui.components.controls.UiVerticalPanel;
+import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.multi.link.EntityLinkMultiSelect;
 import cz.mg.nativeapplication.gui.components.entity.multi.part.EntityPartMultiSelect;
@@ -30,6 +27,7 @@ import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.*;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.*;
@@ -41,7 +39,7 @@ public @Utility class EntityView extends ObjectView {
     private static final int BUTTON_PADDING = 2;
 
     private final @Mandatory @Link Object entity;
-    private final @Mandatory @Part List<RefreshableView> selects = new List<>();
+    private final @Mandatory @Part List<EntitySelect> selects = new List<>();
     private final @Mandatory @Shared UiPanel panel = new UiPanel(BORDER, PADDING, TOP);
 
     private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
@@ -164,5 +162,10 @@ public @Utility class EntityView extends ObjectView {
     @Override
     public Object getObject() {
         return entity;
+    }
+
+    @Override
+    public void onKeyEvent(KeyEvent e) {
+        // TODO
     }
 }

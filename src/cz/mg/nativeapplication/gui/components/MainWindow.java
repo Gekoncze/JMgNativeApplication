@@ -6,8 +6,10 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
+import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.RefreshableView;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.KeyDispatcherUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.ApplicationState;
 import cz.mg.nativeapplication.gui.other.Navigation;
@@ -16,6 +18,7 @@ import cz.mg.nativeapplication.gui.services.NavigationCreator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.HashSet;
 
 
@@ -42,6 +45,9 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         setContentPane(mainView = new MainView(this));
         setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, new HashSet<>());
         setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, new HashSet<>());
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(
+            new KeyDispatcherUserEventHandler(this::onKeyEvent)
+        );
         refresh();
     }
 
@@ -74,5 +80,13 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         navigation = null;
         getMainView().getProjectTreeView().refresh();
         getMainView().getMainTabView().refresh();
+    }
+
+    private boolean onKeyEvent(@Mandatory KeyEvent e){
+        ObjectView objectView = getMainView().getMainTabView().getSelectedTab();
+        if(objectView != null){
+            objectView.onKeyEvent(e);
+        }
+        return false;
     }
 }
