@@ -25,12 +25,14 @@ public @Utility abstract class EntitySingleSelect extends EntitySelect {
         this.entityField = entityField;
     }
 
-    protected final @Optional Object getValue(){
+    @Override
+    public final @Optional Object getValue(){
         return entityField.get(entity);
     }
 
-    protected final void setValue(@Optional Object value) {
-        mainWindow.getApplicationState().getHistory().run(
+    @Override
+    public final void setValue(@Optional Object value) {
+        mainWindow.getApplicationState().getHistory().addTransaction().run(
             new SetEntityFieldAction(
                 entity, entityField, entityField.get(entity), value
             )

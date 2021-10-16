@@ -90,12 +90,11 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
 
             UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
             if(choice == UiConfirmDialog.Choice.YES){
-                mainWindow.getApplicationState().getHistory().add(
-                    deleteService.remove(
-                        mainWindow.getApplicationState().getProject(),
-                        entity,
-                        entityField
-                    )
+                deleteService.remove(
+                    mainWindow.getApplicationState().getHistory().addTransaction(),
+                    mainWindow.getApplicationState().getProject(),
+                    entity,
+                    entityField
                 );
                 mainWindow.refresh();
             }

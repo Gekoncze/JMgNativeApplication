@@ -18,12 +18,12 @@ public class HistoryTest implements Test {
         History history = new History(3);
 
         assertEquals(-1, history.getPosition());
-        assertEquals(0, history.getCount());
+        assertEquals(0, history.count());
 
         history.undo();
 
         assertEquals(-1, history.getPosition());
-        assertEquals(0, history.getCount());
+        assertEquals(0, history.count());
     }
 
     @TestCase(order = 1)
@@ -31,12 +31,12 @@ public class HistoryTest implements Test {
         History history = new History(3);
 
         assertEquals(-1, history.getPosition());
-        assertEquals(0, history.getCount());
+        assertEquals(0, history.count());
 
         history.redo();
 
         assertEquals(-1, history.getPosition());
-        assertEquals(0, history.getCount());
+        assertEquals(0, history.count());
     }
 
     @TestCase(order = 2)
@@ -45,9 +45,9 @@ public class HistoryTest implements Test {
         History history = new History(3);
 
         assertEquals(-1, history.getPosition());
-        assertEquals(0, history.getCount());
+        assertEquals(0, history.count());
 
-        history.run(new Action() {
+        history.addTransaction().run(new Action() {
             @Override
             public void redo() {
                 log.addLast("Redo");
@@ -60,35 +60,35 @@ public class HistoryTest implements Test {
         });
 
         assertEquals(0, history.getPosition());
-        assertEquals(1, history.getCount());
+        assertEquals(1, history.count());
         assertEquals(1, log.count());
         assertEquals("Redo", log.getLast());
 
         history.undo();
 
         assertEquals(-1, history.getPosition());
-        assertEquals(1, history.getCount());
+        assertEquals(1, history.count());
         assertEquals(2, log.count());
         assertEquals("Undo", log.getLast());
 
         history.undo();
 
         assertEquals(-1, history.getPosition());
-        assertEquals(1, history.getCount());
+        assertEquals(1, history.count());
         assertEquals(2, log.count());
         assertEquals("Undo", log.getLast());
 
         history.redo();
 
         assertEquals(0, history.getPosition());
-        assertEquals(1, history.getCount());
+        assertEquals(1, history.count());
         assertEquals(3, log.count());
         assertEquals("Redo", log.getLast());
 
         history.redo();
 
         assertEquals(0, history.getPosition());
-        assertEquals(1, history.getCount());
+        assertEquals(1, history.count());
         assertEquals(3, log.count());
         assertEquals("Redo", log.getLast());
     }
@@ -99,33 +99,33 @@ public class HistoryTest implements Test {
         History history = new History(3);
 
         assertEquals(-1, history.getPosition());
-        assertEquals(0, history.getCount());
+        assertEquals(0, history.count());
 
-        history.run(new TestAction(log, 0));
+        history.addTransaction().run(new TestAction(log, 0));
 
         assertEquals(0, history.getPosition());
-        assertEquals(1, history.getCount());
+        assertEquals(1, history.count());
         assertEquals(1, log.count());
         assertEquals("Redo 0", log.getLast());
 
-        history.run(new TestAction(log, 1));
+        history.addTransaction().run(new TestAction(log, 1));
 
         assertEquals(1, history.getPosition());
-        assertEquals(2, history.getCount());
+        assertEquals(2, history.count());
         assertEquals(2, log.count());
         assertEquals("Redo 1", log.getLast());
 
-        history.run(new TestAction(log, 2));
+        history.addTransaction().run(new TestAction(log, 2));
 
         assertEquals(2, history.getPosition());
-        assertEquals(3, history.getCount());
+        assertEquals(3, history.count());
         assertEquals(3, log.count());
         assertEquals("Redo 2", log.getLast());
 
-        history.run(new TestAction(log, 3));
+        history.addTransaction().run(new TestAction(log, 3));
 
         assertEquals(2, history.getPosition());
-        assertEquals(3, history.getCount());
+        assertEquals(3, history.count());
         assertEquals(4, log.count());
         assertEquals("Redo 3", log.getLast());
 
@@ -134,7 +134,7 @@ public class HistoryTest implements Test {
         history.redo();
 
         assertEquals(2, history.getPosition());
-        assertEquals(3, history.getCount());
+        assertEquals(3, history.count());
         assertEquals(4, log.count());
         assertEquals("Redo 3", log.getLast());
 
@@ -145,7 +145,7 @@ public class HistoryTest implements Test {
         history.undo();
 
         assertEquals(-1, history.getPosition());
-        assertEquals(3, history.getCount());
+        assertEquals(3, history.count());
         assertEquals(7, log.count());
         assertEquals("Undo 1", log.getLast());
     }
@@ -156,54 +156,54 @@ public class HistoryTest implements Test {
         History history = new History(3);
 
         assertEquals(-1, history.getPosition());
-        assertEquals(0, history.getCount());
+        assertEquals(0, history.count());
 
-        history.run(new TestAction(log, 0));
+        history.addTransaction().run(new TestAction(log, 0));
 
         assertEquals(0, history.getPosition());
-        assertEquals(1, history.getCount());
+        assertEquals(1, history.count());
         assertEquals(1, log.count());
         assertEquals("Redo 0", log.getLast());
 
-        history.run(new TestAction(log, 1));
+        history.addTransaction().run(new TestAction(log, 1));
 
         assertEquals(1, history.getPosition());
-        assertEquals(2, history.getCount());
+        assertEquals(2, history.count());
         assertEquals(2, log.count());
         assertEquals("Redo 1", log.getLast());
 
-        history.run(new TestAction(log, 2));
+        history.addTransaction().run(new TestAction(log, 2));
 
         assertEquals(2, history.getPosition());
-        assertEquals(3, history.getCount());
+        assertEquals(3, history.count());
         assertEquals(3, log.count());
         assertEquals("Redo 2", log.getLast());
 
         history.undo();
 
         assertEquals(1, history.getPosition());
-        assertEquals(3, history.getCount());
+        assertEquals(3, history.count());
         assertEquals(4, log.count());
         assertEquals("Undo 2", log.getLast());
 
         history.undo();
 
         assertEquals(0, history.getPosition());
-        assertEquals(3, history.getCount());
+        assertEquals(3, history.count());
         assertEquals(5, log.count());
         assertEquals("Undo 1", log.getLast());
 
-        history.run(new TestAction(log, 3));
+        history.addTransaction().run(new TestAction(log, 3));
 
         assertEquals(1, history.getPosition());
-        assertEquals(2, history.getCount());
+        assertEquals(2, history.count());
         assertEquals(6, log.count());
         assertEquals("Redo 3", log.getLast());
 
         history.redo();
 
         assertEquals(1, history.getPosition());
-        assertEquals(2, history.getCount());
+        assertEquals(2, history.count());
         assertEquals(6, log.count());
         assertEquals("Redo 3", log.getLast());
     }

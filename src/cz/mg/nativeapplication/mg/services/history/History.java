@@ -10,7 +10,7 @@ import cz.mg.collections.list.List;
 
 public @Utility class History {
     private final @Value int limit;
-    private final @Mandatory @Part List<Action> actions = new ArrayList<>();
+    private final @Mandatory @Part List<Transaction> transactions = new ArrayList<>();
     private @Value int position = -1;
 
     public History(int limit) {
@@ -25,49 +25,46 @@ public @Utility class History {
         return position;
     }
 
-    public int getCount(){
-        return actions.count();
+    public int count() {
+        return transactions.count();
     }
 
-    public void run(@Mandatory Action action){
-        add(action);
-        action.redo();
-    }
-
-    public void add(@Mandatory Action action){
+    public @Mandatory Transaction addTransaction(){
+        Transaction transaction = new Transaction();
         trimRight();
-        actions.addLast(action);
+        transactions.addLast(transaction);
         trimLeft();
         position++;
+        return transaction;
     }
 
     public void redo(){
-        if((position + 1) < actions.count()){
-            actions.get(position + 1).redo();
+        if((position + 1) < transactions.count()){
+            transactions.get(position + 1).redo();
             position++;
         }
     }
 
     public void undo(){
         if(position > -1){
-            actions.get(position).undo();
+            transactions.get(position).undo();
             position--;
         }
     }
 
     public void clear(){
-        actions.clear();
+        transactions.clear();
     }
 
     private void trimRight(){
-        while((position + 1) < actions.count() && !actions.isEmpty()){
-            actions.removeLast();
+        while((position + 1) < transactions.count() && !transactions.isEmpty()){
+            transactions.removeLast();
         }
     }
 
     private void trimLeft(){
-        while(actions.count() > limit && !actions.isEmpty()){
-            actions.removeFirst();
+        while(transactions.count() > limit && !transactions.isEmpty()){
+            transactions.removeFirst();
             position--;
         }
     }

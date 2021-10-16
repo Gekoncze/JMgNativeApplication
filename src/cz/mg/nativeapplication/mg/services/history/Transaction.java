@@ -7,26 +7,24 @@ import cz.mg.collections.list.List;
 import cz.mg.collections.list.ListItem;
 
 
-public @Utility class CompositeAction implements Action {
-    private final @Mandatory @Part List<Action> actions;
+public @Utility class Transaction {
+    private final @Mandatory @Part List<Action> actions = new List<>();
 
-    public CompositeAction(Iterable<Action> actions) {
-        this.actions = new List<>(actions);
+    Transaction() {
     }
 
-    public CompositeAction(Action... actions){
-        this.actions = new List<>(actions);
+    public void run(@Mandatory Action action) {
+        actions.addLast(action);
+        action.redo();
     }
 
-    @Override
-    public void redo() {
+    void redo() {
         for(Action action : actions){
             action.redo();
         }
     }
 
-    @Override
-    public void undo() {
+    void undo() {
         for(
             ListItem<Action> actionItem = actions.getLastItem();
             actionItem != null;

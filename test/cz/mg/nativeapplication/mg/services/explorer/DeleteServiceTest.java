@@ -8,6 +8,7 @@ import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.components.MgStructure;
 import cz.mg.nativeapplication.mg.entities.components.MgVariable;
 import cz.mg.nativeapplication.mg.entities.expression.MgMemberExpression;
+import cz.mg.nativeapplication.mg.services.history.History;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.SingleTestRunner;
@@ -48,7 +49,10 @@ public class DeleteServiceTest implements Test {
         assertSame(structure, output.type);
         assertSame(field, expression.child);
 
-        new DeleteService().remove(project, root.components, 0);
+        new DeleteService().remove(
+            new History(1).addTransaction(),
+            project, root.components, 0
+        );
 
         assertSame(root, project.root);
         assertContains(root.components, function);
@@ -91,7 +95,10 @@ public class DeleteServiceTest implements Test {
         assertSame(structure, output.type);
         assertSame(field, expression.child);
 
-        new DeleteService().remove(project, root.components, 0);
+        new DeleteService().remove(
+            new History(1).addTransaction(),
+            project, root.components, 0
+        );
 
         assertSame(root, project.root);
         assertContains(root.components, function);

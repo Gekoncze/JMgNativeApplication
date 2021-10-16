@@ -12,9 +12,9 @@ import cz.mg.nativeapplication.gui.components.controls.UiList;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 import cz.mg.nativeapplication.mg.services.history.AddListItemAction;
-import cz.mg.nativeapplication.mg.services.history.CompositeAction;
 import cz.mg.nativeapplication.mg.services.history.RemoveListItemAction;
 import cz.mg.nativeapplication.mg.services.history.SetListItemAction;
+import cz.mg.nativeapplication.mg.services.history.Transaction;
 
 
 public @Utility abstract class EntityMultiSelect extends EntitySelect {
@@ -43,7 +43,8 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
         return list.get(i);
     }
 
-    protected final @Optional Object getValue(){
+    @Override
+    public final @Optional Object getValue(){
         Integer i = getContent().getSelectedIndex();
         if(i != null){
             return getValueAt(i);
@@ -54,14 +55,15 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
 
     protected void setValueAt(int i, @Optional Object value){
         if(i >= 0 && i < list.count()){
-            mainWindow.getApplicationState().getHistory().run(
+            mainWindow.getApplicationState().getHistory().addTransaction().run(
                 new SetListItemAction(list, i, getValueAt(i), value)
             );
             refresh();
         }
     }
 
-    protected final void setValue(@Optional Object value){
+    @Override
+    public final void setValue(@Optional Object value){
         Integer i = getContent().getSelectedIndex();
         if(i != null){
             setValueAt(i, value);
@@ -70,7 +72,7 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
 
     protected void addRowAt(int i){
         if(i >= 0 && i <= list.count()){
-            mainWindow.getApplicationState().getHistory().run(
+            mainWindow.getApplicationState().getHistory().addTransaction().run(
                 new AddListItemAction(list, i, null)
             );
             refresh();
@@ -88,7 +90,7 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
 
     protected void removeRowAt(int i){
         if(i >= 0 && i < list.count()){
-            mainWindow.getApplicationState().getHistory().run(
+            mainWindow.getApplicationState().getHistory().addTransaction().run(
                 new RemoveListItemAction(list, i, list.get(i))
             );
             refresh();
@@ -107,11 +109,12 @@ public @Utility abstract class EntityMultiSelect extends EntitySelect {
             if(srcIndex >= 0 && srcIndex < list.count()){
                 if(dstIndex >= 0 && dstIndex < list.count()){
                     Object value = getValueAt(srcIndex);
-                    mainWindow.getApplicationState().getHistory().run(
-                        new CompositeAction(
-                            new RemoveListItemAction(list, srcIndex, value),
-                            new AddListItemAction(list, dstIndex, value)
-                        )
+                    Transaction transaction = mainWindow.getApplicationState().getHistory().addTransaction();
+                    transaction.run(
+                        new RemoveListItemAction(list, srcIndex, value)
+                    );
+                    transaction.run(
+                        new AddListItemAction(list, dstIndex, value)
                     );
                     refresh();
                 }
