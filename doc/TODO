@@ -1,11 +1,7 @@
 add more unit tests
     add unit test for component search
-
-add entity ui components for lists
-    finish todos in entity link multi select
-    finish todos in entity part multi select
-    add entity value multi select
-    add entity value multi select creation to entity view
+    add unit test for read service
+    add unit test for update service
 
 improve move actions
     add drag and drop move
@@ -13,4 +9,4 @@ improve move actions
 
 add field select display order customization for each entity class
 add icons to multi selects ?
-should I have separate create / remove buttons for rows and their values ???
+add separate create / remove buttons for multi select rows
