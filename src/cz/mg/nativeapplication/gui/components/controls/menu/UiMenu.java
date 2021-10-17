@@ -1,8 +1,9 @@
-package cz.mg.nativeapplication.gui.components.controls;
+package cz.mg.nativeapplication.gui.components.controls.menu;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.nativeapplication.gui.components.controls.UiComponent;
 
 import javax.swing.*;
 

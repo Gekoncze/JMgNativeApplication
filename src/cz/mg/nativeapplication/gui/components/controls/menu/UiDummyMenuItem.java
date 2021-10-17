@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.controls;
+package cz.mg.nativeapplication.gui.components.controls.menu;
 
 import cz.mg.annotations.requirement.Mandatory;
 

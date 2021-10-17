@@ -2,6 +2,7 @@ package cz.mg.nativeapplication.gui.components.controls;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.nativeapplication.gui.components.controls.menu.UiMenuItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,7 @@ public @Utility class UiPopupMenu extends JPopupMenu implements UiComponent {
         }
     }
 
-    public UiPopupMenu(@Mandatory Iterable<UiMenuItem> items) {
+    public UiPopupMenu(@Mandatory Iterable<? extends UiMenuItem> items) {
         for(UiMenuItem item : items){
             add(item);
         }

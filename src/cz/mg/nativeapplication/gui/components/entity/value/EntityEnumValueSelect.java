@@ -5,12 +5,15 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.*;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
+import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
 import cz.mg.nativeapplication.gui.components.controls.value.UiEnumField;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelectType;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
+import cz.mg.nativeapplication.gui.components.entity.popups.EnumPopupMenu;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
@@ -39,11 +42,7 @@ public @Utility class EntityEnumValueSelect extends EntitySelect {
             new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         this.buttons.addCollectionFirst(content.getButtons());
-        List<UiMenuItem> menuItems = new List<>();
-        for(Object value : content.getType().getEnumConstants()){
-            menuItems.addLast(new UiMenuItem(null, ((Enum)value).name(), () -> content.setValue(value)));
-        }
-        this.popupMenu = new UiPopupMenu(menuItems);
+        this.popupMenu = new EnumPopupMenu(content.getType(), content::setValue);
         refresh();
     }
 
@@ -98,7 +97,9 @@ public @Utility class EntityEnumValueSelect extends EntitySelect {
     }
 
     private void onFocusLost() {
-        refresh();
+        if(!popupMenu.isVisible()){
+            refresh();
+        }
     }
 
     private void onClearButtonClicked() {

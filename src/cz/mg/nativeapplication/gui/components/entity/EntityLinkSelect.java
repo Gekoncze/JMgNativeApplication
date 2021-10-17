@@ -44,7 +44,7 @@ public @Utility class EntityLinkSelect extends EntitySelect {
             new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         this.buttons.addCollectionFirst(content.getButtons());
-        this.popupMenu = new ComponentSearchPopupMenu(this::onItemSelected);
+        this.popupMenu = new ComponentSearchPopupMenu(content::setValue);
         refresh();
     }
 
@@ -139,12 +139,6 @@ public @Utility class EntityLinkSelect extends EntitySelect {
                 content.getField().getText(),
                 mainWindowProvider.get().getNavigation()
             );
-        }
-    }
-
-    private void onItemSelected(){
-        if(popupMenu.getSelectedComponent() != null){
-            content.setValue(popupMenu.getSelectedComponent());
         }
     }
 }

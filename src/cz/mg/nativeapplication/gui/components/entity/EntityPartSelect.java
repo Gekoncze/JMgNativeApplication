@@ -4,6 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
+import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassRepository;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
@@ -119,10 +120,8 @@ public @Utility class EntityPartSelect extends EntitySelect {
         }
     }
 
-    private void onCreateEntityClass(){
-        if(content.getField() != null){
-            content.getField().setValue(popupMenu.getSelectedEntityClass().newInstance());
-            mainWindowProvider.get().refresh();
-        }
+    private void onCreateEntityClass(EntityClass entityClass){
+        content.setValue(entityClass.newInstance());
+        mainWindowProvider.get().refresh();
     }
 }

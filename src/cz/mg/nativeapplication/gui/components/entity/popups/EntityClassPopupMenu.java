@@ -5,45 +5,34 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
-import cz.mg.nativeapplication.gui.components.controls.UiMenuItem;
 import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
+import cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem;
 import cz.mg.nativeapplication.gui.services.ClassIconProvider;
 
 import java.awt.*;
 
+import static cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem.SelectEventHandler;
+
 
 public @Utility class EntityClassPopupMenu extends UiPopupMenu {
     private final @Mandatory @Link EntityClass entityClass;
-    private @Mandatory EntityClass selectedEntityClass;
 
     private final @Mandatory @Shared ClassIconProvider classIconProvider = new ClassIconProvider();
 
     public EntityClassPopupMenu(
         @Mandatory EntityClass entityClass,
-        @Mandatory ActionUserEventHandler.Handler actionEventHandler
+        @Mandatory SelectEventHandler<EntityClass> selectEventHandler
     ) {
         this.entityClass = entityClass;
-        this.selectedEntityClass = entityClass;
 
         for(EntityClass option : entityClass.getSubclasses()){
-            add(new UiMenuItem(
+            add(new UiValueMenuItem(
                 classIconProvider.get(option.getClazz()),
+                option,
                 option.getName(),
-                () -> {
-                    selectedEntityClass = option;
-                    actionEventHandler.run();
-                }
+                selectEventHandler
             ));
         }
-    }
-
-    public @Mandatory EntityClass getEntityClass() {
-        return entityClass;
-    }
-
-    public @Mandatory EntityClass getSelectedEntityClass() {
-        return selectedEntityClass;
     }
 
     public void select(@Mandatory Component component){

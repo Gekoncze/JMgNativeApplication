@@ -2,15 +2,12 @@ package cz.mg.nativeapplication.gui.components.entity.popups;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.requirement.Optional;
-import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.components.controls.UiDummyMenuItem;
-import cz.mg.nativeapplication.gui.components.controls.UiMenuItem;
 import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
+import cz.mg.nativeapplication.gui.components.controls.menu.UiDummyMenuItem;
+import cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem;
 import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.gui.other.NavigationNode;
 import cz.mg.nativeapplication.gui.services.ComponentSearch;
@@ -19,17 +16,14 @@ import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 
 import java.awt.*;
 
+import static cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem.SelectEventHandler;
+
 
 public @Utility class ComponentSearchPopupMenu extends UiPopupMenu {
-    private final @Mandatory @Part ActionUserEventHandler.Handler actionEventHandler;
-    private @Optional @Link MgComponent selectedComponent;
+    private final @Mandatory @Part SelectEventHandler<MgComponent> selectEventHandler;
 
-    public ComponentSearchPopupMenu(@Mandatory ActionUserEventHandler.Handler actionEventHandler) {
-        this.actionEventHandler = actionEventHandler;
-    }
-
-    public @Optional MgComponent getSelectedComponent() {
-        return selectedComponent;
+    public ComponentSearchPopupMenu(@Mandatory SelectEventHandler<MgComponent> selectEventHandler) {
+        this.selectEventHandler = selectEventHandler;
     }
 
     public void search(
@@ -44,13 +38,11 @@ public @Utility class ComponentSearchPopupMenu extends UiPopupMenu {
 
         for(MgComponent result : results){
             add(
-                new UiMenuItem(
+                new UiValueMenuItem<>(
                     new ObjectIconProvider().get(result),
+                    result,
                     findComponentPath(navigation, result),
-                    () -> {
-                        selectedComponent = result;
-                        actionEventHandler.run();
-                    }
+                    selectEventHandler
                 )
             );
         }

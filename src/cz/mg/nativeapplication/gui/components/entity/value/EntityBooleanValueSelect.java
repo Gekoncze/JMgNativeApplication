@@ -5,12 +5,14 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.*;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.value.UiBooleanField;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelectType;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
+import cz.mg.nativeapplication.gui.components.entity.popups.BooleanPopupMenu;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
@@ -25,7 +27,7 @@ public @Utility class EntityBooleanValueSelect extends EntitySelect {
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
-    private final @Mandatory @Shared UiPopupMenu popupMenu;
+    private final @Mandatory @Shared BooleanPopupMenu popupMenu;
 
     public EntityBooleanValueSelect(
         @Mandatory Object entity,
@@ -39,15 +41,12 @@ public @Utility class EntityBooleanValueSelect extends EntitySelect {
             new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         this.buttons.addCollectionFirst(content.getButtons());
-        this.popupMenu = new UiPopupMenu(
-            new UiMenuItem(null, "true", () -> content.setValue(true)),
-            new UiMenuItem(null, "false", () -> content.setValue(false))
-        );
+        this.popupMenu = new BooleanPopupMenu(content::setValue);
         refresh();
     }
 
     @Override
-    public final @Mandatory UiLabel getLabel() {
+    public @Mandatory UiLabel getLabel() {
         return label;
     }
 
@@ -57,7 +56,7 @@ public @Utility class EntityBooleanValueSelect extends EntitySelect {
     }
 
     @Override
-    public final @Mandatory List<UiButton> getButtons() {
+    public @Mandatory List<UiButton> getButtons() {
         return buttons;
     }
 
@@ -112,7 +111,7 @@ public @Utility class EntityBooleanValueSelect extends EntitySelect {
             showSelectionMenu();
         }
     }
-    
+
     private void showSelectionMenu(){
         if(content.getField() != null){
             popupMenu.show(content.getField());

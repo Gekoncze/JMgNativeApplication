@@ -23,7 +23,7 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
     private final @Mandatory @Part UiFieldFactory fieldFactory;
-    private final @Mandatory @Part UiValueField field;
+    private @Optional @Part UiValueField field;
 
     public EntitySingleSelectContent(
         @Mandatory Object entity,
@@ -33,7 +33,6 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
         this.entity = entity;
         this.entityField = entityField;
         this.fieldFactory = fieldFactory;
-        this.field = fieldFactory.create();
     }
 
     @Override
@@ -73,12 +72,16 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
 
     @Override
     public @Optional UiValueField getField() {
+        if(field == null){
+            field = fieldFactory.create();
+            refresh();
+        }
         return field;
     }
 
     @Override
     public Component getComponent() {
-        return field;
+        return getField();
     }
 
     @Override
@@ -88,7 +91,9 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
 
     @Override
     public void refresh(){
-        field.setValue(getValue());
-        field.lock();
+        if(field != null){
+            field.setValue(getValue());
+            field.lock();
+        }
     }
 }
