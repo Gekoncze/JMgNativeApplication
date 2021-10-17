@@ -8,5 +8,6 @@ improve move actions
     add keyboard shortcuts to move up and down
 
 add field select display order customization for each entity class
-add icons to multi selects ?
+add field select display customization for each entity class
+add icons to multi selects
 add separate create / remove buttons for multi select rows
