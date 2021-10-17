@@ -1,16 +1,17 @@
-package cz.mg.nativeapplication.gui.components.controls;
+package cz.mg.nativeapplication.gui.components.controls.value;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
 
 
-public @Utility class UiBooleanField extends UiTextField {
+public @Utility class UiBooleanField extends UiValueField {
     public UiBooleanField() {
         addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
     }
 
-    public @Optional Boolean getBoolean(){
+    @Override
+    public @Optional Object getValue(){
         try {
             switch (getText().trim()){
                 case "true": return true;
@@ -22,15 +23,21 @@ public @Utility class UiBooleanField extends UiTextField {
         }
     }
 
-    public void setBoolean(@Optional Boolean value){
+    @Override
+    public void setValue(@Optional Object value){
         if(value != null){
-            setText(value.toString());
+            if(value instanceof Boolean){
+                setText(value.toString());
+            } else {
+                throw new IllegalArgumentException("Expected 'Boolean', but got '" + value.getClass().getSimpleName() + "'.");
+            }
         } else {
             setText("");
+            setNull(true);
         }
     }
 
     private void onFocusLost() {
-        setBoolean(getBoolean());
+        setValue(getValue());
     }
 }

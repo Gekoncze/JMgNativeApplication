@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 
-public @Utility abstract class ObjectView extends JScrollPane implements RefreshableView {
+public @Utility abstract class ObjectView extends JScrollPane implements Refreshable {
     public abstract Object getObject();
     public abstract void onKeyEvent(KeyEvent e);
 }

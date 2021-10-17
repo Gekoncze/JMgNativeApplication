@@ -3,7 +3,7 @@ package cz.mg.nativeapplication.gui.components.controls;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.nativeapplication.gui.components.MainWindow;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
 import cz.mg.nativeapplication.gui.services.IconGalleryProvider;
 
@@ -12,8 +12,9 @@ import java.awt.*;
 
 
 public @Utility class UiButton extends JButton implements UiComponent {
+    private final @Mandatory @Shared IconGalleryProvider iconGalleryProvider = new IconGalleryProvider();
+
     public UiButton(
-        @Mandatory MainWindow mainWindow,
         @Optional String iconName,
         @Optional String text,
         @Optional String tooltip,
@@ -25,7 +26,7 @@ public @Utility class UiButton extends JButton implements UiComponent {
         setOpaque(false);
 
         if(iconName != null){
-            setIcon(new IconGalleryProvider().get().getIcon(iconName));
+            setIcon(iconGalleryProvider.get().getIcon(iconName));
         }
 
         if(text != null){

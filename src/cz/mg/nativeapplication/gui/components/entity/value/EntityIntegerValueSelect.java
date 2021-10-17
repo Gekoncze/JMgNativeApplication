@@ -1,15 +1,17 @@
-package cz.mg.nativeapplication.gui.components.entity.single.value;
+package cz.mg.nativeapplication.gui.components.entity.value;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiIntegerField;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
-import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
+import cz.mg.nativeapplication.gui.components.controls.value.UiIntegerField;
+import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
+import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
+import cz.mg.nativeapplication.gui.components.entity.EntitySelectType;
+import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
@@ -20,26 +22,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect {
+public @Utility class EntityIntegerValueSelect extends EntitySelect {
     private final @Mandatory @Shared UiLabel label;
-    private final @Mandatory @Shared UiIntegerField content;
+    private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
 
-    public EntityIntegerValueSingleSelect(
-        @Mandatory MainWindow mainWindow,
+    public EntityIntegerValueSelect(
         @Mandatory Object entity,
-        @Mandatory EntityField entityField
+        @Mandatory EntityField entityField,
+        @Mandatory EntitySelectType type
     ) {
-        super(mainWindow, entity, entityField);
+        this.content = EntitySelectContent.create(entity, entityField, type, this::createContentField);
         this.label = new UiLabel(entityField.getName());
-        this.content = new UiIntegerField();
-        this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
-        this.content.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
-        this.content.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
         this.buttons = new List<>(
-            new UiButton(mainWindow, IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
-            new UiButton(mainWindow, IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
+            new UiButton(IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
+            new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
+        this.buttons.addCollectionFirst(content.getButtons());
         refresh();
     }
 
@@ -49,7 +48,7 @@ public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect 
     }
 
     @Override
-    public @Mandatory UiIntegerField getContent(){
+    public @Mandatory EntitySelectContent getContent(){
         return content;
     }
 
@@ -60,10 +59,15 @@ public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect 
 
     @Override
     public void refresh() {
-        Object value = getValue();
-        content.setInteger((Integer)value);
-        content.setNull(value == null);
-        content.lock();
+        content.refresh();
+    }
+
+    private UiValueField createContentField(){
+        UiValueField valueField = new UiIntegerField();
+        valueField.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
+        valueField.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
+        valueField.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
+        return valueField;
     }
 
     private void onMouseClicked(MouseEvent event) {
@@ -81,9 +85,10 @@ public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect 
         }
 
         if(event.getKeyCode() == Key.ENTER){
-            setValue(content.getInteger());
-            refresh();
-            event.consume();
+            if(content.getField() != null){
+                content.setValue(content.getField().getValue());
+                event.consume();
+            }
         }
     }
 
@@ -92,10 +97,12 @@ public @Utility class EntityIntegerValueSingleSelect extends EntitySingleSelect 
     }
 
     private void onClearButtonClicked() {
-        setValue(null);
+        content.setValue(null);
     }
 
     private void onEditButtonClicked() {
-        content.unlock();
+        if(content.getField() != null){
+            content.getField().unlock();
+        }
     }
 }

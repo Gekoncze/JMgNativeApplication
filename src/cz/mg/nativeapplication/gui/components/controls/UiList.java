@@ -6,6 +6,8 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
 import cz.mg.collections.list.ReadableList;
+import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
+import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 
 import javax.swing.*;
@@ -15,16 +17,17 @@ import java.awt.event.MouseListener;
 
 
 public class UiList extends UiVerticalPanel implements UiComponent {
+    private final @Mandatory @Part UiFieldFactory fieldFactory;
     private final @Mandatory @Link List<Object> values = new List<>();
-    private final @Mandatory @Part List<UiTextField> textFields = new List<>();
-    private @Mandatory @Part UiList.Renderer renderer;
+    private final @Mandatory @Part List<UiValueField> fields = new List<>();
     private @Optional Integer selectedIndex;
     private final List<KeyListener> itemKeyListeners = new List<>();
     private final List<MouseListener> itemMouseListeners = new List<>();
     private final List<FocusListener> itemFocusListeners = new List<>();
 
-    public UiList(int border, int padding) {
+    public UiList(int border, int padding, @Mandatory UiFieldFactory fieldFactory) {
         super(border, padding, Alignment.TOP);
+        this.fieldFactory = fieldFactory;
         setBorder(BorderFactory.createEtchedBorder());
         setOpaque(true);
         setBackground(UiConstants.getListBackgroundColor());
@@ -35,16 +38,8 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         return values;
     }
 
-    public @Mandatory ReadableList<UiTextField> getTextFields() {
-        return textFields;
-    }
-
-    public @Optional UiList.Renderer getRenderer() {
-        return renderer;
-    }
-
-    public void setRenderer(@Optional UiList.Renderer renderer) {
-        this.renderer = renderer;
+    public @Mandatory ReadableList<UiValueField> getFields() {
+        return fields;
     }
 
     public @Optional Integer getSelectedIndex() {
@@ -65,30 +60,29 @@ public class UiList extends UiVerticalPanel implements UiComponent {
 
     public void setRows(@Mandatory List values){
         this.values.clear();
-        this.textFields.clear();
+        this.fields.clear();
         this.clear();
 
         this.values.addCollectionLast(values);
         for(Object value : values){
-            UiTextField textField = new UiTextField();
-            textField.setText(renderer.getText(value));
-            textField.setNull(value == null);
-            textField.addMouseListener(new MouseClickUserEventHandler(event -> {
-                onItemSelected(textField);
+            UiValueField field = fieldFactory.create();
+            field.setValue(value);
+            field.addMouseListener(new MouseClickUserEventHandler(event -> {
+                onItemSelected(field);
             }));
-            textField.setBorder(null);
-            textField.setBackground(null);
+            field.setBorder(null);
+            field.setBackground(null);
             for(KeyListener keyListener : itemKeyListeners){
-                textField.addKeyListener(keyListener);
+                field.addKeyListener(keyListener);
             }
             for(MouseListener mouseListener : itemMouseListeners){
-                textField.addMouseListener(mouseListener);
+                field.addMouseListener(mouseListener);
             }
             for(FocusListener focusListener : itemFocusListeners){
-                textField.addFocusListener(focusListener);
+                field.addFocusListener(focusListener);
             }
-            this.textFields.addLast(textField);
-            this.add(textField, 1, 0, Alignment.LEFT, Fill.BOTH);
+            this.fields.addLast(field);
+            this.add(field, 1, 0, Alignment.LEFT, Fill.BOTH);
         }
 
         if(values.isEmpty()){
@@ -102,7 +96,7 @@ public class UiList extends UiVerticalPanel implements UiComponent {
 
     private void onItemSelected(UiTextField selectedTextField) {
         int i = 0;
-        for(UiTextField textField : textFields){
+        for(UiTextField textField : fields){
             if(selectedTextField == textField){
                 setSelectedIndex(i);
                 break;
@@ -123,7 +117,7 @@ public class UiList extends UiVerticalPanel implements UiComponent {
                 selectedIndex = index;
 
                 int i = 0;
-                for(UiTextField textField : textFields){
+                for(UiTextField textField : fields){
                     if(i == index){
                         textField.setBorder(BorderFactory.createLineBorder(UiConstants.getListSelectionBackgroundColor()));
                     } else {
@@ -135,7 +129,4 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         }
     }
 
-    public interface Renderer {
-        String getText(Object object);
-    }
 }

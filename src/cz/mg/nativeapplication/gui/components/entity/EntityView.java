@@ -11,22 +11,14 @@ import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassRepository;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.*;
-import cz.mg.nativeapplication.gui.components.entity.multi.EntityMultiSelect;
-import cz.mg.nativeapplication.gui.components.entity.multi.link.EntityLinkMultiSelect;
-import cz.mg.nativeapplication.gui.components.entity.multi.part.EntityPartMultiSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.link.EntityLinkSingleSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.part.EntityPartSingleSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityBooleanValueSingleSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityEnumValueSingleSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityIntegerValueSingleSelect;
-import cz.mg.nativeapplication.gui.components.entity.single.value.EntityStringValueSingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.value.EntityBooleanValueSelect;
+import cz.mg.nativeapplication.gui.components.entity.value.EntityEnumValueSelect;
+import cz.mg.nativeapplication.gui.components.entity.value.EntityIntegerValueSelect;
+import cz.mg.nativeapplication.gui.components.entity.value.EntityStringValueSelect;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
-import cz.mg.nativeapplication.gui.components.other.RefreshableView;
+import cz.mg.nativeapplication.gui.components.other.Refreshable;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.*;
@@ -44,49 +36,39 @@ public @Utility class EntityView extends ObjectView {
 
     private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
 
-    public EntityView(@Mandatory MainWindow mainWindow, @Mandatory Object entity) {
+    public EntityView(@Mandatory Object entity) {
         this.entity = entity;
 
         EntityClass entityClass = entityClassRepository.get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
-            if(isList(entityField)){
-                if(isLink(entityField)){
-                    addMultiSelect(new EntityLinkMultiSelect(mainWindow, entity, entityField), y++);
+            EntitySelectType type = isList(entityField)
+                ? EntitySelectType.MULTI_SELECT
+                : EntitySelectType.SINGLE_SELECT;
+
+            if(isLink(entityField)){
+                addSelect(new EntityLinkSelect(entity, entityField, type), y++, type);
+            }
+
+            if(isPart(entityField)){
+                addSelect(new EntityPartSelect(entity, entityField, type), y++, type);
+            }
+
+            if(isValue(entityField)){
+                if(is(entityField, String.class)){
+                    addSelect(new EntityStringValueSelect(entity, entityField, type), y++, type);
                 }
 
-                if(isPart(entityField)){
-                    addMultiSelect(new EntityPartMultiSelect(mainWindow, entity, entityField), y++);
+                if(is(entityField, Integer.class)){
+                    addSelect(new EntityIntegerValueSelect(entity, entityField, type), y++, type);
                 }
 
-                if(isValue(entityField)){
-                    // todo
-                }
-            } else {
-                if(isLink(entityField)){
-                    addSingleSelect(new EntityLinkSingleSelect(mainWindow, entity, entityField), y++);
+                if(is(entityField, Boolean.class)){
+                    addSelect(new EntityBooleanValueSelect(entity, entityField, type), y++, type);
                 }
 
-                if(isPart(entityField)){
-                    addSingleSelect(new EntityPartSingleSelect(mainWindow, entity, entityField), y++);
-                }
-
-                if(isValue(entityField)){
-                    if(is(entityField, String.class)){
-                        addSingleSelect(new EntityStringValueSingleSelect(mainWindow, entity, entityField), y++);
-                    }
-
-                    if(is(entityField, Integer.class)){
-                        addSingleSelect(new EntityIntegerValueSingleSelect(mainWindow, entity, entityField), y++);
-                    }
-
-                    if(is(entityField, Boolean.class)){
-                        addSingleSelect(new EntityBooleanValueSingleSelect(mainWindow, entity, entityField), y++);
-                    }
-
-                    if(isEnum(entityField)){
-                        addSingleSelect(new EntityEnumValueSingleSelect(mainWindow, entity, entityField), y++);
-                    }
+                if(isEnum(entityField)){
+                    addSelect(new EntityEnumValueSelect(entity, entityField, type), y++, type);
                 }
             }
         }
@@ -119,14 +101,27 @@ public @Utility class EntityView extends ObjectView {
         return is(entityField, Enum.class);
     }
 
-    private void addSingleSelect(@Mandatory EntitySingleSelect select, int y){
+    private void addSelect(@Mandatory EntitySelect select, int y, @Mandatory EntitySelectType type){
+        switch (type){
+            case SINGLE_SELECT:
+                addSingleSelect(select, y);
+                break;
+            case MULTI_SELECT:
+                addMultiSelect(select, y);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unsupported entity select type '" + type + "'.");
+        }
+    }
+
+    private void addSingleSelect(@Mandatory EntitySelect select, int y){
         panel.add(select.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
-        panel.add((Component) select.getContent(), 1, y, 1, 0, MIDDLE, BOTH);
+        panel.add(select.getContent().getComponent(), 1, y, 1, 0, MIDDLE, BOTH);
         panel.add(wrapButtons(select.getButtons()), 2, y, 0, 0, MIDDLE, BOTH);
         selects.addLast(select);
     }
 
-    private void addMultiSelect(@Mandatory EntityMultiSelect select, int y){
+    private void addMultiSelect(@Mandatory EntitySelect select, int y){
         UiHorizontalPanel horizontalPanel = new UiHorizontalPanel(0, PADDING, LEFT);
         horizontalPanel.add(select.getLabel(), 0, 0, 1, 0, LEFT, HORIZONTAL);
         horizontalPanel.add(wrapButtons(select.getButtons()), 1, 0, 0, 0, RIGHT, NONE);
@@ -134,7 +129,7 @@ public @Utility class EntityView extends ObjectView {
 
         UiVerticalPanel verticalPanel = new UiVerticalPanel(0, PADDING, TOP);
         verticalPanel.add(horizontalPanel, 0, 0, 1, 0, LEFT, HORIZONTAL);
-        verticalPanel.add(select.getContent(), 0, 1, 1, 1, MIDDLE, BOTH);
+        verticalPanel.add(select.getContent().getComponent(), 0, 1, 1, 1, MIDDLE, BOTH);
         verticalPanel.rebuild();
 
         panel.add(verticalPanel, 0, y, 1, 0, MIDDLE, BOTH, 3, 1);
@@ -154,7 +149,7 @@ public @Utility class EntityView extends ObjectView {
 
     @Override
     public void refresh() {
-        for(RefreshableView field : selects){
+        for(Refreshable field : selects){
             field.refresh();
         }
     }

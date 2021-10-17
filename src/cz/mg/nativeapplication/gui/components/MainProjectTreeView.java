@@ -10,9 +10,10 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.components.controls.UiConstants;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiTree;
-import cz.mg.nativeapplication.gui.components.other.RefreshableView;
+import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 
 import javax.swing.*;
@@ -26,17 +27,15 @@ import java.awt.event.MouseEvent;
 import cz.mg.nativeapplication.gui.other.NavigationNode;
 
 
-public @Utility class MainProjectTreeView extends JScrollPane implements RefreshableView {
+public @Utility class MainProjectTreeView extends JScrollPane implements Refreshable {
     private static final int PADDING = 4;
 
-    private final @Mandatory @Link MainWindow mainWindow;
     private final @Mandatory @Link UiTree tree;
 
+    private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
     private final @Mandatory @Shared ObjectIconProvider objectIconProvider = new ObjectIconProvider();
 
-    public MainProjectTreeView(@Mandatory MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
-
+    public MainProjectTreeView() {
         tree = new UiTree();
         tree.setModel(new EntityTreeModel());
         tree.setCellRenderer(new EntityTreeRenderer());
@@ -70,7 +69,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private void openSelectedItem(){
         if(tree.getLastSelectedPathComponent() != null){
             NavigationNode node = (NavigationNode) tree.getLastSelectedPathComponent();
-            mainWindow.getMainView().getMainTabView().open(node.getSelf());
+            mainWindowProvider.get().getMainView().getMainTabView().open(node.getSelf());
         }
     }
 
@@ -117,7 +116,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
             NavigationNode oldNodeParent = oldNode.getParent();
             Object oldParent = oldNodeParent != null ? oldNodeParent.getSelf() : null;
             Object entity = oldNode.getSelf();
-            NavigationNode newNode = mainWindow.getNavigation().get(entity);
+            NavigationNode newNode = mainWindowProvider.get().getNavigation().get(entity);
             if(newNode != null){
                 NavigationNode newNodeParent = newNode.getParent();
                 Object newParent = newNodeParent != null ? newNodeParent.getSelf() : null;
@@ -136,7 +135,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private @Utility class EntityTreeModel implements TreeModel {
         @Override
         public Object getRoot() {
-            return mainWindow.getNavigation().getRoot();
+            return mainWindowProvider.get().getNavigation().getRoot();
         }
 
         @Override

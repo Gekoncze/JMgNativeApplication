@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.controls;
+package cz.mg.nativeapplication.gui.components.controls.value;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -6,12 +6,13 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
 
 
-public @Utility class UiIntegerField extends UiTextField {
+public @Utility class UiIntegerField extends UiValueField {
     public UiIntegerField() {
         addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
     }
 
-    public @Optional Integer getInteger(){
+    @Override
+    public @Optional Object getValue(){
         try {
             return Integer.parseInt(getText().trim().replace(" ", ""));
         } catch (Exception e){
@@ -19,11 +20,17 @@ public @Utility class UiIntegerField extends UiTextField {
         }
     }
 
-    public void setInteger(@Optional Integer value){
+    @Override
+    public void setValue(@Optional Object value){
         if(value != null){
-            setText(format(value));
+            if(value instanceof Integer){
+                setText(format((Integer)value));
+            } else {
+                throw new IllegalArgumentException("Expected 'Integer', but got '" + value.getClass().getSimpleName() + "'.");
+            }
         } else {
             setText("");
+            setNull(true);
         }
     }
 
@@ -41,6 +48,6 @@ public @Utility class UiIntegerField extends UiTextField {
     }
 
     private void onFocusLost() {
-        setInteger(getInteger());
+        this.setValue(getValue());
     }
 }

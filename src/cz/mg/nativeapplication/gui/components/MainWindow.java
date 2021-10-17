@@ -7,13 +7,14 @@ import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
-import cz.mg.nativeapplication.gui.components.other.RefreshableView;
+import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.KeyDispatcherUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.other.ApplicationState;
 import cz.mg.nativeapplication.gui.other.Navigation;
 import cz.mg.nativeapplication.gui.services.IconGalleryProvider;
+import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 import cz.mg.nativeapplication.gui.services.NavigationCreator;
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashSet;
 
 
-public @Utility class MainWindow extends JFrame implements RefreshableView {
+public @Utility class MainWindow extends JFrame implements Refreshable {
     private static final String TITLE = "JMgNativeApplication";
     private static final int DEFAULT_WIDTH = 1600;
     private static final int DEFAULT_HEIGHT = 900;
@@ -35,6 +36,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
     private @Optional @Cache Navigation navigation;
 
     public MainWindow() {
+        MainWindowProvider.setInstance(this);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new CloseUserEventHandler(mainActions::exit));
         setTitle(TITLE);
@@ -42,7 +44,7 @@ public @Utility class MainWindow extends JFrame implements RefreshableView {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
         setJMenuBar(mainMenu = new MainMenu(mainActions));
-        setContentPane(mainView = new MainView(this));
+        setContentPane(mainView = new MainView());
         setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, new HashSet<>());
         setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, new HashSet<>());
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(

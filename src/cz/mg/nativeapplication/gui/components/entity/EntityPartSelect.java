@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.entity.single.part;
+package cz.mg.nativeapplication.gui.components.entity;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -7,47 +7,45 @@ import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClassRepository;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
-import cz.mg.nativeapplication.gui.components.controls.UiTextField;
+import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
-import cz.mg.nativeapplication.gui.components.popups.EntityClassPopupMenu;
-import cz.mg.nativeapplication.gui.components.entity.single.EntitySingleSelect;
+import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
+import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
+import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
 
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
+public @Utility class EntityPartSelect extends EntitySelect {
     private final @Mandatory @Shared UiLabel label;
-    private final @Mandatory @Shared UiTextField content;
+    private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared EntityClassPopupMenu popupMenu;
 
-    private final @Mandatory @Shared ObjectNameProvider objectNameProvider = new ObjectNameProvider();
+    private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
     private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
     private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
 
-    public EntityPartSingleSelect(
-        @Mandatory MainWindow mainWindow,
+    public EntityPartSelect(
         @Mandatory Object entity,
-        @Mandatory EntityField entityField
+        @Mandatory EntityField entityField,
+        @Mandatory EntitySelectType type
     ) {
-        super(mainWindow, entity, entityField);
+        this.content = EntitySelectContent.create(entity, entityField, type, this::createContentField);
         this.label = new UiLabel(entityField.getName());
-        this.content = new UiTextField();
-        this.content.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         this.buttons = new List<>(
-            new UiButton(mainWindow, IconGallery.CREATE, null, "Create", this::onCreateButtonClicked),
-            new UiButton(mainWindow, IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
-            new UiButton(mainWindow, IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
+            new UiButton(IconGallery.CREATE, null, "Create", this::onCreateButtonClicked),
+            new UiButton(IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
+            new UiButton(IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
         );
+        this.buttons.addCollectionFirst(content.getButtons());
         this.popupMenu = new EntityClassPopupMenu(
-            entityClassRepository.get(entityField.getType()),
+            entityClassRepository.get(content.getType()),
             this::onCreateEntityClass
         );
         refresh();
@@ -59,7 +57,7 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
     }
 
     @Override
-    public @Mandatory UiTextField getContent() {
+    public @Mandatory EntitySelectContent getContent() {
         return content;
     }
 
@@ -70,9 +68,13 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
 
     @Override
     public void refresh() {
-        Object object = getValue();
-        content.setText(objectNameProvider.get(object));
-        content.setNull(object == null);
+        content.refresh();
+    }
+
+    private UiObjectField createContentField(){
+        UiObjectField objectField = new UiObjectField();
+        objectField.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
+        return objectField;
     }
 
     private void onMouseClicked(MouseEvent event) {
@@ -84,39 +86,43 @@ public @Utility class EntityPartSingleSelect extends EntitySingleSelect {
     }
 
     private void onDeleteButtonClicked() {
-        if(getValue() != null){
+        if(content.getValue() != null){
             String title = "Delete entity?";
             String message = "Are you sure you want to delete the entity? Shared ownership might still keep it alive.";
 
             UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
             if(choice == UiConfirmDialog.Choice.YES){
                 deleteService.remove(
-                    mainWindow.getApplicationState().getHistory().addTransaction(),
-                    mainWindow.getApplicationState().getProject(),
-                    entity,
-                    entityField
+                    mainWindowProvider.get().getApplicationState().getHistory().addTransaction(),
+                    mainWindowProvider.get().getApplicationState().getProject(),
+                    content.getEntity(),
+                    content.getEntityField()
                 );
-                mainWindow.refresh();
+                mainWindowProvider.get().refresh();
             }
         }
     }
 
     private void onCreateButtonClicked() {
-        Object value = getValue();
-        if(value == null){
-            popupMenu.select(content);
+        if(content.getField() != null){
+            Object value = content.getValue();
+            if(value == null){
+                popupMenu.select(content.getField());
+            }
         }
     }
 
     private void onOpenButtonClicked() {
-        Object value = getValue();
+        Object value = content.getValue();
         if(value != null){
-            mainWindow.getMainView().getMainTabView().open(value);
+            mainWindowProvider.get().getMainView().getMainTabView().open(value);
         }
     }
 
     private void onCreateEntityClass(){
-        setValue(popupMenu.getSelectedEntityClass().newInstance());
-        mainWindow.refresh();
+        if(content.getField() != null){
+            content.getField().setValue(popupMenu.getSelectedEntityClass().newInstance());
+            mainWindowProvider.get().refresh();
+        }
     }
 }

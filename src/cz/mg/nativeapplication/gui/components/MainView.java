@@ -12,10 +12,10 @@ public @Utility class MainView extends UiHorizontalSplitPane {
     private static final int DEFAULT_DIVIDER_POSITION = 360;
     private static final int BORDER = 4;
 
-    public MainView(@Mandatory MainWindow mainWindow) {
+    public MainView() {
         super(
-            new MainProjectTreeView(mainWindow),
-            new MainTabView(mainWindow)
+            new MainProjectTreeView(),
+            new MainTabView()
         );
 
         setDividerLocation(DEFAULT_DIVIDER_POSITION);

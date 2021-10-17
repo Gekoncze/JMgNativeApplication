@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.popups;
+package cz.mg.nativeapplication.gui.components.entity.popups;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;

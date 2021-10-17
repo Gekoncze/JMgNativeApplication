@@ -3,13 +3,12 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.annotations.storage.Link;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.EntityView;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
-import cz.mg.nativeapplication.gui.components.other.RefreshableView;
+import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
@@ -23,13 +22,10 @@ import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
 
 
-public class MainTabView extends JTabbedPane implements RefreshableView {
+public class MainTabView extends JTabbedPane implements Refreshable {
     private static final int PADDING = 8;
 
-    private final @Mandatory @Link MainWindow mainWindow;
-
-    public MainTabView(@Mandatory MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
+    public MainTabView() {
     }
 
     public void open(@Optional Object object){
@@ -49,7 +45,7 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
 
     private void openNew(@Mandatory Object object){
         if(object.getClass().isAnnotationPresent(Entity.class)){
-            addNewTab(object, new EntityView(mainWindow, object));
+            addNewTab(object, new EntityView(object));
         }
 
         // todo - add support for more object types
@@ -117,7 +113,7 @@ public class MainTabView extends JTabbedPane implements RefreshableView {
         label.addFocusListener(new FocusGainedUserEventHandler(() -> selectTab(header)));
         header.add(label, 0, 0, 0, 0, MIDDLE, BOTH);
 
-        UiButton closeButton = new UiButton(mainWindow, null, "x", "Close", () -> remove(component));
+        UiButton closeButton = new UiButton(null, "x", "Close", () -> remove(component));
         closeButton.setForeground(new Color(180, 180, 180, 255));
         header.add(closeButton, 1, 0, 0, 0, MIDDLE, NONE);
 
