@@ -1,0 +1,123 @@
+package cz.mg.nativeapplication.gui.components.entity;
+
+import cz.mg.annotations.classes.Utility;
+import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Shared;
+import cz.mg.collections.list.List;
+import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.components.controls.UiLabel;
+import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
+import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
+import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
+import cz.mg.nativeapplication.gui.components.enums.Key;
+import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
+import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.icons.IconGallery;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+
+
+public abstract @Utility class EntityValueSelect extends EntitySelect {
+    private final @Mandatory @Shared UiLabel label;
+    private final @Mandatory @Shared EntitySelectContent content;
+    private final @Mandatory @Shared List<UiButton> buttons;
+    private final @Optional @Shared UiPopupMenu popupMenu;
+
+    public EntityValueSelect(
+        @Mandatory Object entity,
+        @Mandatory EntityField entityField,
+        @Mandatory EntitySelectType type
+    ) {
+        this.content = EntitySelectContent.create(entity, entityField, type, this::createContentField);
+        this.label = new UiLabel(entityField.getName());
+        this.buttons = new List<>(
+            new UiButton(IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
+            new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
+        );
+        this.buttons.addCollectionFirst(content.getButtons());
+        this.popupMenu = createPopupMenu(content);
+        refresh();
+    }
+
+    @Override
+    public @Mandatory UiLabel getLabel() {
+        return label;
+    }
+
+    @Override
+    public @Mandatory EntitySelectContent getContent(){
+        return content;
+    }
+
+    @Override
+    public @Mandatory List<UiButton> getButtons() {
+        return buttons;
+    }
+
+    @Override
+    public void refresh() {
+        content.refresh();
+    }
+
+    private UiValueField createContentField(){
+        UiValueField valueField = createValueField(content);
+        valueField.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
+        valueField.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
+        valueField.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
+        return valueField;
+    }
+
+    protected abstract @Mandatory UiValueField createValueField(@Mandatory EntitySelectContent content);
+    protected abstract @Optional UiPopupMenu createPopupMenu(@Mandatory EntitySelectContent content);
+
+    private void onClearButtonClicked() {
+        content.setValue(null);
+    }
+
+    private void onEditButtonClicked() {
+        if(content.getField() != null){
+            content.getField().unlock();
+            showSelectionMenu();
+        }
+    }
+
+    private void showSelectionMenu(){
+        if(content.getField() != null){
+            if(popupMenu != null){
+                popupMenu.show(content.getField());
+            }
+        }
+    }
+
+    private void onMouseClicked(MouseEvent event) {
+        if(event.getButton() == MouseEvent.BUTTON1){
+            if(event.getClickCount() == 2){
+                onEditButtonClicked();
+            }
+        }
+    }
+
+    private void onKeyPressed(KeyEvent event) {
+        if(event.getKeyCode() == Key.ESCAPE){
+            refresh();
+            event.consume();
+        }
+
+        if(event.getKeyCode() == Key.ENTER){
+            if(content.getField() != null){
+                content.setValue(content.getField().getValue());
+                event.consume();
+            }
+        }
+    }
+
+    private void onFocusLost() {
+        if(popupMenu == null || !popupMenu.isVisible()){
+            refresh();
+        }
+    }
+}
