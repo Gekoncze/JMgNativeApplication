@@ -12,24 +12,21 @@ public @Utility class UiStringField extends UiValueField {
 
     @Override
     public @Optional Object getValue() {
-        if(isNull()){
-            return null;
-        } else {
-            return getText();
-        }
+        return getText();
     }
 
     @Override
     public void setValue(@Optional Object value) {
         if(value != null){
             if(value instanceof String){
+                setNull(false);
                 setText((String)value);
             } else {
                 throw new IllegalArgumentException("Expected 'String', but got '" + value.getClass().getSimpleName() + "'.");
             }
         } else {
-            setText("");
             setNull(true);
+            setText("");
         }
     }
 

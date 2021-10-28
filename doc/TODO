@@ -15,6 +15,3 @@ add separate create / remove buttons for multi select rows
 
 bug in delete service
     when deleting mg structure in test project, the whole location gets deleted
-
-bug in entity value select
-    cannot update atom name

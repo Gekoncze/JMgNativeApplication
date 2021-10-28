@@ -27,13 +27,14 @@ public @Utility class UiBooleanField extends UiValueField {
     public void setValue(@Optional Object value){
         if(value != null){
             if(value instanceof Boolean){
+                setNull(false);
                 setText(value.toString());
             } else {
                 throw new IllegalArgumentException("Expected 'Boolean', but got '" + value.getClass().getSimpleName() + "'.");
             }
         } else {
-            setText("");
             setNull(true);
+            setText("");
         }
     }
 

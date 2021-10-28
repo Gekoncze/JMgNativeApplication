@@ -18,10 +18,11 @@ public @Utility class UiObjectField extends UiValueField {
     @Override
     public void setValue(@Optional Object value) {
         if(value != null){
+            setNull(false);
             setText(objectNameProvider.get(value));
         } else {
-            setText("");
             setNull(true);
+            setText("");
         }
     }
 }

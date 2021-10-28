@@ -24,13 +24,14 @@ public @Utility class UiIntegerField extends UiValueField {
     public void setValue(@Optional Object value){
         if(value != null){
             if(value instanceof Integer){
+                setNull(false);
                 setText(format((Integer)value));
             } else {
                 throw new IllegalArgumentException("Expected 'Integer', but got '" + value.getClass().getSimpleName() + "'.");
             }
         } else {
-            setText("");
             setNull(true);
+            setText("");
         }
     }
 

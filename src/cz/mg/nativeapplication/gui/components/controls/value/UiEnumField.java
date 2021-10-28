@@ -29,13 +29,14 @@ public @Utility class UiEnumField<T extends Enum> extends UiValueField {
     public void setValue(@Optional Object value){
         if(value != null){
             if(enumClass.isInstance(value)){
+                setNull(false);
                 setText(((T)value).name());
             } else {
                 throw new IllegalArgumentException("Expected '" + enumClass.getSimpleName() + "', but got '" + value.getClass().getSimpleName() + "'.");
             }
         } else {
-            setText("");
             setNull(true);
+            setText("");
         }
     }
 
