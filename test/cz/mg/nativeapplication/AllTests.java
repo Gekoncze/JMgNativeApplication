@@ -3,6 +3,7 @@ package cz.mg.nativeapplication;
 import cz.mg.nativeapplication.gui.Repositories;
 import cz.mg.nativeapplication.gui.services.ComponentSearchTest;
 import cz.mg.nativeapplication.mg.services.explorer.DeleteServiceTest;
+import cz.mg.nativeapplication.mg.services.explorer.ReadServiceTest;
 import cz.mg.nativeapplication.mg.services.explorer.SearchServiceTest;
 import cz.mg.nativeapplication.mg.services.history.HistoryTest;
 import cz.mg.nativeapplication.mg.services.other.CollectionTypeProviderTest;
@@ -19,6 +20,7 @@ public class AllTests {
 
             // mg.services.explorer
             new DeleteServiceTest(),
+            new ReadServiceTest(),
             new SearchServiceTest(),
 
             // mg.services.history

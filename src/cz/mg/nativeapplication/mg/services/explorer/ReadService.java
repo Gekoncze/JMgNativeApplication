@@ -23,11 +23,13 @@ public @Service class ReadService {
 
     private @Mandatory Object readFromList(@Mandatory Object parent, int i){
         List list = (List) parent;
+        if(i < 0 || i >= list.count()) throw new ArrayIndexOutOfBoundsException(i + " out of " + list.count());
         return list.get(i);
     }
 
     private @Mandatory Object readFromEntity(@Mandatory Object parent, int i){
         EntityClass entityClass = EntityClasses.getRepository().get(parent.getClass());
+        if(i < 0 || i >= entityClass.getFields().count()) throw new ArrayIndexOutOfBoundsException(i + " out of " + entityClass.getFields().count());
         EntityField entityField = entityClass.getFields().get(i);
         return entityField.get(parent);
     }
