@@ -4,11 +4,14 @@ add more unit tests
     update service
     transaction manager
 
-improve move actions
-    add drag and drop move
-    add keyboard shortcuts to move up and down
+improve multi selects
+    add object icons (via object icon provider)
+    add drag and drop move action
+    add keyboard shortcuts to move up / down
+    add keyboard shortcuts to select next / previous item
 
 add field select display order customization for each entity class
 add field select display customization for each entity class
-add icons to multi selects
 add separate create / remove buttons for multi select rows
+add menu items for right click to navigation (refresh before invoking action ?)
+on main window refresh, close tabs of objects that were deleted
