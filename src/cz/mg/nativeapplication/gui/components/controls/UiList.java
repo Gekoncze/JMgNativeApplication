@@ -94,10 +94,10 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         this.rebuild();
     }
 
-    private void onItemSelected(UiTextField selectedTextField) {
+    private void onItemSelected(UiValueField selectedField) {
         int i = 0;
-        for(UiTextField textField : fields){
-            if(selectedTextField == textField){
+        for(UiValueField field : fields){
+            if(selectedField == field){
                 setSelectedIndex(i);
                 break;
             }
@@ -117,11 +117,11 @@ public class UiList extends UiVerticalPanel implements UiComponent {
                 selectedIndex = index;
 
                 int i = 0;
-                for(UiTextField textField : fields){
+                for(UiValueField field : fields){
                     if(i == index){
-                        textField.setBorder(BorderFactory.createLineBorder(UiConstants.getListSelectionBackgroundColor()));
+                        field.setBorder(BorderFactory.createLineBorder(UiConstants.getListSelectionBackgroundColor()));
                     } else {
-                        textField.setBorder(null);
+                        field.setBorder(null);
                     }
                     i++;
                 }
