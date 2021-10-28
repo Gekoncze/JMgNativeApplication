@@ -10,6 +10,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
+import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
@@ -38,7 +39,14 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
             new UiButton(IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
-        this.buttons.addCollectionFirst(content.getButtons());
+        if(content instanceof EntityMultiSelectContent){
+            this.buttons.addCollectionFirst(new List<>(
+                    new UiButton(IconGallery.UP, null, "Move up", this::onMoveRowUp),
+                    new UiButton(IconGallery.DOWN, null, "Move down", this::onMoveRowDown),
+                    new UiButton(IconGallery.CREATE_ROW, null, "Add row", this::onAddRow),
+                    new UiButton(IconGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
+            ));
+        }
         this.popupMenu = createPopupMenu(content);
         refresh();
     }
@@ -74,8 +82,12 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
     protected abstract @Mandatory UiValueField createValueField(@Mandatory EntitySelectContent content);
     protected abstract @Optional UiPopupMenu createPopupMenu(@Mandatory EntitySelectContent content);
 
-    private void onClearButtonClicked() {
-        content.setValue(null);
+    private void showSelectionMenu(){
+        if(content.getField() != null){
+            if(popupMenu != null){
+                popupMenu.show(content.getField());
+            }
+        }
     }
 
     private void onEditButtonClicked() {
@@ -85,12 +97,24 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
         }
     }
 
-    private void showSelectionMenu(){
-        if(content.getField() != null){
-            if(popupMenu != null){
-                popupMenu.show(content.getField());
-            }
-        }
+    private void onClearButtonClicked(){
+        content.setValue(null);
+    }
+
+    private void onMoveRowUp() {
+        ((EntityMultiSelectContent)content).moveRowUp();
+    }
+
+    private void onMoveRowDown() {
+        ((EntityMultiSelectContent)content).moveRowDown();
+    }
+
+    private void onAddRow() {
+        ((EntityMultiSelectContent)content).addRow();
+    }
+
+    private void onRemoveRow() {
+        ((EntityMultiSelectContent)content).removeRow();
     }
 
     private void onMouseClicked(MouseEvent event) {

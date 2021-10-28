@@ -6,9 +6,7 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.services.HistoryProvider;
@@ -82,11 +80,6 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     @Override
     public Component getComponent() {
         return getField();
-    }
-
-    @Override
-    public List<UiButton> getButtons() {
-        return new List<>();
     }
 
     @Override

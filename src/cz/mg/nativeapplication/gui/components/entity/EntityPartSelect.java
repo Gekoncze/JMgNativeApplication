@@ -12,6 +12,7 @@ import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
+import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu;
 import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
@@ -44,7 +45,14 @@ public @Utility class EntityPartSelect extends EntitySelect {
             new UiButton(IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
             new UiButton(IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
         );
-        this.buttons.addCollectionFirst(content.getButtons());
+        if(content instanceof EntityMultiSelectContent){
+            this.buttons.addCollectionFirst(new List<>(
+                new UiButton(IconGallery.UP, null, "Move up", this::onMoveRowUp),
+                new UiButton(IconGallery.DOWN, null, "Move down", this::onMoveRowDown),
+                new UiButton(IconGallery.CREATE_ROW, null, "Add row", this::onAddRow),
+                new UiButton(IconGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
+            ));
+        }
         this.popupMenu = new EntityClassPopupMenu(
             entityClassRepository.get(content.getType()),
             this::onCreateEntityClass
@@ -86,24 +94,6 @@ public @Utility class EntityPartSelect extends EntitySelect {
         }
     }
 
-    private void onDeleteButtonClicked() {
-        if(content.getValue() != null){
-            String title = "Delete entity?";
-            String message = "Are you sure you want to delete the entity? Shared ownership might still keep it alive.";
-
-            UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
-            if(choice == UiConfirmDialog.Choice.YES){
-                deleteService.remove(
-                    mainWindowProvider.get().getApplicationState().getHistory().addTransaction(),
-                    mainWindowProvider.get().getApplicationState().getProject(),
-                    content.getEntity(),
-                    content.getEntityField()
-                );
-                mainWindowProvider.get().refresh();
-            }
-        }
-    }
-
     private void onCreateButtonClicked() {
         if(content.getField() != null){
             Object value = content.getValue();
@@ -117,6 +107,47 @@ public @Utility class EntityPartSelect extends EntitySelect {
         Object value = content.getValue();
         if(value != null){
             mainWindowProvider.get().getMainView().getMainTabView().open(value);
+        }
+    }
+
+    private boolean onDeleteButtonClicked() {
+        if(content.getValue() != null){
+            String title = "Delete entity?";
+            String message = "Are you sure you want to delete the entity? Shared ownership might still keep it alive.";
+
+            UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
+            if(choice == UiConfirmDialog.Choice.YES){
+                deleteService.remove(
+                    mainWindowProvider.get().getApplicationState().getHistory().addTransaction(),
+                    mainWindowProvider.get().getApplicationState().getProject(),
+                    content.getEntity(),
+                    content.getEntityField()
+                );
+                mainWindowProvider.get().refresh();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    private void onMoveRowUp() {
+        ((EntityMultiSelectContent)content).moveRowUp();
+    }
+
+    private void onMoveRowDown() {
+        ((EntityMultiSelectContent)content).moveRowDown();
+    }
+
+    private void onAddRow() {
+        ((EntityMultiSelectContent)content).addRow();
+    }
+
+    private void onRemoveRow() {
+        if(onDeleteButtonClicked()){
+            ((EntityMultiSelectContent)content).removeRow();
         }
     }
 

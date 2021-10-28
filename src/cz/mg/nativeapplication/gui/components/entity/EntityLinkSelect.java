@@ -6,6 +6,7 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
+import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
@@ -43,7 +44,14 @@ public @Utility class EntityLinkSelect extends EntitySelect {
             new UiButton(IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
             new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
-        this.buttons.addCollectionFirst(content.getButtons());
+        if(content instanceof EntityMultiSelectContent){
+            this.buttons.addCollectionFirst(new List<>(
+                new UiButton(IconGallery.UP, null, "Move up", this::onMoveRowUp),
+                new UiButton(IconGallery.DOWN, null, "Move down", this::onMoveRowDown),
+                new UiButton(IconGallery.CREATE_ROW, null, "Add row", this::onAddRow),
+                new UiButton(IconGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
+            ));
+        }
         this.popupMenu = new ComponentSearchPopupMenu(content::setValue);
         refresh();
     }
@@ -110,10 +118,6 @@ public @Utility class EntityLinkSelect extends EntitySelect {
         }
     }
 
-    private void onClearButtonClicked(){
-        content.setValue(null);
-    }
-
     private void onSearchButtonClicked(){
         showSelectionMenu();
     }
@@ -129,6 +133,26 @@ public @Utility class EntityLinkSelect extends EntitySelect {
         if(content.getField() != null){
             content.getField().unlock();
         }
+    }
+
+    private void onClearButtonClicked(){
+        content.setValue(null);
+    }
+
+    private void onMoveRowUp() {
+        ((EntityMultiSelectContent)content).moveRowUp();
+    }
+
+    private void onMoveRowDown() {
+        ((EntityMultiSelectContent)content).moveRowDown();
+    }
+
+    private void onAddRow() {
+        ((EntityMultiSelectContent)content).addRow();
+    }
+
+    private void onRemoveRow() {
+        ((EntityMultiSelectContent)content).removeRow();
     }
 
     private void showSelectionMenu(){

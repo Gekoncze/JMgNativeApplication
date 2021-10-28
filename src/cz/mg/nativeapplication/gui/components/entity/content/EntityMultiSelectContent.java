@@ -8,11 +8,9 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiList;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.services.HistoryProvider;
 import cz.mg.nativeapplication.mg.services.history.AddListItemAction;
 import cz.mg.nativeapplication.mg.services.history.RemoveListItemAction;
@@ -82,16 +80,6 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
     }
 
     @Override
-    public List<UiButton> getButtons() {
-        return new List<>(
-            new UiButton(IconGallery.UP, null, "Move up", this::moveRowUp),
-            new UiButton(IconGallery.DOWN, null, "Move down", this::moveRowDown)
-            // TODO - add create row button
-            // TODO - add remove row button
-        );
-    }
-
-    @Override
     public @Optional Object getValue(){
         Integer i = fields.getSelectedIndex();
         if(i != null){
@@ -131,7 +119,7 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
         }
     }
 
-    private void addRow(){
+    public void addRow(){
         Integer i = fields.getSelectedIndex();
         if(i != null){
             addRowAt(i);
@@ -143,13 +131,13 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
     private void removeRowAt(int i){
         if(i >= 0 && i < list.count()){
             historyProvider.get().addTransaction().run(
-                new RemoveListItemAction(list, i, list.get(i))
+                new RemoveListItemAction(list, i, list.get(i)) // TODO - how to handle delete ???
             );
             refresh();
         }
     }
 
-    private void removeRow(){
+    public void removeRow(){
         Integer i = fields.getSelectedIndex();
         if(i != null){
             removeRowAt(i);

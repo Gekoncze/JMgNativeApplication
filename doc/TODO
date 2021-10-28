@@ -11,3 +11,7 @@ add field select display order customization for each entity class
 add field select display customization for each entity class
 add icons to multi selects
 add separate create / remove buttons for multi select rows
+
+improve transaction management
+bug in delete service
+    when deleting mg structure in test project, the whole location gets deleted
