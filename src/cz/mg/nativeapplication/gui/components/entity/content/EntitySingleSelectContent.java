@@ -5,6 +5,8 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
+import cz.mg.entity.EntityClass;
+import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
@@ -31,13 +33,24 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     }
 
     @Override
-    public Object getEntity() {
+    public @Mandatory Object getParent() {
         return entity;
     }
 
     @Override
-    public EntityField getEntityField() {
-        return entityField;
+    public @Optional Integer getChildIndex() {
+        int i = 0;
+        EntityClass entityClass = EntityClasses.getRepository().get(entity.getClass());
+        for(EntityField entityField : entityClass.getFields()){
+            if(entityField == this.entityField){
+                return i;
+            }
+            i++;
+        }
+
+        throw new IllegalArgumentException(
+            "Could not find field '" + this.entityField.getName() + "' in class '" + entityClass.getName() + "'."
+        );
     }
 
     @Override

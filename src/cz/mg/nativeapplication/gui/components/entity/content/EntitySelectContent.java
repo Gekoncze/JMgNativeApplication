@@ -3,9 +3,7 @@ package cz.mg.nativeapplication.gui.components.entity.content;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelectType;
@@ -15,8 +13,8 @@ import java.awt.*;
 
 
 public abstract @Utility class EntitySelectContent implements Refreshable {
-    public abstract Object getEntity();
-    public abstract EntityField getEntityField();
+    public abstract @Mandatory Object getParent();
+    public abstract @Optional Integer getChildIndex();
     public abstract @Mandatory Class getType();
     public abstract @Mandatory String getName();
     public abstract @Optional Object getValue();

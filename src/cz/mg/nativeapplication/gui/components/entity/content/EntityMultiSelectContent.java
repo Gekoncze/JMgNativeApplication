@@ -43,13 +43,13 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
     }
 
     @Override
-    public Object getEntity() {
-        return entity;
+    public @Mandatory Object getParent() {
+        return list;
     }
 
     @Override
-    public EntityField getEntityField() {
-        return entityField;
+    public @Optional Integer getChildIndex() {
+        return fields.getSelectedIndex();
     }
 
     @Override

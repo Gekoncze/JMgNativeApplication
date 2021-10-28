@@ -5,9 +5,6 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
-import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClasses;
-import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 
 
@@ -15,22 +12,6 @@ public @Service class DeleteService {
     private final @Mandatory @Shared SearchService searchService = new SearchService();
     private final @Mandatory @Shared ReadService readService = new ReadService();
     private final @Mandatory @Shared UpdateService updateService = new UpdateService();
-
-    public void remove(@Mandatory MgProject project, @Mandatory Object parent, @Mandatory EntityField targetField){
-        int i = 0;
-        EntityClass entityClass = EntityClasses.getRepository().get(parent.getClass());
-        for(EntityField entityField : entityClass.getFields()){
-            if(entityField == targetField){
-                remove(project, parent, i);
-                return;
-            }
-            i++;
-        }
-
-        throw new IllegalArgumentException(
-            "Could not find field '" + targetField.getName() + "' in class '" + entityClass.getName() + "'."
-        );
-    }
 
     public void remove(@Mandatory MgProject project, @Mandatory Object parent, int index){
         Object target = readService.read(parent, index);

@@ -119,8 +119,8 @@ public @Utility class EntityPartSelect extends EntitySelect {
             if(choice == UiConfirmDialog.Choice.YES){
                 deleteService.remove(
                     applicationProvider.get().getApplicationState().getProject(),
-                    content.getEntity(),
-                    content.getEntityField()
+                    content.getParent(),
+                    content.getChildIndex()
                 );
                 applicationProvider.get().getMainWindow().refresh();
                 return true;
