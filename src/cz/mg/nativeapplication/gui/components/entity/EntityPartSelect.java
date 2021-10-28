@@ -15,23 +15,23 @@ import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu;
-import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.services.MainWindowProvider;
+import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
 
 import java.awt.event.MouseEvent;
 
 
 public @Utility class EntityPartSelect extends EntitySelect {
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
+    private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
+    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared EntityClassPopupMenu popupMenu;
-
-    private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
-    private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
-    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
 
     public EntityPartSelect(
         @Mandatory Object entity,
@@ -106,7 +106,7 @@ public @Utility class EntityPartSelect extends EntitySelect {
     private void onOpenButtonClicked() {
         Object value = content.getValue();
         if(value != null){
-            mainWindowProvider.get().getMainView().getMainTabView().open(value);
+            applicationProvider.get().getMainWindow().getMainView().getMainTabView().open(value);
         }
     }
 
@@ -118,12 +118,11 @@ public @Utility class EntityPartSelect extends EntitySelect {
             UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
             if(choice == UiConfirmDialog.Choice.YES){
                 deleteService.remove(
-                    mainWindowProvider.get().getApplicationState().getHistory().addTransaction(),
-                    mainWindowProvider.get().getApplicationState().getProject(),
+                    applicationProvider.get().getApplicationState().getProject(),
                     content.getEntity(),
                     content.getEntityField()
                 );
-                mainWindowProvider.get().refresh();
+                applicationProvider.get().getMainWindow().refresh();
                 return true;
             } else {
                 return false;
@@ -153,6 +152,6 @@ public @Utility class EntityPartSelect extends EntitySelect {
 
     private void onCreateEntityClass(EntityClass entityClass){
         content.setValue(entityClass.newInstance());
-        mainWindowProvider.get().refresh();
+        applicationProvider.get().getMainWindow().refresh();
     }
 }

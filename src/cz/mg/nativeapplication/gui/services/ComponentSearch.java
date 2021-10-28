@@ -5,9 +5,9 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
-import cz.mg.nativeapplication.gui.other.Navigation;
+import cz.mg.nativeapplication.gui.utilities.Navigation;
 
-import cz.mg.nativeapplication.gui.other.NavigationNode;
+import cz.mg.nativeapplication.gui.utilities.NavigationNode;
 
 
 public @Service class ComponentSearch {

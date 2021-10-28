@@ -1,13 +1,13 @@
 package other;
 
+import cz.mg.nativeapplication.gui.Application;
 import cz.mg.nativeapplication.gui.Repositories;
-import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.runner.SingleTestRunner;
 
 
-public class MainWindowTest implements Test {
+public class ApplicationTest implements Test {
     public static void main(String[] args) {
         Repositories.init();
         new SingleTestRunner().run(
@@ -15,15 +15,15 @@ public class MainWindowTest implements Test {
         );
         System.out.println();
         new SingleTestRunner().run(
-            new MainWindowTest()
+            new ApplicationTest()
         );
     }
 
     @TestCase
     public void test(){
-        MainWindow mainWindow = new MainWindow();
-        mainWindow.getApplicationState().openProject(MgCompleteTest.PATH);
-        mainWindow.refresh();
-        mainWindow.setVisible(true);
+        Application application = new Application();
+        application.getApplicationState().openProject(MgCompleteTest.PATH);
+        application.getMainWindow().refresh();
+        application.getMainWindow().setVisible(true);
     }
 }

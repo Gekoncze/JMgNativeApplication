@@ -13,9 +13,9 @@ import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.enums.Key;
-import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
+import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
+import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 
 import java.awt.event.KeyEvent;

@@ -5,19 +5,16 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
-import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
-import cz.mg.nativeapplication.gui.services.HistoryProvider;
-import cz.mg.nativeapplication.mg.services.history.SetEntityFieldAction;
+import cz.mg.nativeapplication.mg.services.history.Actions;
+import cz.mg.nativeapplication.mg.services.history.actions.SetEntityFieldAction;
 
 import java.awt.*;
 
 
 public @Utility class EntitySingleSelectContent extends EntitySelectContent {
-    private final @Mandatory @Shared HistoryProvider historyProvider = new HistoryProvider();
-
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
     private final @Mandatory @Part UiFieldFactory fieldFactory;
@@ -60,10 +57,8 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
 
     @Override
     public final void setValue(@Optional Object value) {
-        historyProvider.get().addTransaction().run(
-            new SetEntityFieldAction(
-                entity, entityField, entityField.get(entity), value
-            )
+        Actions.run(
+            new SetEntityFieldAction(entity, entityField, entityField.get(entity), value)
         );
         refresh();
     }

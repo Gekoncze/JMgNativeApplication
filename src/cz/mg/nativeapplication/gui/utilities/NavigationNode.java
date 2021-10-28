@@ -1,5 +1,6 @@
-package cz.mg.nativeapplication.gui.other;
+package cz.mg.nativeapplication.gui.utilities;
 
+import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
@@ -8,7 +9,7 @@ import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 
 
-public class NavigationNode {
+public @Utility class NavigationNode {
     private final @Optional @Link NavigationNode parent;
     private final @Mandatory @Link Object self;
     private final @Mandatory @Part List<NavigationNode> children = new List<>();

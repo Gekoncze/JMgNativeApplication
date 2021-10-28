@@ -2,7 +2,7 @@ package cz.mg.nativeapplication.gui.components.controls.value;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Optional;
-import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
+import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 
 
 public @Utility class UiBooleanField extends UiValueField {

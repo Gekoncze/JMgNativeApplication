@@ -1,14 +1,14 @@
-package cz.mg.nativeapplication.gui.handlers;
+package cz.mg.nativeapplication.gui.event;
 
+import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 
-public class KeyDispatcherUserEventHandler implements KeyEventDispatcher {
+public @Utility class KeyDispatcherUserEventHandler extends EventHandler implements KeyEventDispatcher {
     private final @Mandatory @Part Handler handler;
 
     public KeyDispatcherUserEventHandler(@Mandatory Handler handler) {
@@ -17,11 +17,7 @@ public class KeyDispatcherUserEventHandler implements KeyEventDispatcher {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        try {
-            handler.run(event);
-        } catch (Exception exception){
-            new UiErrorMessageDialog(exception).show();
-        }
+        run(() -> handler.run(event));
         return false;
     }
 

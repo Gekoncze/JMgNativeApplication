@@ -2,7 +2,7 @@ package cz.mg.nativeapplication.gui.services;
 
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.Repositories;
-import cz.mg.nativeapplication.gui.other.Navigation;
+import cz.mg.nativeapplication.gui.utilities.Navigation;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;

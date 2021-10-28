@@ -9,7 +9,7 @@ import cz.mg.nativeapplication.gui.components.MainWindow;
 public @Service class MainWindowProvider {
     private static @Optional MainWindow instance;
 
-    public static void setInstance(@Mandatory MainWindow instance) {
+    public void set(@Mandatory MainWindow instance) {
         MainWindowProvider.instance = instance;
     }
 

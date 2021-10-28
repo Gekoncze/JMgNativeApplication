@@ -1,15 +1,14 @@
-package cz.mg.nativeapplication.gui.handlers;
+package cz.mg.nativeapplication.gui.event;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
-public @Utility class MouseClickUserEventHandler implements MouseListener {
+public @Utility class MouseClickUserEventHandler extends EventHandler implements MouseListener {
     private final @Mandatory @Part Handler handler;
 
     public MouseClickUserEventHandler(@Mandatory Handler handler) {
@@ -18,11 +17,7 @@ public @Utility class MouseClickUserEventHandler implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent event) {
-        try {
-            handler.run(event);
-        } catch (Exception exception){
-            new UiErrorMessageDialog(exception).show();
-        }
+        run(() -> handler.run(event));
     }
 
     @Override

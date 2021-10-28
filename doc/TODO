@@ -1,7 +1,8 @@
 add more unit tests
-    add unit test for component search
-    add unit test for read service
-    add unit test for update service
+    component search
+    read service
+    update service
+    transaction manager
 
 improve move actions
     add drag and drop move
@@ -12,6 +13,8 @@ add field select display customization for each entity class
 add icons to multi selects
 add separate create / remove buttons for multi select rows
 
-improve transaction management
 bug in delete service
     when deleting mg structure in test project, the whole location gets deleted
+
+bug in entity value select
+    cannot update atom name

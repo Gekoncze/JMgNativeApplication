@@ -11,11 +11,10 @@ import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.UiList;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
-import cz.mg.nativeapplication.gui.services.HistoryProvider;
-import cz.mg.nativeapplication.mg.services.history.AddListItemAction;
-import cz.mg.nativeapplication.mg.services.history.RemoveListItemAction;
-import cz.mg.nativeapplication.mg.services.history.SetListItemAction;
-import cz.mg.nativeapplication.mg.services.history.Transaction;
+import cz.mg.nativeapplication.mg.services.history.Actions;
+import cz.mg.nativeapplication.mg.services.history.actions.AddListItemAction;
+import cz.mg.nativeapplication.mg.services.history.actions.RemoveListItemAction;
+import cz.mg.nativeapplication.mg.services.history.actions.SetListItemAction;
 import cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider;
 
 import java.awt.*;
@@ -25,7 +24,6 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
     private static final int LIST_BORDER = 2;
     private static final int LIST_PADDING = 2;
 
-    private final @Mandatory @Shared HistoryProvider historyProvider = new HistoryProvider();
     private final @Mandatory @Shared CollectionTypeProvider collectionTypeProvider = new CollectionTypeProvider();
 
     private final @Mandatory @Link Object entity;
@@ -103,7 +101,7 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
 
     private void setValueAt(int i, @Optional Object value){
         if(i >= 0 && i < list.count()){
-            historyProvider.get().addTransaction().run(
+            Actions.run(
                 new SetListItemAction(list, i, getValueAt(i), value)
             );
             refresh();
@@ -112,7 +110,7 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
 
     private void addRowAt(int i){
         if(i >= 0 && i <= list.count()){
-            historyProvider.get().addTransaction().run(
+            Actions.run(
                 new AddListItemAction(list, i, null)
             );
             refresh();
@@ -130,8 +128,8 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
 
     private void removeRowAt(int i){
         if(i >= 0 && i < list.count()){
-            historyProvider.get().addTransaction().run(
-                new RemoveListItemAction(list, i, list.get(i)) // TODO - how to handle delete ???
+            Actions.run(
+                new RemoveListItemAction(list, i, list.get(i))
             );
             refresh();
         }
@@ -149,11 +147,10 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
             if(srcIndex >= 0 && srcIndex < list.count()){
                 if(dstIndex >= 0 && dstIndex < list.count()){
                     Object value = getValueAt(srcIndex);
-                    Transaction transaction = historyProvider.get().addTransaction();
-                    transaction.run(
+                    Actions.run(
                         new RemoveListItemAction(list, srcIndex, value)
                     );
-                    transaction.run(
+                    Actions.run(
                         new AddListItemAction(list, dstIndex, value)
                     );
                     refresh();

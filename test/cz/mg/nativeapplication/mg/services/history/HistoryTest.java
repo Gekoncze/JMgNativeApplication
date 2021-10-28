@@ -15,7 +15,8 @@ public class HistoryTest implements Test {
 
     @TestCase(order = 0)
     public void testEmptyUndo(){
-        History history = new History(3);
+        History history = new History();
+        history.setLimit(3);
 
         assertEquals(-1, history.getPosition());
         assertEquals(0, history.count());
@@ -28,7 +29,8 @@ public class HistoryTest implements Test {
 
     @TestCase(order = 1)
     public void testEmptyRedo(){
-        History history = new History(3);
+        History history = new History();
+        history.setLimit(3);
 
         assertEquals(-1, history.getPosition());
         assertEquals(0, history.count());
@@ -42,12 +44,15 @@ public class HistoryTest implements Test {
     @TestCase(order = 2)
     public void testSingleAction(){
         List<String> log = new List<>();
-        History history = new History(3);
+        History history = new History();
+        history.setLimit(3);
+        Transaction transaction;
 
         assertEquals(-1, history.getPosition());
         assertEquals(0, history.count());
 
-        history.addTransaction().run(new Action() {
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new Action() {
             @Override
             public void redo() {
                 log.addLast("Redo");
@@ -96,33 +101,39 @@ public class HistoryTest implements Test {
     @TestCase(order = 3)
     public void testTrimLeft(){
         List<String> log = new List<>();
-        History history = new History(3);
+        History history = new History();
+        history.setLimit(3);
+        Transaction transaction;
 
         assertEquals(-1, history.getPosition());
         assertEquals(0, history.count());
 
-        history.addTransaction().run(new TestAction(log, 0));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 0));
 
         assertEquals(0, history.getPosition());
         assertEquals(1, history.count());
         assertEquals(1, log.count());
         assertEquals("Redo 0", log.getLast());
 
-        history.addTransaction().run(new TestAction(log, 1));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 1));
 
         assertEquals(1, history.getPosition());
         assertEquals(2, history.count());
         assertEquals(2, log.count());
         assertEquals("Redo 1", log.getLast());
 
-        history.addTransaction().run(new TestAction(log, 2));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 2));
 
         assertEquals(2, history.getPosition());
         assertEquals(3, history.count());
         assertEquals(3, log.count());
         assertEquals("Redo 2", log.getLast());
 
-        history.addTransaction().run(new TestAction(log, 3));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 3));
 
         assertEquals(2, history.getPosition());
         assertEquals(3, history.count());
@@ -153,26 +164,31 @@ public class HistoryTest implements Test {
     @TestCase(order = 4)
     public void testTrimRight(){
         List<String> log = new List<>();
-        History history = new History(3);
+        History history = new History();
+        history.setLimit(3);
+        Transaction transaction;
 
         assertEquals(-1, history.getPosition());
         assertEquals(0, history.count());
 
-        history.addTransaction().run(new TestAction(log, 0));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 0));
 
         assertEquals(0, history.getPosition());
         assertEquals(1, history.count());
         assertEquals(1, log.count());
         assertEquals("Redo 0", log.getLast());
 
-        history.addTransaction().run(new TestAction(log, 1));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 1));
 
         assertEquals(1, history.getPosition());
         assertEquals(2, history.count());
         assertEquals(2, log.count());
         assertEquals("Redo 1", log.getLast());
 
-        history.addTransaction().run(new TestAction(log, 2));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 2));
 
         assertEquals(2, history.getPosition());
         assertEquals(3, history.count());
@@ -193,7 +209,8 @@ public class HistoryTest implements Test {
         assertEquals(5, log.count());
         assertEquals("Undo 1", log.getLast());
 
-        history.addTransaction().run(new TestAction(log, 3));
+        history.addTransaction(transaction = new Transaction());
+        transaction.run(new TestAction(log, 3));
 
         assertEquals(1, history.getPosition());
         assertEquals(2, history.count());

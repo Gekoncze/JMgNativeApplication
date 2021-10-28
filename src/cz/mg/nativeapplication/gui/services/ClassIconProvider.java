@@ -3,14 +3,17 @@ package cz.mg.nativeapplication.gui.services;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 
 import javax.swing.*;
 
 
 public @Service class ClassIconProvider {
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
+
     public @Mandatory Icon get(@Optional Class clazz){
-        IconGallery gallery = new IconGalleryProvider().get();
+        IconGallery gallery = applicationProvider.get().getIconGallery();
         if(clazz != null){
             Icon icon = gallery.getIcon(getIconName(clazz));
             if(icon != null){

@@ -1,12 +1,12 @@
-package cz.mg.nativeapplication.gui.other;
+package cz.mg.nativeapplication.gui;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Part;
 import cz.mg.nativeapplication.mg.entities.MgProject;
-import cz.mg.nativeapplication.mg.services.history.History;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
+import cz.mg.nativeapplication.mg.services.history.TransactionManager;
 import cz.mg.nativeapplication.mg.services.storage.MgProjectLoader;
 import cz.mg.nativeapplication.mg.services.storage.MgProjectSaver;
 
@@ -14,13 +14,15 @@ import java.nio.file.Path;
 
 
 public @Utility class ApplicationState {
-    private static final int HISTORY_LIMIT = 100;
-
+    private @Mandatory @Part TransactionManager transactionManager = new TransactionManager();
     private @Optional @Part MgProject project;
     private @Optional @Part Path projectPath;
-    private @Optional @Part History history;
 
     public ApplicationState() {
+    }
+
+    public @Mandatory TransactionManager getTransactionManager() {
+        return transactionManager;
     }
 
     public @Optional MgProject getProject() {
@@ -31,20 +33,16 @@ public @Utility class ApplicationState {
         return projectPath;
     }
 
-    public @Optional History getHistory() {
-        return history;
-    }
-
     public void newProject(@Mandatory String name) {
+        transactionManager.getHistory().clear();
         project = new MgProjectCreator().create(name);
         projectPath = null;
-        history = new History(HISTORY_LIMIT);
     }
 
     public void openProject(@Mandatory Path path) {
+        transactionManager.getHistory().clear();
+        project = new MgProjectLoader().load(path);
         projectPath = path;
-        project = new MgProjectLoader().load(projectPath);
-        history = new History(HISTORY_LIMIT);
     }
 
     public void saveProject() {
@@ -57,8 +55,8 @@ public @Utility class ApplicationState {
     }
 
     public void closeProject() {
+        transactionManager.getHistory().clear();
         project = null;
         projectPath = null;
-        history = null;
     }
 }

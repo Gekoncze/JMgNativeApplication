@@ -4,15 +4,15 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
-import cz.mg.nativeapplication.gui.services.IconGalleryProvider;
+import cz.mg.nativeapplication.gui.event.ActionUserEventHandler;
+import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 
 import javax.swing.*;
 import java.awt.*;
 
 
 public @Utility class UiButton extends JButton implements UiComponent {
-    private final @Mandatory @Shared IconGalleryProvider iconGalleryProvider = new IconGalleryProvider();
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
 
     public UiButton(
         @Optional String iconName,
@@ -26,7 +26,7 @@ public @Utility class UiButton extends JButton implements UiComponent {
         setOpaque(false);
 
         if(iconName != null){
-            setIcon(iconGalleryProvider.get().getIcon(iconName));
+            setIcon(applicationProvider.get().getIconGallery().getIcon(iconName));
         }
 
         if(text != null){

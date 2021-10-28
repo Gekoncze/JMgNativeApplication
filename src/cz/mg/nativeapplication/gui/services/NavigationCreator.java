@@ -15,12 +15,12 @@ import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
-import cz.mg.nativeapplication.gui.other.Navigation;
+import cz.mg.nativeapplication.gui.utilities.Navigation;
 
 import java.util.Arrays;
 import java.util.Comparator;
 
-import cz.mg.nativeapplication.gui.other.NavigationNode;
+import cz.mg.nativeapplication.gui.utilities.NavigationNode;
 
 
 public @Service class NavigationCreator {

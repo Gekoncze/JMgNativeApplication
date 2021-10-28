@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
-import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
+import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 
 
 public @Utility class UiEnumField<T extends Enum> extends UiValueField {

@@ -5,16 +5,15 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
-import cz.mg.annotations.storage.Part;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
-import cz.mg.nativeapplication.gui.handlers.CloseUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.KeyDispatcherUserEventHandler;
+import cz.mg.nativeapplication.gui.event.WindowCloseUserEventHandler;
+import cz.mg.nativeapplication.gui.event.KeyDispatcherUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
-import cz.mg.nativeapplication.gui.other.ApplicationState;
-import cz.mg.nativeapplication.gui.other.Navigation;
-import cz.mg.nativeapplication.gui.services.IconGalleryProvider;
+import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
+import cz.mg.nativeapplication.gui.utilities.Navigation;
 import cz.mg.nativeapplication.gui.services.NavigationCreator;
 
 import javax.swing.*;
@@ -28,23 +27,26 @@ public @Utility class MainWindow extends JFrame implements Refreshable {
     private static final int DEFAULT_WIDTH = 1600;
     private static final int DEFAULT_HEIGHT = 900;
 
-    private final @Mandatory @Part ApplicationState applicationState = new ApplicationState();
-    private final @Mandatory @Part MainActions mainActions = new MainActions(this);
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
+    private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
+
     private final @Mandatory @Link MainMenu mainMenu;
     private final @Mandatory @Link MainView mainView;
 
     private @Optional @Cache Navigation navigation;
 
     public MainWindow() {
-        MainWindowProvider.setInstance(this);
+        mainWindowProvider.set(this);
+        mainMenu = new MainMenu();
+        mainView = new MainView();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new CloseUserEventHandler(mainActions::exit));
+        addWindowListener(new WindowCloseUserEventHandler(this::onWindowCloseButtonClicked));
         setTitle(TITLE);
-        setIconImage(new IconGalleryProvider().get().getImage(IconGallery.MG));
+        setIconImage(applicationProvider.get().getIconGallery().getImage(IconGallery.MG));
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
-        setJMenuBar(mainMenu = new MainMenu(mainActions));
-        setContentPane(mainView = new MainView());
+        setJMenuBar(mainMenu);
+        setContentPane(mainView);
         setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, new HashSet<>());
         setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, new HashSet<>());
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(
@@ -53,20 +55,14 @@ public @Utility class MainWindow extends JFrame implements Refreshable {
         refresh();
     }
 
-    public @Mandatory ApplicationState getApplicationState() {
-        return applicationState;
-    }
-
     public @Mandatory Navigation getNavigation() {
         if(navigation == null){
-            navigation = new NavigationCreator().create(applicationState.getProject());
+            navigation = new NavigationCreator().create(
+                applicationProvider.get().getApplicationState().getProject()
+            );
         }
 
         return navigation;
-    }
-
-    public @Mandatory MainActions getMainActions() {
-        return mainActions;
     }
 
     public @Mandatory MainMenu getMainMenu() {
@@ -90,5 +86,9 @@ public @Utility class MainWindow extends JFrame implements Refreshable {
             objectView.onKeyEvent(e);
         }
         return false;
+    }
+
+    private void onWindowCloseButtonClicked(){
+        mainMenu.getActions().exit();
     }
 }

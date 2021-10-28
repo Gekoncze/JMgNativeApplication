@@ -9,8 +9,8 @@ import cz.mg.nativeapplication.gui.components.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.EntityView;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
-import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
+import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 

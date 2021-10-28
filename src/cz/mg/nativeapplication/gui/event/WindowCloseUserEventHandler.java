@@ -1,18 +1,17 @@
-package cz.mg.nativeapplication.gui.handlers;
+package cz.mg.nativeapplication.gui.event;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 
-public @Utility class CloseUserEventHandler implements WindowListener {
+public @Utility class WindowCloseUserEventHandler extends EventHandler implements WindowListener {
     private final @Mandatory @Part Handler handler;
 
-    public CloseUserEventHandler(@Mandatory Handler handler) {
+    public WindowCloseUserEventHandler(@Mandatory Handler handler) {
         this.handler = handler;
     }
 
@@ -22,11 +21,7 @@ public @Utility class CloseUserEventHandler implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent event) {
-        try {
-            handler.run();
-        } catch (Exception exception){
-            new UiErrorMessageDialog(exception).show();
-        }
+        run(handler::run);
     }
 
     @Override

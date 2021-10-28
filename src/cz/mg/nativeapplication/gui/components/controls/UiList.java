@@ -8,7 +8,7 @@ import cz.mg.collections.list.List;
 import cz.mg.collections.list.ReadableList;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
-import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 
 import javax.swing.*;
 import java.awt.event.FocusListener;

@@ -4,19 +4,21 @@ import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClasses;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.mg.services.history.Action;
-import cz.mg.nativeapplication.mg.services.history.SetEntityFieldAction;
-import cz.mg.nativeapplication.mg.services.history.SetListItemAction;
-import cz.mg.nativeapplication.mg.services.history.Transaction;
+import cz.mg.nativeapplication.mg.services.history.*;
+import cz.mg.nativeapplication.mg.services.history.actions.SetEntityFieldAction;
+import cz.mg.nativeapplication.mg.services.history.actions.SetListItemAction;
 
 
 public @Service class UpdateService {
-    public void update(@Mandatory Transaction transaction, @Mandatory Object parent, int i, @Optional Object value){
-        transaction.run(
+    private final @Mandatory @Shared TransactionManagerProvider transactionManagerProvider = new TransactionManagerProvider();
+
+    public void update(@Mandatory Object parent, int i, @Optional Object value){
+        transactionManagerProvider.get().run(
             createAction(parent, i, value)
         );
     }

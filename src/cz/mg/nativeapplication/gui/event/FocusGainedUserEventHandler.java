@@ -1,32 +1,27 @@
-package cz.mg.nativeapplication.gui.handlers;
+package cz.mg.nativeapplication.gui.event;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 
-public @Utility class FocusLostUserEventHandler implements FocusListener {
+public @Utility class FocusGainedUserEventHandler extends EventHandler implements FocusListener {
     private final @Mandatory @Part Handler handler;
 
-    public FocusLostUserEventHandler(@Mandatory Handler handler) {
+    public FocusGainedUserEventHandler(@Mandatory Handler handler) {
         this.handler = handler;
     }
 
     @Override
     public void focusGained(FocusEvent focusEvent) {
+        run(handler::run);
     }
 
     @Override
     public void focusLost(FocusEvent focusEvent) {
-        try {
-            handler.run();
-        } catch (Exception exception){
-            new UiErrorMessageDialog(exception).show();
-        }
     }
 
     public interface Handler {

@@ -12,10 +12,10 @@ import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.components.entity.popups.ComponentSearchPopupMenu;
-import cz.mg.nativeapplication.gui.handlers.FocusGainedUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.FocusLostUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
+import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
+import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
+import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 
@@ -24,12 +24,12 @@ import java.awt.event.MouseEvent;
 
 
 public @Utility class EntityLinkSelect extends EntitySelect {
+    private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
+
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared ComponentSearchPopupMenu popupMenu;
-
-    private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
 
     public EntityLinkSelect(
         @Mandatory Object entity,

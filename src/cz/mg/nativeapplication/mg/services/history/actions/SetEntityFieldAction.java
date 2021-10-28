@@ -1,10 +1,11 @@
-package cz.mg.nativeapplication.mg.services.history;
+package cz.mg.nativeapplication.mg.services.history.actions;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.mg.services.history.Action;
 
 
 public @Utility class SetEntityFieldAction implements Action {

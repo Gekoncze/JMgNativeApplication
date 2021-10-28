@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.nativeapplication.gui.components.controls.UiComponent;
-import cz.mg.nativeapplication.gui.handlers.ActionUserEventHandler;
+import cz.mg.nativeapplication.gui.event.ActionUserEventHandler;
 
 import javax.swing.*;
 

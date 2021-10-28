@@ -9,16 +9,21 @@ import cz.mg.collections.list.List;
 
 
 public @Utility class History {
-    private final @Value int limit;
+    private static final int DEFAULT_LIMIT = 100;
+
     private final @Mandatory @Part List<Transaction> transactions = new ArrayList<>();
+    private @Value int limit = DEFAULT_LIMIT;
     private @Value int position = -1;
 
-    public History(int limit) {
-        this.limit = limit;
+    public History() {
     }
 
     public int getLimit() {
         return limit;
+    }
+
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     public int getPosition() {
@@ -27,15 +32,6 @@ public @Utility class History {
 
     public int count() {
         return transactions.count();
-    }
-
-    public @Mandatory Transaction addTransaction(){
-        Transaction transaction = new Transaction();
-        trimRight();
-        transactions.addLast(transaction);
-        trimLeft();
-        position++;
-        return transaction;
     }
 
     public void redo(){
@@ -67,5 +63,12 @@ public @Utility class History {
             transactions.removeFirst();
             position--;
         }
+    }
+
+    void addTransaction(@Mandatory Transaction transaction){
+        trimRight();
+        transactions.addLast(transaction);
+        trimLeft();
+        position++;
     }
 }

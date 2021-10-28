@@ -11,8 +11,8 @@ import cz.mg.nativeapplication.gui.components.controls.UiConstants;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiTree;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
-import cz.mg.nativeapplication.gui.handlers.KeyPressedUserEventHandler;
-import cz.mg.nativeapplication.gui.handlers.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
+import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 
@@ -24,7 +24,7 @@ import javax.swing.tree.TreePath;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import cz.mg.nativeapplication.gui.other.NavigationNode;
+import cz.mg.nativeapplication.gui.utilities.NavigationNode;
 
 
 public @Utility class MainProjectTreeView extends JScrollPane implements Refreshable {

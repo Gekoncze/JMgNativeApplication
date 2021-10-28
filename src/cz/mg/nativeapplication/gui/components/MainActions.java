@@ -2,27 +2,27 @@ package cz.mg.nativeapplication.gui.components;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.storage.Link;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.dialogs.UiOpenDialog;
 import cz.mg.nativeapplication.gui.components.dialogs.UiSaveDialog;
-import cz.mg.nativeapplication.gui.other.FileFilters;
+import cz.mg.nativeapplication.gui.services.ApplicationProvider;
+import cz.mg.nativeapplication.gui.utilities.FileFilters;
 
 import javax.swing.*;
 import java.nio.file.Path;
 
 
 public @Utility class MainActions {
-    private final @Mandatory @Link MainWindow mainWindow;
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
 
-    public MainActions(@Mandatory MainWindow mainWindow) {
-        this.mainWindow = mainWindow;
+    public MainActions() {
     }
 
     // FILE
 
     public boolean newProject(){
-        if(mainWindow.getApplicationState().getProject() != null){
+        if(applicationProvider.get().getApplicationState().getProject() != null){
             if(!closeProject()){
                 return false;
             }
@@ -30,7 +30,7 @@ public @Utility class MainActions {
 
         String name = JOptionPane.showInputDialog(this, "New Project");
         if(name != null){
-            mainWindow.getApplicationState().newProject(name);
+            applicationProvider.get().getApplicationState().newProject(name);
             refresh();
             return true;
         } else {
@@ -42,13 +42,13 @@ public @Utility class MainActions {
         Path selectedPath = new UiOpenDialog("Open project", FileFilters.MG).show();
 
         if(selectedPath != null){
-            if(mainWindow.getApplicationState().getProject() != null){
+            if(applicationProvider.get().getApplicationState().getProject() != null){
                 if(!closeProject()){
                     return false;
                 }
             }
 
-            mainWindow.getApplicationState().openProject(selectedPath.toAbsolutePath());
+            applicationProvider.get().getApplicationState().openProject(selectedPath.toAbsolutePath());
             refresh();
             return true;
         } else {
@@ -57,12 +57,12 @@ public @Utility class MainActions {
     }
 
     public boolean saveProject(){
-        if(mainWindow.getApplicationState().getProject() == null){
+        if(applicationProvider.get().getApplicationState().getProject() == null){
             return false;
         }
 
-        if(mainWindow.getApplicationState().getProjectPath() != null){
-            mainWindow.getApplicationState().saveProject();
+        if(applicationProvider.get().getApplicationState().getProjectPath() != null){
+            applicationProvider.get().getApplicationState().saveProject();
             return true;
         } else {
             return saveProjectAs();
@@ -70,14 +70,14 @@ public @Utility class MainActions {
     }
 
     public boolean saveProjectAs(){
-        if(mainWindow.getApplicationState().getProject() == null){
+        if(applicationProvider.get().getApplicationState().getProject() == null){
             return false;
         }
 
         Path selectedPath = new UiSaveDialog("Save project", FileFilters.MG).show();
 
         if(selectedPath != null){
-            mainWindow.getApplicationState().saveProjectAs(selectedPath.toAbsolutePath());
+            applicationProvider.get().getApplicationState().saveProjectAs(selectedPath.toAbsolutePath());
             return true;
         } else {
             return false;
@@ -85,7 +85,7 @@ public @Utility class MainActions {
     }
 
     public boolean closeProject(){
-        if(mainWindow.getApplicationState().getProject() == null){
+        if(applicationProvider.get().getApplicationState().getProject() == null){
             return true;
         }
 
@@ -104,9 +104,9 @@ public @Utility class MainActions {
             }
         }
 
-        mainWindow.getMainView().getMainTabView().closeAllTabs();
+        applicationProvider.get().getMainWindow().getMainView().getMainTabView().closeAllTabs();
 
-        mainWindow.getApplicationState().closeProject();
+        applicationProvider.get().getApplicationState().closeProject();
         refresh();
         return true;
     }
@@ -116,41 +116,37 @@ public @Utility class MainActions {
             return false;
         }
 
-        mainWindow.dispose();
+        applicationProvider.get().getMainWindow().dispose();
         return true;
     }
 
     // EDIT
 
     public void undo(){
-        if(mainWindow.getApplicationState().getHistory() != null){
-            mainWindow.getApplicationState().getHistory().undo();
-            mainWindow.refresh();
-        }
+        applicationProvider.get().getApplicationState().getTransactionManager().getHistory().undo();
+        applicationProvider.get().getMainWindow().refresh();
     }
 
     public void redo(){
-        if(mainWindow.getApplicationState().getHistory() != null){
-            mainWindow.getApplicationState().getHistory().redo();
-            mainWindow.refresh();
-        }
+        applicationProvider.get().getApplicationState().getTransactionManager().getHistory().redo();
+        applicationProvider.get().getMainWindow().refresh();
     }
 
     // VIEW
 
     public void refresh(){
-        mainWindow.refresh();
+        applicationProvider.get().getMainWindow().refresh();
     }
 
     public void closeActiveTab(){
-        mainWindow.getMainView().getMainTabView().closeActiveTab();
+        applicationProvider.get().getMainWindow().getMainView().getMainTabView().closeActiveTab();
     }
 
     public void selectNextTab(){
-        mainWindow.getMainView().getMainTabView().selectNextTab();
+        applicationProvider.get().getMainWindow().getMainView().getMainTabView().selectNextTab();
     }
 
     public void selectPreviousTab(){
-        mainWindow.getMainView().getMainTabView().selectPreviousTab();
+        applicationProvider.get().getMainWindow().getMainView().getMainTabView().selectPreviousTab();
     }
 }
