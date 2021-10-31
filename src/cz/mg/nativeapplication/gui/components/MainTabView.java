@@ -3,6 +3,7 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiPanel;
@@ -11,8 +12,11 @@ import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
+import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
+import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.mg.services.explorer.SearchService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +28,9 @@ import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
 
 public class MainTabView extends JTabbedPane implements Refreshable {
     private static final int PADDING = 8;
+
+    private final @Mandatory @Shared SearchService searchService = new SearchService();
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
 
     public MainTabView() {
     }
@@ -51,16 +58,20 @@ public class MainTabView extends JTabbedPane implements Refreshable {
         // todo - add support for more object types
     }
 
+    public void closeTab(int index){
+        remove(index);
+    }
+
     public void closeActiveTab(){
         int index = getSelectedIndex();
         if(index != -1){
-            remove(index);
+            closeTab(index);
         }
     }
 
     public void closeAllTabs(){
         while(getTabCount() > 0){
-            remove(0);
+            closeTab(0);
         }
     }
 
@@ -130,19 +141,27 @@ public class MainTabView extends JTabbedPane implements Refreshable {
 
     private @Optional Integer getTabIndex(@Mandatory Object object){
         for(int i = 0; i < getTabCount(); i++){
-            Component component = getComponentAt(i);
-            if(component instanceof ObjectView){
-                ObjectView objectView = (ObjectView) component;
-                if(objectView.getObject() == object){
-                    return i;
-                }
+            if(getTab(i).getObject() == object){
+                return i;
             }
         }
         return null;
     }
 
+    private void closeDeletedTabs(){
+        for(int i = 0; i < getTabCount(); i++){
+            Object object = getTab(i).getObject();
+            MgProject project = applicationProvider.get().getApplicationState().getProject();
+            if(searchService.search(project, object).isEmpty()){
+                closeTab(i);
+                i--;
+            }
+        }
+    }
+
     @Override
     public void refresh() {
+        closeDeletedTabs();
         for(int i = 0; i < getTabCount(); i++){
             getTab(i).refresh();
         }

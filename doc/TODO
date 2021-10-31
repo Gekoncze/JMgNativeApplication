@@ -11,6 +11,4 @@ improve multi selects
 
 add field select display order customization for each entity class
 add field select display customization for each entity class
-add separate create / remove buttons for multi select rows
-add menu items for right click to navigation (refresh before invoking action ?)
-on main window refresh, close tabs of objects that were deleted
+add menu items for right click to navigation
