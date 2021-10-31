@@ -21,6 +21,7 @@ public abstract @Utility class EntitySelectContent implements Refreshable {
     public abstract void setValue(@Optional Object value);
     public abstract @Optional UiValueField getField();
     public abstract Component getComponent();
+    public abstract void softRefresh();
 
     public static EntitySelectContent create(
         @Mandatory Object entity,

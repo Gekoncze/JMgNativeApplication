@@ -7,6 +7,7 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.icons.IconGallery;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public @Service class ClassIconProvider {
@@ -23,6 +24,20 @@ public @Service class ClassIconProvider {
             }
         } else {
             return gallery.getIcon(IconGallery.UNKNOWN);
+        }
+    }
+
+    public @Optional Image getImageOptional(@Optional Class clazz){
+        IconGallery gallery = applicationProvider.get().getIconGallery();
+        if(clazz != null){
+            Image image = gallery.getImage(getIconName(clazz));
+            if(image != null){
+                return image;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
         }
     }
 

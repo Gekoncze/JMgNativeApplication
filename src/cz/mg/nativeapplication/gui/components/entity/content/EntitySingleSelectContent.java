@@ -97,4 +97,9 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
             field.lock();
         }
     }
+
+    @Override
+    public void softRefresh() {
+        refresh();
+    }
 }

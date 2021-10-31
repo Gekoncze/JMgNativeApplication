@@ -4,19 +4,27 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public @Service class ObjectIconProvider {
-    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
+    private final @Mandatory @Shared ClassIconProvider classIconProvider = new ClassIconProvider();
 
     public @Mandatory Icon get(@Optional Object object){
         if(object != null){
-            return new ClassIconProvider().get(object.getClass());
+            return classIconProvider.get(object.getClass());
         } else {
-            return applicationProvider.get().getIconGallery().getIcon(IconGallery.UNKNOWN);
+            return classIconProvider.get(null);
+        }
+    }
+
+    public @Optional Image getImageOptional(@Optional Object object){
+        if(object != null){
+            return classIconProvider.getImageOptional(object.getClass());
+        } else {
+            return null;
         }
     }
 }

@@ -18,12 +18,10 @@ import cz.mg.nativeapplication.mg.services.history.actions.SetListItemAction;
 import cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider;
 
 import java.awt.*;
+import java.util.Iterator;
 
 
 public @Utility class EntityMultiSelectContent extends EntitySelectContent {
-    private static final int LIST_BORDER = 2;
-    private static final int LIST_PADDING = 2;
-
     private final @Mandatory @Shared CollectionTypeProvider collectionTypeProvider = new CollectionTypeProvider();
 
     private final @Mandatory @Link Object entity;
@@ -39,7 +37,7 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
         this.entity = entity;
         this.entityField = entityField;
         this.list = (List) entityField.get(entity);
-        this.fields = new UiList(LIST_BORDER, LIST_PADDING, fieldFactory);
+        this.fields = new UiList(fieldFactory);
     }
 
     @Override
@@ -178,5 +176,18 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
     @Override
     public void refresh() {
         fields.setRows(list);
+    }
+
+    @Override
+    public void softRefresh() {
+        if(fields.getFields().count() == list.count()){
+            Iterator iterator = list.iterator();
+            for(UiValueField field : fields.getFields()){
+                field.setValue(iterator.next());
+                field.lock();
+            }
+        } else {
+            refresh();
+        }
     }
 }

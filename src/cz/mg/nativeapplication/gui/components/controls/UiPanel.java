@@ -27,6 +27,7 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         this.horizontalAlignment = alignment.getHorizontal();
         this.verticalAlignment = alignment.getVertical();
         setOpaque(false);
+        setBackground(null);
         rebuild();
     }
 

@@ -93,7 +93,7 @@ public @Utility class EntityLinkSelect extends EntitySelect {
 
     private void onFocusLost(){
         if(!popupMenu.isVisible()){
-            refresh();
+            content.softRefresh();
         }
     }
 

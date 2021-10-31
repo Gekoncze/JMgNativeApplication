@@ -4,7 +4,6 @@ add more unit tests
     transaction manager
 
 improve multi selects
-    add object icons (via object icon provider)
     add drag and drop move action
     add keyboard shortcuts to move up / down
     add keyboard shortcuts to select next / previous item
