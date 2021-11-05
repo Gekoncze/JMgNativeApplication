@@ -3,7 +3,7 @@ add more unit tests
     update service
     transaction manager
 
-improve multi selects
+improve multi select
     add drag and drop move action
     add keyboard shortcuts to move up / down
     add keyboard shortcuts to select next / previous item
@@ -11,3 +11,5 @@ improve multi selects
 add field select display order customization for each entity class
 add field select display customization for each entity class
 add menu items for right click to navigation
+use entity field validators in gui
+run validations for all entities before export or compile
