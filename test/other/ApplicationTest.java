@@ -1,28 +1,30 @@
 package other;
 
 import cz.mg.nativeapplication.gui.Application;
-import cz.mg.nativeapplication.gui.Repositories;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
-import cz.mg.test.runner.SingleTestRunner;
+import cz.mg.test.cli.runners.SingleTestClassRunner;
+
+import static all.Configuration.PROJECT_FILE_PATH;
 
 
 public class ApplicationTest implements Test {
     public static void main(String[] args) {
-        Repositories.init();
-        new SingleTestRunner().run(
-            new MgCompleteTest()
+        new SingleTestClassRunner().run(
+            CompilerTest.class
         );
+
         System.out.println();
-        new SingleTestRunner().run(
-            new ApplicationTest()
+
+        new SingleTestClassRunner().run(
+            ApplicationTest.class
         );
     }
 
     @TestCase
     public void test(){
         Application application = new Application();
-        application.getApplicationState().openProject(MgCompleteTest.PATH);
+        application.getApplicationState().openProject(PROJECT_FILE_PATH);
         application.getMainWindow().refresh();
         application.getMainWindow().setVisible(true);
     }

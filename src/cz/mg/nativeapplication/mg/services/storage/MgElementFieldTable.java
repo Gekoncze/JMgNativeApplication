@@ -2,28 +2,26 @@ package cz.mg.nativeapplication.mg.services.storage;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.collections.list.List;
-import cz.mg.objectmapper.Entity;
+import cz.mg.annotations.requirement.Optional;
 import cz.mg.sql.light.builder.SqlBuilder;
 import cz.mg.sql.light.connection.SqlConnection;
-import cz.mg.sql.light.connection.SqlResult;
 import cz.mg.sql.light.types.SqliteTypes;
 
 
-public @Utility class MgEntityTable {
-    private static final String TABLE_NAME = "Entity";
+public @Utility class MgElementFieldTable {
+    private static final String TABLE_NAME = "ElementField";
+    private static final String PARENT_ID = "parentId";
     private static final String ID = "id";
-    private static final String NAME = "name";
-    private static final String VALUE = "value";
+    private static final String TARGET = "target";
 
-    private static MgEntityTable instance = null;
+    private static MgElementFieldTable instance = null;
 
-    public static MgEntityTable getInstance(){
-        if(instance == null) instance = new MgEntityTable();
+    public static MgElementFieldTable getInstance(){
+        if(instance == null) instance = new MgElementFieldTable();
         return instance;
     }
 
-    public MgEntityTable() {
+    public MgElementFieldTable() {
     }
 
     public void createOrReplace(@Mandatory SqlConnection connection){
@@ -54,51 +52,42 @@ public @Utility class MgEntityTable {
         connection.executeDdl(
             new SqlBuilder()
                 .createTable(TABLE_NAME)
+                .column(PARENT_ID, SqliteTypes.INTEGER)
                 .column(ID, SqliteTypes.INTEGER)
-                .column(NAME, SqliteTypes.TEXT)
-                .column(VALUE, SqliteTypes.TEXT)
+                .column(TARGET, SqliteTypes.INTEGER)
                 .build()
         );
     }
 
-    public int rowCount(@Mandatory SqlConnection connection){
+    public int rowCount(@Mandatory SqlConnection connection, int parentId){
         return (int) connection.executeQuery(
             new SqlBuilder()
                 .readRow(TABLE_NAME)
                 .column("count(*)")
+                .condition(PARENT_ID, parentId)
                 .build()
         ).getSingleResult().get(0);
     }
 
-    public void createRow(@Mandatory SqlConnection connection, int entityId, @Mandatory Entity entity){
+    public void createRow(@Mandatory SqlConnection connection, int parentId, int fieldId, @Optional Integer target){
         connection.executeDml(
             new SqlBuilder()
                 .createRow(TABLE_NAME)
-                .column(ID, entityId)
-                .column(NAME, entity.name)
-                .column(VALUE, entity.value)
+                .column(PARENT_ID, parentId)
+                .column(ID, fieldId)
+                .column(TARGET, target)
                 .build()
         );
     }
 
-    public @Mandatory Entity readRow(@Mandatory SqlConnection connection, int entityId){
-        return createEntity(
-            connection.executeQuery(
-                new SqlBuilder()
-                    .readRow(TABLE_NAME)
-                    .column(NAME)
-                    .column(VALUE)
-                    .condition(ID, entityId)
-                    .build()
-            ).getSingleResult()
-        );
-    }
-
-    private @Mandatory Entity createEntity(@Mandatory SqlResult result){
-        Entity entity = new Entity();
-        entity.name = (String) result.get(NAME);
-        entity.value = (String) result.get(VALUE);
-        entity.fields = new List<>();
-        return entity;
+    public @Optional Integer readRow(@Mandatory SqlConnection connection, int parentId, int id){
+        return (Integer) connection.executeQuery(
+            new SqlBuilder()
+                .readRow(TABLE_NAME)
+                .column(TARGET)
+                .condition(PARENT_ID, parentId)
+                .condition(ID, id)
+                .build()
+        ).getSingleResult().get(0);
     }
 }

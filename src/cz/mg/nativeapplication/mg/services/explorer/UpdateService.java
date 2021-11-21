@@ -7,7 +7,7 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.mg.services.history.*;
 import cz.mg.nativeapplication.mg.services.history.actions.SetEntityFieldAction;
@@ -16,6 +16,7 @@ import cz.mg.nativeapplication.mg.services.history.actions.SetListItemAction;
 
 public @Service class UpdateService {
     private final @Mandatory @Shared TransactionManagerProvider transactionManagerProvider = new TransactionManagerProvider();
+    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
     public void update(@Mandatory Object parent, int i, @Optional Object value){
         transactionManagerProvider.get().run(
@@ -23,7 +24,7 @@ public @Service class UpdateService {
         );
     }
 
-    private static @Mandatory Action createAction(@Mandatory Object parent, int i, @Optional Object value){
+    private @Mandatory Action createAction(@Mandatory Object parent, int i, @Optional Object value){
         if(parent instanceof List){
             return createListAction(parent, i, value);
         } else if(parent.getClass().isAnnotationPresent(Entity.class)) {
@@ -33,14 +34,14 @@ public @Service class UpdateService {
         }
     }
 
-    private static @Mandatory Action createListAction(@Mandatory Object parent, int i, @Optional Object value){
+    private @Mandatory Action createListAction(@Mandatory Object parent, int i, @Optional Object value){
         List list = (List) parent;
         Object target = list.get(i);
         return new SetListItemAction(list, i, target, value);
     }
 
-    private static @Mandatory Action createEntityAction(@Mandatory Object parent, int i, @Optional Object value){
-        EntityClass entityClass = EntityClasses.getRepository().get(parent.getClass());
+    private @Mandatory Action createEntityAction(@Mandatory Object parent, int i, @Optional Object value){
+        EntityClass entityClass = entityClassProvider.get(parent.getClass());
         EntityField entityField = entityClass.getFields().get(i);
         Object target = entityField.get(parent);
         return new SetEntityFieldAction(parent, entityField, target, value);

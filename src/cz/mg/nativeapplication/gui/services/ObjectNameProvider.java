@@ -6,18 +6,17 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClassRepository;
-import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 
 
 public @Service class ObjectNameProvider {
-    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
     public @Mandatory String get(@Optional Object object){
         if(object != null){
             if(object.getClass().isAnnotationPresent(Entity.class)){
-                EntityClass entityClass = entityClassRepository.get(object.getClass());
+                EntityClass entityClass = entityClassProvider.get(object.getClass());
                 EntityField entityField = entityClass.getField("name");
                 if(entityField != null){
                     Object value = entityField.get(object);

@@ -9,7 +9,7 @@ import cz.mg.nativeapplication.qt.services.QtProjectExporter;
 import cz.mg.nativeapplication.storage.entities.Folder;
 
 
-public class CExportTest {
+public class ExportTest {
     public static void main(String[] args) {
         CProject cProject = new CProject();
         cProject.name = "CTestApplication";

@@ -4,14 +4,14 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.mg.entities.components.MgStructure;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
-import cz.mg.test.runner.SingleTestRunner;
+import cz.mg.test.cli.runners.SingleTestClassRunner;
 
 import java.lang.reflect.Field;
 
 
 public class CollectionTypeProviderTest implements Test {
     public static void main(String[] args) {
-        new SingleTestRunner().run(new CollectionTypeProviderTest());
+        new SingleTestClassRunner().run(CollectionTypeProviderTest.class);
     }
 
     @TestCase

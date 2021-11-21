@@ -10,11 +10,13 @@ import cz.mg.annotations.storage.Value;
 import cz.mg.collections.array.Array;
 import cz.mg.collections.array.ReadableArray;
 import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 
 
 public @Utility class EntityNode implements Node {
+    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+
     private final @Optional @Link Node parent;
     private final @Mandatory @Link Object object;
     private final @Mandatory @Link EntityClass entityClass;
@@ -23,7 +25,7 @@ public @Utility class EntityNode implements Node {
     public EntityNode(@Optional Node parent, @Mandatory Object object, boolean part) {
         this.parent = parent;
         this.object = object;
-        this.entityClass = EntityClasses.getRepository().get(object.getClass());
+        this.entityClass = entityClassProvider.get(object.getClass());
         this.part = part;
     }
 

@@ -2,26 +2,28 @@ package cz.mg.nativeapplication.mg.services.storage;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.requirement.Optional;
+import cz.mg.collections.list.List;
+import cz.mg.entity.mapper.Element;
 import cz.mg.sql.light.builder.SqlBuilder;
 import cz.mg.sql.light.connection.SqlConnection;
+import cz.mg.sql.light.connection.SqlResult;
 import cz.mg.sql.light.types.SqliteTypes;
 
 
-public @Utility class MgEntityFieldTable {
-    private static final String TABLE_NAME = "EntityField";
-    private static final String PARENT_ID = "parentId";
+public @Utility class MgElementTable {
+    private static final String TABLE_NAME = "Element";
     private static final String ID = "id";
-    private static final String TARGET = "target";
+    private static final String NAME = "name";
+    private static final String VALUE = "value";
 
-    private static MgEntityFieldTable instance = null;
+    private static MgElementTable instance = null;
 
-    public static MgEntityFieldTable getInstance(){
-        if(instance == null) instance = new MgEntityFieldTable();
+    public static MgElementTable getInstance(){
+        if(instance == null) instance = new MgElementTable();
         return instance;
     }
 
-    public MgEntityFieldTable() {
+    public MgElementTable() {
     }
 
     public void createOrReplace(@Mandatory SqlConnection connection){
@@ -52,42 +54,51 @@ public @Utility class MgEntityFieldTable {
         connection.executeDdl(
             new SqlBuilder()
                 .createTable(TABLE_NAME)
-                .column(PARENT_ID, SqliteTypes.INTEGER)
                 .column(ID, SqliteTypes.INTEGER)
-                .column(TARGET, SqliteTypes.INTEGER)
+                .column(NAME, SqliteTypes.TEXT)
+                .column(VALUE, SqliteTypes.TEXT)
                 .build()
         );
     }
 
-    public int rowCount(@Mandatory SqlConnection connection, int parentId){
+    public int rowCount(@Mandatory SqlConnection connection){
         return (int) connection.executeQuery(
             new SqlBuilder()
                 .readRow(TABLE_NAME)
                 .column("count(*)")
-                .condition(PARENT_ID, parentId)
                 .build()
         ).getSingleResult().get(0);
     }
 
-    public void createRow(@Mandatory SqlConnection connection, int parentId, int fieldId, @Optional Integer target){
+    public void createRow(@Mandatory SqlConnection connection, int elementId, @Mandatory Element element){
         connection.executeDml(
             new SqlBuilder()
                 .createRow(TABLE_NAME)
-                .column(PARENT_ID, parentId)
-                .column(ID, fieldId)
-                .column(TARGET, target)
+                .column(ID, elementId)
+                .column(NAME, element.name)
+                .column(VALUE, element.value)
                 .build()
         );
     }
 
-    public @Optional Integer readRow(@Mandatory SqlConnection connection, int parentId, int id){
-        return (Integer) connection.executeQuery(
-            new SqlBuilder()
-                .readRow(TABLE_NAME)
-                .column(TARGET)
-                .condition(PARENT_ID, parentId)
-                .condition(ID, id)
-                .build()
-        ).getSingleResult().get(0);
+    public @Mandatory Element readRow(@Mandatory SqlConnection connection, int elementId){
+        return createElement(
+            connection.executeQuery(
+                new SqlBuilder()
+                    .readRow(TABLE_NAME)
+                    .column(NAME)
+                    .column(VALUE)
+                    .condition(ID, elementId)
+                    .build()
+            ).getSingleResult()
+        );
+    }
+
+    private @Mandatory Element createElement(@Mandatory SqlResult result){
+        Element element = new Element();
+        element.name = (String) result.get(NAME);
+        element.value = (String) result.get(VALUE);
+        element.fields = new List<>();
+        return element;
     }
 }

@@ -1,11 +1,16 @@
 package cz.mg.nativeapplication.c.entities;
 
 import cz.mg.annotations.classes.Entity;
+import cz.mg.annotations.storage.Part;
+import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
+import cz.mg.entity.EntityClass;
 
 
 public @Entity class CFolder {
-    public String name;
-    public List<CFolder> folders = new List<>();
-    public List<CFile> files = new List<>();
+    public static EntityClass entity;
+
+    public @Value String name;
+    public @Part List<CFolder> folders = new List<>();
+    public @Part List<CFile> files = new List<>();
 }

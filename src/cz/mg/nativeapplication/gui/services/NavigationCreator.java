@@ -10,8 +10,7 @@ import cz.mg.collections.array.Array;
 import cz.mg.collections.list.List;
 import cz.mg.collections.map.Map;
 import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClassRepository;
-import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
@@ -24,7 +23,7 @@ import cz.mg.nativeapplication.gui.utilities.NavigationNode;
 
 
 public @Service class NavigationCreator {
-    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
     public @Mandatory Navigation create(@Optional MgProject project) {
         Map<Object, NavigationNode> map = new Map<>();
@@ -53,7 +52,7 @@ public @Service class NavigationCreator {
         map.set(self, node);
 
         if(self.getClass().isAnnotationPresent(Entity.class)){
-            EntityClass entityClass = entityClassRepository.get(self.getClass());
+            EntityClass entityClass = entityClassProvider.get(self.getClass());
             for(EntityField entityField : entityClass.getFields()){
                 if(entityField.isAnnotationPresent(Part.class)){
                     NavigationNode childNode = createNode(map, node, entityField, entityField.get(self));

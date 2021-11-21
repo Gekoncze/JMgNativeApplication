@@ -1,7 +1,7 @@
 package cz.mg.nativeapplication.gui.services;
 
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.Repositories;
+import cz.mg.nativeapplication.gui.Initialization;
 import cz.mg.nativeapplication.gui.utilities.Navigation;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
@@ -10,13 +10,13 @@ import cz.mg.nativeapplication.mg.entities.components.MgStructure;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
-import cz.mg.test.runner.SingleTestRunner;
+import cz.mg.test.cli.runners.SingleTestClassRunner;
 
 
 public class ComponentSearchTest implements Test {
     public static void main(String[] args) {
-        Repositories.init();
-        new SingleTestRunner().run(new ComponentSearchTest());
+        new Initialization().init();
+        new SingleTestClassRunner().run(ComponentSearchTest.class);
     }
 
     @TestCase

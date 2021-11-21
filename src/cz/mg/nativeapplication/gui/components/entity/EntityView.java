@@ -8,8 +8,7 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClassRepository;
-import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.*;
 import cz.mg.nativeapplication.gui.components.entity.value.EntityBooleanValueSelect;
@@ -34,12 +33,12 @@ public @Utility class EntityView extends ObjectView {
     private final @Mandatory @Part List<EntitySelect> selects = new List<>();
     private final @Mandatory @Shared UiPanel panel = new UiPanel(BORDER, PADDING, TOP);
 
-    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
     public EntityView(@Mandatory Object entity) {
         this.entity = entity;
 
-        EntityClass entityClass = entityClassRepository.get(entity.getClass());
+        EntityClass entityClass = entityClassProvider.get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
             EntitySelectType type = isList(entityField)
@@ -161,6 +160,5 @@ public @Utility class EntityView extends ObjectView {
 
     @Override
     public void onKeyEvent(KeyEvent e) {
-        // TODO
     }
 }

@@ -4,18 +4,18 @@ import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
+import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassFactory;
-import cz.mg.entity.EntityClasses;
-import cz.mg.nativeapplication.gui.Repositories;
+import cz.mg.nativeapplication.gui.Initialization;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
-import cz.mg.test.runner.SingleTestRunner;
+import cz.mg.test.cli.runners.SingleTestClassRunner;
 
 
 public class ReadServiceTest implements Test {
     public static void main(String[] args) {
-        Repositories.init();
-        new SingleTestRunner().run(new ReadServiceTest());
+        new Initialization().init();
+        new SingleTestClassRunner().run(ReadServiceTest.class);
     }
 
     @TestCase
@@ -25,7 +25,7 @@ public class ReadServiceTest implements Test {
         testEntity.value = 1;
         testEntity.next = nextEntity;
 
-        EntityClasses.getRepository().set(TestEntity.class, new EntityClassFactory().create(TestEntity.class, new List<>()));
+        TestEntity.entity = new EntityClassFactory().create(TestEntity.class);
         ReadService readService = new ReadService();
 
         // note: field order is alphabetical
@@ -53,6 +53,8 @@ public class ReadServiceTest implements Test {
     }
 
     public static @Entity class TestEntity {
+        public static EntityClass entity;
+
         public @Value int value;
         public @Part TestEntity next;
 

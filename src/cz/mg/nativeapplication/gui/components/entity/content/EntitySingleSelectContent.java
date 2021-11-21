@@ -5,8 +5,9 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
@@ -17,6 +18,8 @@ import java.awt.*;
 
 
 public @Utility class EntitySingleSelectContent extends EntitySelectContent {
+    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
     private final @Mandatory @Part UiFieldFactory fieldFactory;
@@ -40,7 +43,7 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     @Override
     public @Optional Integer getChildIndex() {
         int i = 0;
-        EntityClass entityClass = EntityClasses.getRepository().get(entity.getClass());
+        EntityClass entityClass = entityClassProvider.get(entity.getClass());
         for(EntityField entityField : entityClass.getFields()){
             if(entityField == this.entityField){
                 return i;

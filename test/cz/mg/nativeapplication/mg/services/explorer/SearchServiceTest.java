@@ -1,18 +1,18 @@
 package cz.mg.nativeapplication.mg.services.explorer;
 
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.Repositories;
+import cz.mg.nativeapplication.gui.Initialization;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.*;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
-import cz.mg.test.runner.SingleTestRunner;
+import cz.mg.test.cli.runners.SingleTestClassRunner;
 
 
 public class SearchServiceTest implements Test {
     public static void main(String[] args) {
-        Repositories.init();
-        new SingleTestRunner().run(new SearchServiceTest());
+        new Initialization().init();
+        new SingleTestClassRunner().run(SearchServiceTest.class);
     }
 
     @TestCase(order = 0)

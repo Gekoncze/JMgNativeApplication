@@ -15,7 +15,7 @@ import cz.mg.nativeapplication.mg.services.resolver.MgComponentLocator;
 import static cz.mg.nativeapplication.mg.services.MgAtomCreator.SMALLER_OPERATOR;
 
 
-public class MgTestProjectCreator {
+public class TestProjectCreator {
     private static final String WHILE_BLOCK_NAME = "loop";
 
     public MgProject create(){

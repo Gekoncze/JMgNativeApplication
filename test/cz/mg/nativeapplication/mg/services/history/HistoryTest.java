@@ -5,12 +5,12 @@ import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
-import cz.mg.test.runner.SingleTestRunner;
+import cz.mg.test.cli.runners.SingleTestClassRunner;
 
 
 public class HistoryTest implements Test {
     public static void main(String[] args) {
-        new SingleTestRunner().run(new HistoryTest());
+        new SingleTestClassRunner().run(HistoryTest.class);
     }
 
     @TestCase(order = 0)

@@ -1,6 +1,6 @@
 package cz.mg.nativeapplication.mg.services.explorer;
 
-import cz.mg.nativeapplication.gui.Repositories;
+import cz.mg.nativeapplication.gui.Initialization;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.command.MgExpressionCommand;
 import cz.mg.nativeapplication.mg.entities.components.MgFunction;
@@ -11,13 +11,13 @@ import cz.mg.nativeapplication.mg.entities.expression.MgMemberExpression;
 import cz.mg.nativeapplication.mg.services.history.TransactionManager;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
-import cz.mg.test.runner.SingleTestRunner;
+import cz.mg.test.cli.runners.SingleTestClassRunner;
 
 
 public class DeleteServiceTest implements Test {
     public static void main(String[] args) {
-        Repositories.init();
-        new SingleTestRunner().run(new DeleteServiceTest());
+        new Initialization().init();
+        new SingleTestClassRunner().run(DeleteServiceTest.class);
     }
 
     @TestCase(order = 0)

@@ -5,8 +5,7 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClassRepository;
-import cz.mg.entity.EntityClasses;
+import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.controls.UiLabel;
@@ -26,7 +25,7 @@ import java.awt.event.MouseEvent;
 public @Utility class EntityPartSelect extends EntitySelect {
     private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
     private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
-    private final @Mandatory @Shared EntityClassRepository entityClassRepository = EntityClasses.getRepository();
+    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
     private final @Mandatory @Shared UiLabel label;
     private final @Mandatory @Shared EntitySelectContent content;
@@ -54,7 +53,7 @@ public @Utility class EntityPartSelect extends EntitySelect {
             ));
         }
         this.popupMenu = new EntityClassPopupMenu(
-            entityClassRepository.get(content.getType()),
+            entityClassProvider.get(content.getType()),
             this::onCreateEntityClass
         );
         refresh();

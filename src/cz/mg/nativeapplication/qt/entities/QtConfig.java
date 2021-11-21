@@ -4,9 +4,12 @@ package cz.mg.nativeapplication.qt.entities;
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Value;
+import cz.mg.entity.EntityClass;
 
 
 public @Entity class QtConfig {
+    public static EntityClass entity;
+
     public @Value String name;
     public @Value Operation operation;
     public @Value String value;

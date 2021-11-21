@@ -7,15 +7,15 @@ import cz.mg.nativeapplication.gui.Application;
 
 
 public @Service class ApplicationProvider {
-    private static @Optional Application instance;
+    private static @Optional Application application;
 
-    public void set(@Optional Application instance) {
-        ApplicationProvider.instance = instance;
+    public void set(@Optional Application application) {
+        ApplicationProvider.application = application;
     }
 
     public @Mandatory Application get(){
-        if(instance != null){
-            return instance;
+        if(application != null){
+            return application;
         } else {
             throw new IllegalStateException("Missing application.");
         }
