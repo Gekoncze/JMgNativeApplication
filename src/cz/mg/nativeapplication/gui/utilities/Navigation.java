@@ -21,9 +21,9 @@ public @Utility class Navigation {
         return root;
     }
 
-    public @Optional NavigationNode get(@Optional Object entity){
-        if(entity != null){
-            return map.get(entity);
+    public @Optional NavigationNode get(@Optional Object object){
+        if(object != null){
+            return map.get(object);
         } else {
             return null;
         }
