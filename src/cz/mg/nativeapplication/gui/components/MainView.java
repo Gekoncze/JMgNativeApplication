@@ -14,7 +14,7 @@ public @Utility class MainView extends UiHorizontalSplitPane {
 
     public MainView() {
         super(
-            new MainProjectTreeView(),
+            new NavigationTree(),
             new MainTabView()
         );
 
@@ -22,8 +22,8 @@ public @Utility class MainView extends UiHorizontalSplitPane {
         setBorder(new EmptyBorder(new Insets(BORDER, BORDER, BORDER, BORDER)));
     }
 
-    public @Mandatory MainProjectTreeView getProjectTreeView() {
-        return (MainProjectTreeView) getLeftComponent();
+    public @Mandatory NavigationTree getProjectTreeView() {
+        return (NavigationTree) getLeftComponent();
     }
 
     public @Mandatory MainTabView getMainTabView() {

@@ -1,18 +1,22 @@
-add more unit tests
-    transaction
-    transaction manager
-
-improve multi select
-    add drag and drop move action
-    add keyboard shortcuts to move up / down
-    add keyboard shortcuts to select next / previous item
-
-add field select display order customization for each entity class
-add field select display customization for each entity class
-add menu items for right click to navigation
-use entity field validators in gui
+navigation
+    add menu items for right click in navigation tree
+    add navigation bar
+    add button to locate currently opened object in navigation tree
 
 add validations
     add validation on navigation refresh + display error icon
     add validation on component refresh + highlight errorneous fields + add tooltip
     run validations for all entities before export or compile
+
+entity view
+    add field select display order customizations
+    add field select display customization
+
+    improve multi select
+        add drag and drop move action
+        add keyboard shortcuts to move up / down
+        add keyboard shortcuts to select next / previous item
+
+add more unit tests
+    transaction
+    transaction manager

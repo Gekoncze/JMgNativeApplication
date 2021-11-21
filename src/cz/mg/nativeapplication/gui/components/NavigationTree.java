@@ -27,7 +27,7 @@ import java.awt.event.MouseEvent;
 import cz.mg.nativeapplication.gui.utilities.NavigationNode;
 
 
-public @Utility class MainProjectTreeView extends JScrollPane implements Refreshable {
+public @Utility class NavigationTree extends JScrollPane implements Refreshable {
     private static final int PADDING = 4;
 
     private final @Mandatory @Link UiTree tree;
@@ -35,7 +35,7 @@ public @Utility class MainProjectTreeView extends JScrollPane implements Refresh
     private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
     private final @Mandatory @Shared ObjectIconProvider objectIconProvider = new ObjectIconProvider();
 
-    public MainProjectTreeView() {
+    public NavigationTree() {
         tree = new UiTree();
         tree.setModel(new EntityTreeModel());
         tree.setCellRenderer(new EntityTreeRenderer());
