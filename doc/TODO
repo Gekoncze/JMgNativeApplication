@@ -1,4 +1,5 @@
 add more unit tests
+    transaction
     transaction manager
 
 improve multi select
@@ -10,4 +11,8 @@ add field select display order customization for each entity class
 add field select display customization for each entity class
 add menu items for right click to navigation
 use entity field validators in gui
-run validations for all entities before export or compile
+
+add validations
+    add validation on navigation refresh + display error icon
+    add validation on component refresh + highlight errorneous fields + add tooltip
+    run validations for all entities before export or compile
