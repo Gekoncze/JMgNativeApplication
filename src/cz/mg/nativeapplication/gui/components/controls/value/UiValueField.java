@@ -74,7 +74,7 @@ public abstract @Utility class UiValueField extends JTextField implements UiComp
     public abstract void setValue(@Optional Object value);
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(@Mandatory Graphics g) {
         super.paintComponent(g);
         if(isNull && getText().length() <= 0){
             if(!hasFocus() || !isEditable()){

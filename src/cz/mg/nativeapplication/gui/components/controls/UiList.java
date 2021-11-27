@@ -82,7 +82,7 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         this.rebuild();
     }
 
-    private UiHorizontalPanel createValueComponent(UiValueField field, Object value){
+    private @Mandatory UiHorizontalPanel createValueComponent(@Mandatory UiValueField field, @Optional Object value){
         UiHorizontalPanel panel = new UiHorizontalPanel(BORDER, PADDING, Alignment.LEFT);
         if(value != null){
             FontMetrics fontMetrics = getFontMetrics(field.getFont());
@@ -95,7 +95,7 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         return panel;
     }
 
-    private UiValueField createValueField(Object value){
+    private @Mandatory UiValueField createValueField(@Optional Object value){
         UiValueField field = fieldFactory.create();
         field.setValue(value);
         field.addMouseListener(new MouseClickUserEventHandler(event -> {
@@ -116,11 +116,11 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         return field;
     }
 
-    private UiText createDummyField(){
+    private @Mandatory UiText createDummyField(){
         return new UiText("");
     }
 
-    private void onItemSelected(UiValueField selectedField) {
+    private void onItemSelected(@Mandatory UiValueField selectedField) {
         int i = 0;
         for(UiValueField field : fields){
             if(selectedField == field){

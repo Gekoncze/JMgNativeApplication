@@ -31,6 +31,8 @@ public class MainTabView extends JTabbedPane implements Refreshable {
 
     private final @Mandatory @Shared SearchService searchService = new SearchService();
     private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
+    private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
+    private final @Mandatory @Shared ObjectNameProvider objectNameProvider = new ObjectNameProvider();
 
     public MainTabView() {
     }
@@ -134,8 +136,8 @@ public class MainTabView extends JTabbedPane implements Refreshable {
 
     private @Mandatory UiLabel createTabHeaderLabel(@Mandatory Object object){
         return new UiLabel(
-            new ObjectImageProvider().get(object),
-            new ObjectNameProvider().get(object)
+            objectImageProvider.get(object),
+            objectNameProvider.get(object)
         );
     }
 

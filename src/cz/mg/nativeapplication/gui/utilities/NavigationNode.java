@@ -13,7 +13,7 @@ public @Utility class NavigationNode {
     private final @Optional @Link NavigationNode parent;
     private final @Mandatory @Link Object self;
     private final @Mandatory @Part List<NavigationNode> children = new List<>();
-    private final @Optional @Value String label;
+    private final @Mandatory @Value String label;
 
     public NavigationNode(@Optional NavigationNode parent, @Mandatory Object self, @Mandatory String label) {
         this.parent = parent;
@@ -33,7 +33,7 @@ public @Utility class NavigationNode {
         return children;
     }
 
-    public @Optional String getLabel() {
+    public @Mandatory String getLabel() {
         return label;
     }
 }
