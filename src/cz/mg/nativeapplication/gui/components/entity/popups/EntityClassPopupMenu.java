@@ -7,7 +7,7 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
 import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
 import cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem;
-import cz.mg.nativeapplication.gui.services.ClassIconProvider;
+import cz.mg.nativeapplication.gui.services.ClassImageProvider;
 
 import java.awt.*;
 
@@ -17,7 +17,7 @@ import static cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuIt
 public @Utility class EntityClassPopupMenu extends UiPopupMenu {
     private final @Mandatory @Link EntityClass entityClass;
 
-    private final @Mandatory @Shared ClassIconProvider classIconProvider = new ClassIconProvider();
+    private final @Mandatory @Shared ClassImageProvider classImageProvider = new ClassImageProvider();
 
     public EntityClassPopupMenu(
         @Mandatory EntityClass entityClass,
@@ -27,7 +27,7 @@ public @Utility class EntityClassPopupMenu extends UiPopupMenu {
 
         for(EntityClass option : entityClass.getSubclasses()){
             add(new UiValueMenuItem(
-                classIconProvider.get(option.getClazz()),
+                classImageProvider.get(option.getClazz()),
                 option,
                 option.getName(),
                 selectEventHandler

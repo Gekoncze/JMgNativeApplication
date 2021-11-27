@@ -4,11 +4,10 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.collections.map.Map;
 
-import javax.swing.*;
 import java.awt.*;
 
 
-public class IconGallery {
+public class ImageGallery {
     public static final String MG = "mg.png";
     public static final String UNKNOWN = "unknown.png";
 
@@ -34,18 +33,21 @@ public class IconGallery {
     public static final String VARIABLE = "mgvariable.png";
 
     private final @Mandatory Map<String, Image> images;
-    private final @Mandatory Map<String, Icon> icons;
 
-    public IconGallery(@Mandatory Map<String, Image> images, @Mandatory Map<String, Icon> icons) {
+    public ImageGallery(@Mandatory Map<String, Image> images) {
         this.images = images;
-        this.icons = icons;
     }
 
-    public @Optional Image getImage(@Mandatory String name){
+    public @Mandatory Image getImage(@Mandatory String name){
+        Image image = images.get(name);
+        if(image != null){
+            return image;
+        } else {
+            throw new RuntimeException("Missing icon '" + name + "'.");
+        }
+    }
+
+    public @Optional Image getImageOptional(@Mandatory String name){
         return images.get(name);
-    }
-
-    public @Optional Icon getIcon(@Mandatory String name){
-        return icons.get(name);
     }
 }

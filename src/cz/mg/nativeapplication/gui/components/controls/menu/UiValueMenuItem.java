@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 
-import javax.swing.*;
+import java.awt.*;
 
 
 public @Utility class UiValueMenuItem<T> extends UiMenuItem {
@@ -17,15 +17,15 @@ public @Utility class UiValueMenuItem<T> extends UiMenuItem {
     }
 
     public UiValueMenuItem(
-        @Optional Icon icon,
+        @Optional Image image,
         @Mandatory T value,
         @Mandatory String name,
         @Mandatory SelectEventHandler<T> handler
     ) {
-        super(icon, name, () -> handler.select(value));
+        super(image, name, () -> handler.select(value));
     }
 
     public interface SelectEventHandler<T> {
-        public void select(@Mandatory T value);
+        void select(@Mandatory T value);
     }
 }

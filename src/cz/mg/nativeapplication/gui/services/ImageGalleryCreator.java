@@ -3,31 +3,29 @@ package cz.mg.nativeapplication.gui.services;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.map.Map;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.icons.ImageGallery;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 
-public @Service class IconGalleryCreator {
-    public @Mandatory IconGallery create(){
+public @Service class ImageGalleryCreator {
+    public @Mandatory ImageGallery create(){
         Map<String, Image> images = new Map<>();
-        Map<String, Icon> icons = new Map<>();
 
-        for(Field field : IconGallery.class.getFields()){
+        for(Field field : ImageGallery.class.getFields()){
             if(Modifier.isPublic(field.getModifiers())){
                 if(Modifier.isStatic(field.getModifiers())){
                     if(field.getType().equals(String.class)){
-                        load(getStringValue(field), images, icons);
+                        load(getStringValue(field), images);
                     }
                 }
             }
         }
 
-        return new IconGallery(images, icons);
+        return new ImageGallery(images);
     }
 
     private @Mandatory String getStringValue(@Mandatory Field field){
@@ -38,13 +36,12 @@ public @Service class IconGalleryCreator {
         }
     }
 
-    private void load(@Mandatory String name, @Mandatory Map<String, Image> images, @Mandatory Map<String, Icon> icons){
+    private void load(@Mandatory String name, @Mandatory Map<String, Image> images){
         try {
-            Image image = ImageIO.read(IconGallery.class.getResourceAsStream(name));
+            Image image = ImageIO.read(ImageGallery.class.getResourceAsStream(name));
             images.set(name, image);
-            icons.set(name, new ImageIcon(image));
         } catch (Exception e) {
-            throw new RuntimeException("Could not load icon '" + name + "'.", e);
+            throw new RuntimeException("Could not load image '" + name + "'.", e);
         }
     }
 }

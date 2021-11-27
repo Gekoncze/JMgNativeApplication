@@ -8,10 +8,10 @@ import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
 import cz.mg.nativeapplication.gui.components.controls.menu.UiDummyMenuItem;
 import cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem;
+import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.utilities.Navigation;
 import cz.mg.nativeapplication.gui.utilities.NavigationNode;
 import cz.mg.nativeapplication.gui.services.ComponentSearch;
-import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 
 import java.awt.*;
@@ -39,7 +39,7 @@ public @Utility class ComponentSearchPopupMenu extends UiPopupMenu {
         for(MgComponent result : results){
             add(
                 new UiValueMenuItem<>(
-                    new ObjectIconProvider().get(result),
+                    new ObjectImageProvider().get(result),
                     result,
                     findComponentPath(navigation, result),
                     selectEventHandler

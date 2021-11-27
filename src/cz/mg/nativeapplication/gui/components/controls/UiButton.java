@@ -26,7 +26,7 @@ public @Utility class UiButton extends JButton implements UiComponent {
         setOpaque(false);
 
         if(iconName != null){
-            setIcon(applicationProvider.get().getIconGallery().getIcon(iconName));
+            setIcon(new ImageIcon(applicationProvider.get().getImageGallery().getImage(iconName)));
         }
 
         if(text != null){

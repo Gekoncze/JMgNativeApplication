@@ -10,7 +10,7 @@ import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.components.other.ColorUtilities;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
+import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class UiList extends UiVerticalPanel implements UiComponent {
     private static final int BORDER = 2;
     private static final int PADDING = 2;
 
-    private final @Mandatory @Shared ObjectIconProvider objectIconProvider = new ObjectIconProvider();
+    private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
 
     private final @Mandatory @Part UiFieldFactory fieldFactory;
     private final @Mandatory @Part List<UiValueField> fields = new List<>();
@@ -86,7 +86,7 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         UiHorizontalPanel panel = new UiHorizontalPanel(BORDER, PADDING, Alignment.LEFT);
         if(value != null){
             FontMetrics fontMetrics = getFontMetrics(field.getFont());
-            UiImage image = new UiImage(objectIconProvider.getImageOptional(value));
+            UiImage image = new UiImage(objectImageProvider.getOptional(value));
             image.setPreferredSize(new Dimension(fontMetrics.getHeight(), fontMetrics.getHeight()));
             panel.add(image, 0, 0, Alignment.LEFT, Fill.BOTH);
         }
@@ -116,8 +116,8 @@ public class UiList extends UiVerticalPanel implements UiComponent {
         return field;
     }
 
-    private UiLabel createDummyField(){
-        return new UiLabel("");
+    private UiText createDummyField(){
+        return new UiText("");
     }
 
     private void onItemSelected(UiValueField selectedField) {

@@ -4,23 +4,23 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.components.MainWindow;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.icons.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
-import cz.mg.nativeapplication.gui.services.IconGalleryCreator;
+import cz.mg.nativeapplication.gui.services.ImageGalleryCreator;
 
 
 public @Utility class Application {
     private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
-    private final @Mandatory @Shared IconGalleryCreator iconGalleryCreator = new IconGalleryCreator();
+    private final @Mandatory @Shared ImageGalleryCreator imageGalleryCreator = new ImageGalleryCreator();
 
     private final @Mandatory ApplicationState applicationState;
-    private final @Mandatory IconGallery iconGallery;
+    private final @Mandatory ImageGallery imageGallery;
     private final @Mandatory MainWindow mainWindow;
 
     public Application() {
         applicationProvider.set(this);
         applicationState = new ApplicationState();
-        iconGallery = iconGalleryCreator.create();
+        imageGallery = imageGalleryCreator.create();
         mainWindow = new MainWindow();
     }
 
@@ -28,8 +28,8 @@ public @Utility class Application {
         return applicationState;
     }
 
-    public IconGallery getIconGallery() {
-        return iconGallery;
+    public ImageGallery getImageGallery() {
+        return imageGallery;
     }
 
     public MainWindow getMainWindow() {

@@ -5,6 +5,7 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.gui.components.controls.UiText;
 import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
@@ -16,7 +17,7 @@ import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.icons.ImageGallery;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 
 import java.awt.event.KeyEvent;
@@ -26,7 +27,7 @@ import java.awt.event.MouseEvent;
 public @Utility class EntityLinkSelect extends EntitySelect {
     private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
 
-    private final @Mandatory @Shared UiLabel label;
+    private final @Mandatory @Shared UiText label;
     private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared ComponentSearchPopupMenu popupMenu;
@@ -37,19 +38,19 @@ public @Utility class EntityLinkSelect extends EntitySelect {
         @Mandatory EntitySelectType type
     ) {
         this.content = EntitySelectContent.create(entity, entityField, type, this::createContentField);
-        this.label = new UiLabel(content.getName());
+        this.label = new UiText(content.getName(), UiText.FontStyle.BOLD);
         this.buttons = new List<>(
-            new UiButton(IconGallery.SEARCH, null, "Search", this::onSearchButtonClicked),
-            new UiButton(IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
-            new UiButton(IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
-            new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
+            new UiButton(ImageGallery.SEARCH, null, "Search", this::onSearchButtonClicked),
+            new UiButton(ImageGallery.OPEN, null, "Open", this::onOpenButtonClicked),
+            new UiButton(ImageGallery.EDIT, null, "Edit", this::onEditButtonClicked),
+            new UiButton(ImageGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         if(content instanceof EntityMultiSelectContent){
             this.buttons.addCollectionFirst(new List<>(
-                new UiButton(IconGallery.UP, null, "Move up", this::onMoveRowUp),
-                new UiButton(IconGallery.DOWN, null, "Move down", this::onMoveRowDown),
-                new UiButton(IconGallery.CREATE_ROW, null, "Add row", this::onAddRow),
-                new UiButton(IconGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
+                new UiButton(ImageGallery.UP, null, "Move up", this::onMoveRowUp),
+                new UiButton(ImageGallery.DOWN, null, "Move down", this::onMoveRowDown),
+                new UiButton(ImageGallery.CREATE_ROW, null, "Add row", this::onAddRow),
+                new UiButton(ImageGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
             ));
         }
         this.popupMenu = new ComponentSearchPopupMenu(content::setValue);
@@ -57,7 +58,7 @@ public @Utility class EntityLinkSelect extends EntitySelect {
     }
 
     @Override
-    public @Mandatory UiLabel getLabel() {
+    public @Mandatory UiText getLabel() {
         return label;
     }
 

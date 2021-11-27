@@ -14,7 +14,7 @@ import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
-import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
+import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 
 import javax.swing.*;
 import javax.swing.event.TreeModelListener;
@@ -33,7 +33,7 @@ public @Utility class NavigationTree extends JScrollPane implements Refreshable 
     private final @Mandatory @Link UiTree tree;
 
     private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
-    private final @Mandatory @Shared ObjectIconProvider objectIconProvider = new ObjectIconProvider();
+    private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
 
     public NavigationTree() {
         tree = new UiTree();
@@ -199,7 +199,7 @@ public @Utility class NavigationTree extends JScrollPane implements Refreshable 
         ) {
             NavigationNode node = (NavigationNode) value;
             UiLabel label = new UiLabel(
-                objectIconProvider.get(node.getSelf()),
+                objectImageProvider.get(node.getSelf()),
                 node.getLabel()
             );
             label.setToolTipText(node.getSelf().getClass().getSimpleName());

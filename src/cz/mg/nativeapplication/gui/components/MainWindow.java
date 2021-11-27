@@ -10,7 +10,7 @@ import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.event.WindowCloseUserEventHandler;
 import cz.mg.nativeapplication.gui.event.KeyDispatcherUserEventHandler;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.icons.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 import cz.mg.nativeapplication.gui.utilities.Navigation;
@@ -42,7 +42,7 @@ public @Utility class MainWindow extends JFrame implements Refreshable {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowCloseUserEventHandler(this::onWindowCloseButtonClicked));
         setTitle(TITLE);
-        setIconImage(applicationProvider.get().getIconGallery().getImage(IconGallery.MG));
+        setIconImage(applicationProvider.get().getImageGallery().getImageOptional(ImageGallery.MG));
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setLocationRelativeTo(null);
         setJMenuBar(mainMenu);

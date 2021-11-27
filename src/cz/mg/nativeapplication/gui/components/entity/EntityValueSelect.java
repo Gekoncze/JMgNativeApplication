@@ -7,8 +7,8 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
+import cz.mg.nativeapplication.gui.components.controls.UiText;
 import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
@@ -16,14 +16,14 @@ import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.icons.ImageGallery;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
 public abstract @Utility class EntityValueSelect extends EntitySelect {
-    private final @Mandatory @Shared UiLabel label;
+    private final @Mandatory @Shared UiText label;
     private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Optional @Shared UiPopupMenu popupMenu;
@@ -34,17 +34,17 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
         @Mandatory EntitySelectType type
     ) {
         this.content = EntitySelectContent.create(entity, entityField, type, this::createContentField);
-        this.label = new UiLabel(entityField.getName());
+        this.label = new UiText(entityField.getName(), UiText.FontStyle.BOLD);
         this.buttons = new List<>(
-            new UiButton(IconGallery.EDIT, null, "Edit", this::onEditButtonClicked),
-            new UiButton(IconGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
+            new UiButton(ImageGallery.EDIT, null, "Edit", this::onEditButtonClicked),
+            new UiButton(ImageGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
         );
         if(content instanceof EntityMultiSelectContent){
             this.buttons.addCollectionFirst(new List<>(
-                    new UiButton(IconGallery.UP, null, "Move up", this::onMoveRowUp),
-                    new UiButton(IconGallery.DOWN, null, "Move down", this::onMoveRowDown),
-                    new UiButton(IconGallery.CREATE_ROW, null, "Add row", this::onAddRow),
-                    new UiButton(IconGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
+                    new UiButton(ImageGallery.UP, null, "Move up", this::onMoveRowUp),
+                    new UiButton(ImageGallery.DOWN, null, "Move down", this::onMoveRowDown),
+                    new UiButton(ImageGallery.CREATE_ROW, null, "Add row", this::onAddRow),
+                    new UiButton(ImageGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
             ));
         }
         this.popupMenu = createPopupMenu(content);
@@ -52,7 +52,7 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
     }
 
     @Override
-    public @Mandatory UiLabel getLabel() {
+    public @Mandatory UiText getLabel() {
         return label;
     }
 

@@ -7,11 +7,12 @@ import cz.mg.nativeapplication.gui.components.controls.UiComponent;
 import cz.mg.nativeapplication.gui.event.ActionUserEventHandler;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public @Utility class UiMenuItem extends JMenuItem implements UiComponent {
     public UiMenuItem(
-        @Optional Icon icon,
+        @Optional Image image,
         @Mandatory String name,
         @Optional Character mnemonic,
         @Optional Integer code,
@@ -19,17 +20,17 @@ public @Utility class UiMenuItem extends JMenuItem implements UiComponent {
         @Mandatory ActionUserEventHandler.Handler handler
     ) {
         super(name);
-        if(icon != null) setIcon(icon);
+        if(image != null) setIcon(new ImageIcon(image));
         if(mnemonic != null) setMnemonic(mnemonic);
         if(code != null && modifiers != null) setAccelerator(KeyStroke.getKeyStroke(code, modifiers));
         addActionListener(new ActionUserEventHandler(handler));
     }
 
     public UiMenuItem(
-        @Optional Icon icon,
+        @Optional Image image,
         @Mandatory String name,
         @Mandatory ActionUserEventHandler.Handler handler
     ){
-        this(icon, name, null, null, null, handler);
+        this(image, name, null, null, null, handler);
     }
 }

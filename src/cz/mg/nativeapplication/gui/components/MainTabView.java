@@ -13,7 +13,7 @@ import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
-import cz.mg.nativeapplication.gui.services.ObjectIconProvider;
+import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.services.explorer.SearchService;
@@ -134,7 +134,7 @@ public class MainTabView extends JTabbedPane implements Refreshable {
 
     private @Mandatory UiLabel createTabHeaderLabel(@Mandatory Object object){
         return new UiLabel(
-            new ObjectIconProvider().get(object),
+            new ObjectImageProvider().get(object),
             new ObjectNameProvider().get(object)
         );
     }

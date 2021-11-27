@@ -1,13 +1,10 @@
 package cz.mg.nativeapplication.gui.components.controls;
 
 import cz.mg.annotations.classes.Utility;
-import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseListener;
 
 import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.LEFT;
@@ -19,58 +16,27 @@ import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
 public @Utility class UiLabel extends UiPanel implements UiComponent {
     private static final int PADDING = 4;
 
-    private final @Optional @Shared JLabel label;
-    private final @Optional @Shared JTextField textField;
+    private final @Mandatory @Shared UiImage imageComponent;
+    private final @Mandatory @Shared UiText textComponent;
 
-    public UiLabel(@Optional String text) {
-        this(null, text);
-    }
-
-    public UiLabel(@Optional Icon icon) {
-        this(icon, null);
-    }
-
-    public UiLabel(@Optional Icon icon, @Optional String text) {
+    public UiLabel(@Mandatory Image image, @Mandatory String text) {
         super(0, PADDING, LEFT);
 
-        if(icon != null){
-            label = new JLabel();
-            label.setIcon(icon);
-            add(label, 0, 0, 0, 0, MIDDLE, BOTH);
-        } else {
-            label = null;
-        }
+        imageComponent = new UiImage(image);
+        add(imageComponent, 0, 0, 0, 0, MIDDLE, BOTH);
 
-        if(text != null){
-            textField = new JTextField(text);
-            textField.setEditable(false);
-            textField.setBorder(null);
-            textField.setBackground(null);
-            textField.setOpaque(false);
-            textField.setFont(new Font(
-                textField.getFont().getName(),
-                Font.BOLD,
-                textField.getFont().getSize()
-            ));
-            textField.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusLost(FocusEvent e) {
-                    textField.setSelectionStart(0);
-                    textField.setSelectionEnd(0);
-                }
-            });
-            add(textField, 1, 0, 0, 0, MIDDLE, NONE);
-        } else {
-            textField = null;
-        }
+        textComponent = new UiText(text, UiText.FontStyle.BOLD);
+        add(textComponent, 1, 0, 0, 0, MIDDLE, NONE);
+
+        imageComponent.setPreferredSize(new Dimension(image.getWidth(this), image.getHeight(this)));
 
         rebuild();
     }
 
     @Override
-    public synchronized void addMouseListener(MouseListener listener) {
+    public void addMouseListener(@Mandatory MouseListener listener) {
         super.addMouseListener(listener);
-        if(label != null) label.addMouseListener(listener);
-        if(textField != null) textField.addMouseListener(listener);
+        imageComponent.addMouseListener(listener);
+        textComponent.addMouseListener(listener);
     }
 }

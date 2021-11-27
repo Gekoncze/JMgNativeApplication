@@ -20,3 +20,5 @@ entity view
 add more unit tests
     transaction
     transaction manager
+
+automatic loading of all icons

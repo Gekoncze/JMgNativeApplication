@@ -8,14 +8,14 @@ import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiLabel;
+import cz.mg.nativeapplication.gui.components.controls.UiText;
 import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
 import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.icons.IconGallery;
+import cz.mg.nativeapplication.gui.icons.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
 
@@ -27,7 +27,7 @@ public @Utility class EntityPartSelect extends EntitySelect {
     private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
-    private final @Mandatory @Shared UiLabel label;
+    private final @Mandatory @Shared UiText label;
     private final @Mandatory @Shared EntitySelectContent content;
     private final @Mandatory @Shared List<UiButton> buttons;
     private final @Mandatory @Shared EntityClassPopupMenu popupMenu;
@@ -38,18 +38,18 @@ public @Utility class EntityPartSelect extends EntitySelect {
         @Mandatory EntitySelectType type
     ) {
         this.content = EntitySelectContent.create(entity, entityField, type, this::createContentField);
-        this.label = new UiLabel(entityField.getName());
+        this.label = new UiText(entityField.getName(), UiText.FontStyle.BOLD);
         this.buttons = new List<>(
-            new UiButton(IconGallery.CREATE, null, "Create", this::onCreateButtonClicked),
-            new UiButton(IconGallery.OPEN, null, "Open", this::onOpenButtonClicked),
-            new UiButton(IconGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
+            new UiButton(ImageGallery.CREATE, null, "Create", this::onCreateButtonClicked),
+            new UiButton(ImageGallery.OPEN, null, "Open", this::onOpenButtonClicked),
+            new UiButton(ImageGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
         );
         if(content instanceof EntityMultiSelectContent){
             this.buttons.addCollectionFirst(new List<>(
-                new UiButton(IconGallery.UP, null, "Move up", this::onMoveRowUp),
-                new UiButton(IconGallery.DOWN, null, "Move down", this::onMoveRowDown),
-                new UiButton(IconGallery.CREATE_ROW, null, "Add row", this::onAddRow),
-                new UiButton(IconGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
+                new UiButton(ImageGallery.UP, null, "Move up", this::onMoveRowUp),
+                new UiButton(ImageGallery.DOWN, null, "Move down", this::onMoveRowDown),
+                new UiButton(ImageGallery.CREATE_ROW, null, "Add row", this::onAddRow),
+                new UiButton(ImageGallery.DELETE_ROW, null, "Remove row", this::onRemoveRow)
             ));
         }
         this.popupMenu = new EntityClassPopupMenu(
@@ -60,7 +60,7 @@ public @Utility class EntityPartSelect extends EntitySelect {
     }
 
     @Override
-    public @Mandatory UiLabel getLabel() {
+    public @Mandatory UiText getLabel() {
         return label;
     }
 
