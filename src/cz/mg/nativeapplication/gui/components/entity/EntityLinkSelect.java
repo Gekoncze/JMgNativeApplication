@@ -67,7 +67,7 @@ public @Utility class EntityLinkSelect extends EntitySelect {
     }
 
     @Override
-    public List<UiButton> getButtons() {
+    public @Mandatory List<UiButton> getButtons() {
         return buttons;
     }
 
@@ -97,7 +97,7 @@ public @Utility class EntityLinkSelect extends EntitySelect {
         }
     }
 
-    private void onKeyPressed(KeyEvent event) {
+    private void onKeyPressed(@Mandatory KeyEvent event) {
         if(event.getKeyCode() == Key.ESCAPE){
             refresh();
         }
@@ -108,7 +108,7 @@ public @Utility class EntityLinkSelect extends EntitySelect {
         }
     }
 
-    private void onMouseClicked(MouseEvent event) {
+    private void onMouseClicked(@Mandatory MouseEvent event) {
         if(event.getButton() == MouseEvent.BUTTON1){
             if(event.getClickCount() == 2){
                 if(content.getField() != null){

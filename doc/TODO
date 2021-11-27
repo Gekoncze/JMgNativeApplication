@@ -11,6 +11,11 @@ add validations
 entity view
     add field select display order customizations
     add field select display customization
+    add icons to single select
+        extract ui value fields into separate class without decorations
+        create 1. wrapper for ui value fields to contain icon
+        create 2. wrapper for 1. wrapper to add decorations
+        adapt multi select to use 1. wrapper
 
     improve multi select
         add drag and drop move action

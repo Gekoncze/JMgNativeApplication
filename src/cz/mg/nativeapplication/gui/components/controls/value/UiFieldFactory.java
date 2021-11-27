@@ -1,6 +1,9 @@
 package cz.mg.nativeapplication.gui.components.controls.value;
 
+import cz.mg.annotations.classes.Utility;
+import cz.mg.annotations.requirement.Mandatory;
 
-public interface UiFieldFactory {
-    public UiValueField create();
+
+public @Utility interface UiFieldFactory {
+    @Mandatory UiValueField create();
 }

@@ -10,6 +10,9 @@ import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 public @Utility class UiObjectField extends UiValueField {
     private final @Mandatory @Shared ObjectNameProvider objectNameProvider = new ObjectNameProvider();
 
+    public UiObjectField() {
+    }
+
     @Override
     public @Optional Object getValue() {
         throw new UnsupportedOperationException();
