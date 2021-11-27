@@ -10,14 +10,13 @@ import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiLabel;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.components.entity.popups.ComponentSearchPopupMenu;
 import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.icons.ImageGallery;
+import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
 
 import java.awt.event.KeyEvent;

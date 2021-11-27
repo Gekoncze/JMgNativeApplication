@@ -17,8 +17,10 @@ entity view
         add keyboard shortcuts to move up / down
         add keyboard shortcuts to select next / previous item
 
+add more icons
+    MgCommand
+    MgExpression
+
 add more unit tests
     transaction
     transaction manager
-
-automatic loading of all icons

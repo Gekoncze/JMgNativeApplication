@@ -1,9 +1,10 @@
-package cz.mg.nativeapplication.gui.icons;
+package cz.mg.nativeapplication.gui.images;
 
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.collections.map.Map;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 
 
@@ -22,32 +23,36 @@ public class ImageGallery {
     public static final String CREATE_ROW = "addRow.png";
     public static final String DELETE_ROW = "removeRow.png";
 
-    public static final String LIST = "list.png";
+    private final @Mandatory Map<String, Image> images = new Map<>();
 
-    public static final String ATOM = "mgatom.png";
-    public static final String FUNCTION = "mgfunction.png";
-    public static final String INTERFACE = "mginterface.png";
-    public static final String LOCATION = "mglocation.png";
-    public static final String PROJECT = "mgproject.png";
-    public static final String STRUCTURE = "mgstructure.png";
-    public static final String VARIABLE = "mgvariable.png";
-
-    private final @Mandatory Map<String, Image> images;
-
-    public ImageGallery(@Mandatory Map<String, Image> images) {
-        this.images = images;
+    public ImageGallery() {
     }
 
     public @Mandatory Image getImage(@Mandatory String name){
-        Image image = images.get(name);
+        Image image = getImageOptional(name);
         if(image != null){
             return image;
         } else {
-            throw new RuntimeException("Missing icon '" + name + "'.");
+            throw new RuntimeException("Missing image '" + name + "'.");
         }
     }
 
     public @Optional Image getImageOptional(@Mandatory String name){
+        update(name);
         return images.get(name);
+    }
+
+    private void update(@Mandatory String name){
+        if(!images.containsKey(name)){
+            images.set(name, load(name));
+        }
+    }
+
+    private @Optional Image load(@Mandatory String name){
+        try {
+            return ImageIO.read(ImageGallery.class.getResourceAsStream(name));
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

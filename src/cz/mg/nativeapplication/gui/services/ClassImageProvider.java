@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.gui.icons.ImageGallery;
+import cz.mg.nativeapplication.gui.images.ImageGallery;
 
 import java.awt.*;
 

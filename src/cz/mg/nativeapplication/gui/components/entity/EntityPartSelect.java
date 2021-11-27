@@ -15,7 +15,7 @@ import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectCo
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.icons.ImageGallery;
+import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
 

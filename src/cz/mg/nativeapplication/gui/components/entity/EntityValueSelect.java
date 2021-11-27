@@ -16,7 +16,7 @@ import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.icons.ImageGallery;
+import cz.mg.nativeapplication.gui.images.ImageGallery;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
