@@ -20,6 +20,10 @@ entity view
 add more icons
     MgCommand
     MgExpression
+    Boolean
+    Enum
+    Integer
+    String
 
 add more unit tests
     transaction
