@@ -3,9 +3,9 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Part;
-import cz.mg.nativeapplication.gui.components.controls.menu.UiMenu;
-import cz.mg.nativeapplication.gui.components.controls.menu.UiMenuBar;
-import cz.mg.nativeapplication.gui.components.controls.menu.UiMenuItem;
+import cz.mg.nativeapplication.gui.ui.controls.menu.UiMenu;
+import cz.mg.nativeapplication.gui.ui.controls.menu.UiMenuBar;
+import cz.mg.nativeapplication.gui.ui.controls.menu.UiMenuItem;
 
 import static cz.mg.nativeapplication.gui.components.enums.Key.*;
 import static cz.mg.nativeapplication.gui.components.enums.KeyModifier.CTRL;

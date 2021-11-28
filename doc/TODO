@@ -3,19 +3,24 @@ navigation
     add navigation bar
     add button to locate currently opened object in navigation tree
 
+idea for mouse event traversal
+    for each ui component, register a mouse listener
+    the handler will iterate to top most parent
+    then it will propagate an onEnter event down to the target component
+    then it will propagate an onLeave event up to the top most parent component
+    consume should stop the propagation
+
 add validations
     add validation on navigation refresh + display error icon
     add validation on component refresh + highlight errorneous fields + add tooltip
     run validations for all entities before export or compile
 
+bug in ui list field
+    clicking on icon does not select field
+
 entity view
     add field select display order customizations
     add field select display customization
-    add icons to single select
-        extract ui value fields into separate class without decorations
-        create 1. wrapper for ui value fields to contain icon
-        create 2. wrapper for 1. wrapper to add decorations
-        adapt multi select to use 1. wrapper
 
     improve multi select
         add drag and drop move action

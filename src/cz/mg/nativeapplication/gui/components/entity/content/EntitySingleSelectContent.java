@@ -9,30 +9,32 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.value.UiFieldFactory;
-import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
+import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
+import cz.mg.nativeapplication.gui.ui.controls.field.UiField;
+import cz.mg.nativeapplication.gui.ui.controls.field.UiValueField;
+import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseFactory;
+import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseWrapper;
 import cz.mg.nativeapplication.mg.services.history.Actions;
 import cz.mg.nativeapplication.mg.services.history.actions.SetEntityFieldAction;
-
-import java.awt.*;
 
 
 public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+    private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
 
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
-    private final @Mandatory @Part UiFieldFactory fieldFactory;
+    private final @Mandatory @Part UiFieldBaseFactory fieldBaseFactory;
     private @Optional @Part UiValueField field;
 
     public EntitySingleSelectContent(
         @Mandatory Object entity,
         @Mandatory EntityField entityField,
-        @Mandatory UiFieldFactory fieldFactory
+        @Mandatory UiFieldBaseFactory fieldBaseFactory
     ) {
         this.entity = entity;
         this.entityField = entityField;
-        this.fieldFactory = fieldFactory;
+        this.fieldBaseFactory = fieldBaseFactory;
     }
 
     @Override
@@ -80,17 +82,17 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     }
 
     @Override
-    public @Optional UiValueField getField() {
-        if(field == null){
-            field = fieldFactory.create();
-            refresh();
-        }
-        return field;
+    public @Optional UiFieldBaseWrapper getFieldBase() {
+        return ((UiValueField)getField()).getField();
     }
 
     @Override
-    public Component getComponent() {
-        return getField();
+    public @Mandatory UiField getField() {
+        if(field == null){
+            field = new UiValueField(objectImageProvider::getOptional, fieldBaseFactory);
+            refresh();
+        }
+        return field;
     }
 
     @Override

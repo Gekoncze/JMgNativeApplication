@@ -5,9 +5,9 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Part;
 import cz.mg.collections.ToStringBuilder;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.components.controls.menu.UiDummyMenuItem;
-import cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem;
+import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;
+import cz.mg.nativeapplication.gui.ui.controls.menu.UiDummyMenuItem;
+import cz.mg.nativeapplication.gui.ui.controls.menu.UiValueMenuItem;
 import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.utilities.Navigation;
 import cz.mg.nativeapplication.gui.utilities.NavigationNode;
@@ -16,7 +16,7 @@ import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 
 import java.awt.*;
 
-import static cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem.SelectEventHandler;
+import static cz.mg.nativeapplication.gui.ui.controls.menu.UiValueMenuItem.SelectEventHandler;
 
 
 public @Utility class ComponentSearchPopupMenu extends UiPopupMenu {

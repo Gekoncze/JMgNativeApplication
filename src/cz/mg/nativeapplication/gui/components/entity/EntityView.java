@@ -10,7 +10,7 @@ import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.*;
+import cz.mg.nativeapplication.gui.ui.controls.*;
 import cz.mg.nativeapplication.gui.components.entity.value.EntityBooleanValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.value.EntityEnumValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.value.EntityIntegerValueSelect;
@@ -20,8 +20,8 @@ import cz.mg.nativeapplication.gui.components.other.Refreshable;
 
 import java.awt.event.KeyEvent;
 
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.*;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.*;
+import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Alignment.*;
+import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.*;
 
 
 public @Utility class EntityView extends ObjectView {
@@ -115,7 +115,7 @@ public @Utility class EntityView extends ObjectView {
 
     private void addSingleSelect(@Mandatory EntitySelect select, int y){
         panel.add(select.getLabel(), 0, y, 0, 0, MIDDLE, BOTH);
-        panel.add(select.getContent().getComponent(), 1, y, 1, 0, MIDDLE, BOTH);
+        panel.add(select.getContent().getField(), 1, y, 1, 0, MIDDLE, BOTH);
         panel.add(wrapButtons(select.getButtons()), 2, y, 0, 0, MIDDLE, BOTH);
         selects.addLast(select);
     }
@@ -128,7 +128,7 @@ public @Utility class EntityView extends ObjectView {
 
         UiVerticalPanel verticalPanel = new UiVerticalPanel(0, PADDING, TOP);
         verticalPanel.add(horizontalPanel, 0, 0, 1, 0, LEFT, HORIZONTAL);
-        verticalPanel.add(select.getContent().getComponent(), 0, 1, 1, 1, MIDDLE, BOTH);
+        verticalPanel.add(select.getContent().getField(), 0, 1, 1, 1, MIDDLE, BOTH);
         verticalPanel.rebuild();
 
         panel.add(verticalPanel, 0, y, 1, 0, MIDDLE, BOTH, 3, 1);

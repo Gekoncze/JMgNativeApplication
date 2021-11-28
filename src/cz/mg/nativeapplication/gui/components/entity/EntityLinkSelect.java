@@ -5,11 +5,11 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.UiText;
-import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
+import cz.mg.nativeapplication.gui.ui.controls.UiText;
+import cz.mg.nativeapplication.gui.ui.controls.field.base.UiObjectFieldBase;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
+import cz.mg.nativeapplication.gui.ui.controls.UiButton;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.components.entity.popups.ComponentSearchPopupMenu;
 import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
@@ -76,8 +76,8 @@ public @Utility class EntityLinkSelect extends EntitySelect {
         content.refresh();
     }
 
-    private UiObjectField createContentField(){
-        UiObjectField objectField = new UiObjectField();
+    private UiObjectFieldBase createContentField(){
+        UiObjectFieldBase objectField = new UiObjectFieldBase();
         objectField.addFocusListener(new FocusGainedUserEventHandler(this::onFocusGained));
         objectField.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
         objectField.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
@@ -86,8 +86,8 @@ public @Utility class EntityLinkSelect extends EntitySelect {
     }
 
     private void onFocusGained(){
-        if(content.getField() != null){
-            content.getField().selectAll();
+        if(content.getFieldBase() != null){
+            content.getFieldBase().getFieldBase().selectAll();
         }
     }
 
@@ -111,8 +111,8 @@ public @Utility class EntityLinkSelect extends EntitySelect {
     private void onMouseClicked(@Mandatory MouseEvent event) {
         if(event.getButton() == MouseEvent.BUTTON1){
             if(event.getClickCount() == 2){
-                if(content.getField() != null){
-                    content.getField().unlock();
+                if(content.getFieldBase() != null){
+                    content.getFieldBase().unlock();
                 }
             }
         }
@@ -130,8 +130,8 @@ public @Utility class EntityLinkSelect extends EntitySelect {
     }
 
     private void onEditButtonClicked(){
-        if(content.getField() != null){
-            content.getField().unlock();
+        if(content.getFieldBase() != null){
+            content.getFieldBase().unlock();
         }
     }
 
@@ -156,11 +156,11 @@ public @Utility class EntityLinkSelect extends EntitySelect {
     }
 
     private void showSelectionMenu(){
-        if(content.getField() != null){
+        if(content.getFieldBase() != null){
             popupMenu.search(
-                content.getField(),
+                content.getFieldBase(),
                 content.getType(),
-                content.getField().getText(),
+                content.getFieldBase().getFieldBase().getText(),
                 mainWindowProvider.get().getNavigation()
             );
         }

@@ -4,9 +4,9 @@ import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiLabel;
-import cz.mg.nativeapplication.gui.components.controls.UiPanel;
+import cz.mg.nativeapplication.gui.ui.controls.UiButton;
+import cz.mg.nativeapplication.gui.ui.controls.UiLabel;
+import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 import cz.mg.nativeapplication.gui.components.entity.EntityView;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
@@ -21,9 +21,9 @@ import cz.mg.nativeapplication.mg.services.explorer.SearchService;
 import javax.swing.*;
 import java.awt.*;
 
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Alignment.MIDDLE;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.BOTH;
-import static cz.mg.nativeapplication.gui.components.controls.UiPanel.Fill.NONE;
+import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Alignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.BOTH;
+import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.NONE;
 
 
 public class MainTabView extends JTabbedPane implements Refreshable {

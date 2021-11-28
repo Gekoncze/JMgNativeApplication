@@ -3,8 +3,8 @@ package cz.mg.nativeapplication.gui.components.entity;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiText;
+import cz.mg.nativeapplication.gui.ui.controls.UiButton;
+import cz.mg.nativeapplication.gui.ui.controls.UiText;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
 

@@ -6,10 +6,10 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.components.controls.UiText;
-import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
+import cz.mg.nativeapplication.gui.ui.controls.UiButton;
+import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;
+import cz.mg.nativeapplication.gui.ui.controls.UiText;
+import cz.mg.nativeapplication.gui.ui.controls.field.base.UiFieldBase;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.enums.Key;
@@ -71,28 +71,28 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
         content.refresh();
     }
 
-    private UiValueField createContentField(){
-        UiValueField valueField = createValueField(content);
+    private UiFieldBase createContentField(){
+        UiFieldBase valueField = createValueField(content);
         valueField.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         valueField.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
         valueField.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
         return valueField;
     }
 
-    protected abstract @Mandatory UiValueField createValueField(@Mandatory EntitySelectContent content);
+    protected abstract @Mandatory UiFieldBase createValueField(@Mandatory EntitySelectContent content);
     protected abstract @Optional UiPopupMenu createPopupMenu(@Mandatory EntitySelectContent content);
 
     private void showSelectionMenu(){
-        if(content.getField() != null){
+        if(content.getFieldBase() != null){
             if(popupMenu != null){
-                popupMenu.show(content.getField());
+                popupMenu.show(content.getFieldBase());
             }
         }
     }
 
     private void onEditButtonClicked() {
-        if(content.getField() != null){
-            content.getField().unlock();
+        if(content.getFieldBase() != null){
+            content.getFieldBase().unlock();
             showSelectionMenu();
         }
     }
@@ -132,8 +132,8 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
         }
 
         if(event.getKeyCode() == Key.ENTER){
-            if(content.getField() != null){
-                content.setValue(content.getField().getValue());
+            if(content.getFieldBase() != null){
+                content.setValue(content.getFieldBase().getValue());
                 event.consume();
             }
         }

@@ -7,10 +7,10 @@ import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.UiButton;
-import cz.mg.nativeapplication.gui.components.controls.UiText;
-import cz.mg.nativeapplication.gui.components.controls.value.UiObjectField;
-import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
+import cz.mg.nativeapplication.gui.ui.controls.UiButton;
+import cz.mg.nativeapplication.gui.ui.controls.UiText;
+import cz.mg.nativeapplication.gui.ui.controls.field.base.UiObjectFieldBase;
+import cz.mg.nativeapplication.gui.ui.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu;
@@ -79,8 +79,8 @@ public @Utility class EntityPartSelect extends EntitySelect {
         content.refresh();
     }
 
-    private UiObjectField createContentField(){
-        UiObjectField objectField = new UiObjectField();
+    private UiObjectFieldBase createContentField(){
+        UiObjectFieldBase objectField = new UiObjectFieldBase();
         objectField.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
         return objectField;
     }
@@ -94,10 +94,10 @@ public @Utility class EntityPartSelect extends EntitySelect {
     }
 
     private void onCreateButtonClicked() {
-        if(content.getField() != null){
+        if(content.getFieldBase() != null){
             Object value = content.getValue();
             if(value == null){
-                popupMenu.select(content.getField());
+                popupMenu.select(content.getFieldBase());
             }
         }
     }

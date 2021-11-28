@@ -3,7 +3,7 @@ package cz.mg.nativeapplication.gui.event;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.gui.components.dialogs.UiErrorMessageDialog;
+import cz.mg.nativeapplication.gui.ui.dialogs.UiErrorMessageDialog;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.mg.services.history.TransactionManager;
 

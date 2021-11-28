@@ -4,9 +4,9 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.components.controls.value.UiEnumField;
-import cz.mg.nativeapplication.gui.components.controls.value.UiValueField;
+import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;
+import cz.mg.nativeapplication.gui.ui.controls.field.base.UiEnumFieldBase;
+import cz.mg.nativeapplication.gui.ui.controls.field.base.UiFieldBase;
 import cz.mg.nativeapplication.gui.components.entity.EntitySelectType;
 import cz.mg.nativeapplication.gui.components.entity.EntityValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
@@ -23,8 +23,8 @@ public @Utility class EntityEnumValueSelect extends EntityValueSelect {
     }
 
     @Override
-    protected @Optional UiValueField createValueField(@Mandatory EntitySelectContent content) {
-        return new UiEnumField<>(content.getType());
+    protected @Optional UiFieldBase createValueField(@Mandatory EntitySelectContent content) {
+        return new UiEnumFieldBase<>(content.getType());
     }
 
     @Override

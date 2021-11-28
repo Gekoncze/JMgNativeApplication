@@ -3,9 +3,9 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.gui.components.dialogs.UiConfirmDialog;
-import cz.mg.nativeapplication.gui.components.dialogs.UiOpenDialog;
-import cz.mg.nativeapplication.gui.components.dialogs.UiSaveDialog;
+import cz.mg.nativeapplication.gui.ui.dialogs.UiConfirmDialog;
+import cz.mg.nativeapplication.gui.ui.dialogs.UiOpenDialog;
+import cz.mg.nativeapplication.gui.ui.dialogs.UiSaveDialog;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.utilities.FileFilters;
 

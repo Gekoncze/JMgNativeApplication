@@ -3,10 +3,10 @@ package cz.mg.nativeapplication.gui.components.entity.popups;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem;
+import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;
+import cz.mg.nativeapplication.gui.ui.controls.menu.UiValueMenuItem;
 
-import static cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem.SelectEventHandler;
+import static cz.mg.nativeapplication.gui.ui.controls.menu.UiValueMenuItem.SelectEventHandler;
 
 
 public @Utility class EnumPopupMenu<T extends Enum> extends UiPopupMenu {

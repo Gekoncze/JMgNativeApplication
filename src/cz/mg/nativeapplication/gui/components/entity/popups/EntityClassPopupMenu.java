@@ -5,13 +5,13 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
-import cz.mg.nativeapplication.gui.components.controls.UiPopupMenu;
-import cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem;
+import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;
+import cz.mg.nativeapplication.gui.ui.controls.menu.UiValueMenuItem;
 import cz.mg.nativeapplication.gui.services.ClassImageProvider;
 
 import java.awt.*;
 
-import static cz.mg.nativeapplication.gui.components.controls.menu.UiValueMenuItem.SelectEventHandler;
+import static cz.mg.nativeapplication.gui.ui.controls.menu.UiValueMenuItem.SelectEventHandler;
 
 
 public @Utility class EntityClassPopupMenu extends UiPopupMenu {

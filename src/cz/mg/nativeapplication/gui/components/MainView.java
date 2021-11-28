@@ -2,7 +2,7 @@ package cz.mg.nativeapplication.gui.components;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.nativeapplication.gui.components.controls.UiHorizontalSplitPane;
+import cz.mg.nativeapplication.gui.ui.controls.UiHorizontalSplitPane;
 
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
