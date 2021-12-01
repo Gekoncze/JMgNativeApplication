@@ -4,6 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Value;
+import cz.mg.nativeapplication.mg.services.explorer.node.Node;
 
 
 public @Utility class SearchResult {
@@ -15,7 +16,7 @@ public @Utility class SearchResult {
         this.index = index;
     }
 
-    public Node getResult() {
+    public @Mandatory Node getResult() {
         return result;
     }
 

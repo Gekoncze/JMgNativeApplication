@@ -1,3 +1,7 @@
+extract explorer from gui
+    move explorer from mg package
+    move history from mg package
+
 bug in ui list field
     clicking on icon does not select field
     check if this should be handled somehow in ui value field

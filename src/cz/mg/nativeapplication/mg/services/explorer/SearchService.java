@@ -2,15 +2,18 @@ package cz.mg.nativeapplication.mg.services.explorer;
 
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.collections.set.Set;
-import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.mg.services.explorer.node.Node;
 
 
 public @Service class SearchService {
-    public @Mandatory List<SearchResult> search(@Mandatory MgProject project, @Mandatory Object target){
+    private final @Mandatory @Shared NodeFactory nodeFactory = new NodeFactory();
+
+    public @Mandatory List<SearchResult> search(@Mandatory Object root, @Mandatory Object target){
         List<SearchResult> results = new List<>();
-        search(Node.create(null, project, true), target, results, new Set<>());
+        search(nodeFactory.create(null, root, true), target, results, new Set<>());
         return results;
     }
 

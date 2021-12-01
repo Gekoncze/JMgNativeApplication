@@ -10,7 +10,7 @@ public class AllTests {
     public static void main(String[] args) {
         new AllTestRunner().run(
             new PackageBrowser().open(
-                "cz.mg.entity",
+                "cz.mg.nativeapplication",
                 new ClassPackager().pack(
                     new ClassDetector().find(Configuration.TESTS_JAR_PATH.toString())
                 )

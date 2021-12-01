@@ -21,9 +21,9 @@ public class CollectionTypeProviderTest implements Test {
         assertEquals(MgStructure.class, collectionTypeProvider.get(getTestClassField("structureList")));
         assertEquals(List.class, collectionTypeProvider.get(getTestClassField("listList")));
         assertEquals(Object.class, collectionTypeProvider.get(getTestClassField("objectList")));
-        assertEquals(null, collectionTypeProvider.get(getTestClassField("list")));
-        assertEquals(null, collectionTypeProvider.get(getTestClassField("object")));
-        assertEquals(null, collectionTypeProvider.get(getTestClassField("number")));
+        assertExceptionThrown(() -> collectionTypeProvider.get(getTestClassField("list")));
+        assertExceptionThrown(() -> collectionTypeProvider.get(getTestClassField("object")));
+        assertExceptionThrown(() -> collectionTypeProvider.get(getTestClassField("number")));
     }
 
     private Field getTestClassField(String name){

@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.mg.services.explorer;
+package cz.mg.nativeapplication.mg.services.explorer.node;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;

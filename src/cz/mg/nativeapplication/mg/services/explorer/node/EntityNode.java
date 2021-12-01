@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.mg.services.explorer;
+package cz.mg.nativeapplication.mg.services.explorer.node;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
@@ -12,20 +12,20 @@ import cz.mg.collections.array.ReadableArray;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.mg.services.explorer.NodeFactory;
 
 
 public @Utility class EntityNode implements Node {
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+    private final @Mandatory @Shared NodeFactory nodeFactory = new NodeFactory();
 
     private final @Optional @Link Node parent;
     private final @Mandatory @Link Object object;
-    private final @Mandatory @Link EntityClass entityClass;
     private final @Value boolean part;
 
     public EntityNode(@Optional Node parent, @Mandatory Object object, boolean part) {
         this.parent = parent;
         this.object = object;
-        this.entityClass = entityClassProvider.get(object.getClass());
         this.part = part;
     }
 
@@ -35,7 +35,7 @@ public @Utility class EntityNode implements Node {
     }
 
     @Override
-    public Object getObject() {
+    public @Mandatory Object getObject() {
         return object;
     }
 
@@ -46,16 +46,20 @@ public @Utility class EntityNode implements Node {
 
     @Override
     public int count() {
-        return entityClass.getFields().count();
+        return entityClassProvider
+            .get(object.getClass())
+            .getFields()
+            .count();
     }
 
     @Override
     public @Mandatory ReadableArray<Node> getNodes() {
+        EntityClass entityClass = entityClassProvider.get(object.getClass());
         Array<Node> nodes = new Array<>(entityClass.getFields().count());
         int i = 0;
         for(EntityField field : entityClass.getFields()){
             boolean isPart = field.isAnnotationPresent(Part.class) || field.isAnnotationPresent(Shared.class);
-            nodes.set(Node.create(this, field.get(object), isPart), i);
+            nodes.set(nodeFactory.create(this, field.get(object), isPart), i);
             i++;
         }
         return nodes;

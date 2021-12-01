@@ -1,21 +1,15 @@
 package cz.mg.nativeapplication.mg.services.explorer;
 
 import cz.mg.annotations.classes.Entity;
-import cz.mg.annotations.classes.Utility;
+import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.collections.list.List;
-import cz.mg.collections.array.ReadableArray;
+import cz.mg.nativeapplication.mg.services.explorer.node.*;
 
 
-public @Utility interface Node {
-    public @Optional Node getParent();
-    public @Optional Object getObject();
-    public boolean isPart();
-    public int count();
-    public @Mandatory ReadableArray<Node> getNodes();
-
-    public static @Mandatory Node create(@Optional Node parent, @Optional Object object, boolean part){
+public @Service class NodeFactory {
+    public @Mandatory Node create(@Optional Node parent, @Optional Object object, boolean part){
         if(object == null){
             return new NullNode(parent);
         }
