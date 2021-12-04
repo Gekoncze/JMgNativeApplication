@@ -16,7 +16,7 @@ import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
-import cz.mg.nativeapplication.mg.services.explorer.SearchService;
+import cz.mg.nativeapplication.explorer.services.SearchService;
 
 import javax.swing.*;
 import java.awt.*;

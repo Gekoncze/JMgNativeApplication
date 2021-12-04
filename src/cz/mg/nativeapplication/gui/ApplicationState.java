@@ -6,7 +6,7 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Part;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
-import cz.mg.nativeapplication.mg.services.history.TransactionManager;
+import cz.mg.nativeapplication.explorer.history.TransactionManager;
 import cz.mg.nativeapplication.mg.services.storage.MgProjectLoader;
 import cz.mg.nativeapplication.mg.services.storage.MgProjectSaver;
 

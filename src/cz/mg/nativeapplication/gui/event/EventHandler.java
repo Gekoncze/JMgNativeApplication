@@ -5,7 +5,7 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.gui.ui.dialogs.UiErrorMessageDialog;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
-import cz.mg.nativeapplication.mg.services.history.TransactionManager;
+import cz.mg.nativeapplication.explorer.history.TransactionManager;
 
 
 public abstract @Utility class EventHandler {

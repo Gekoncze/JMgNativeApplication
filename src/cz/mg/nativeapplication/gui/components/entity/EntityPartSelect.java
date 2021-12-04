@@ -17,7 +17,7 @@ import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
-import cz.mg.nativeapplication.mg.services.explorer.DeleteService;
+import cz.mg.nativeapplication.explorer.services.DeleteService;
 
 import java.awt.event.MouseEvent;
 

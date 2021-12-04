@@ -14,8 +14,8 @@ import cz.mg.nativeapplication.gui.ui.controls.field.UiField;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiValueField;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseFactory;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseWrapper;
-import cz.mg.nativeapplication.mg.services.history.Actions;
-import cz.mg.nativeapplication.mg.services.history.actions.SetEntityFieldAction;
+import cz.mg.nativeapplication.explorer.history.Actions;
+import cz.mg.nativeapplication.explorer.history.actions.SetEntityFieldAction;
 
 
 public @Utility class EntitySingleSelectContent extends EntitySelectContent {

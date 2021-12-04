@@ -13,10 +13,10 @@ import cz.mg.nativeapplication.gui.ui.controls.field.UiField;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiListField;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseFactory;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseWrapper;
-import cz.mg.nativeapplication.mg.services.history.Actions;
-import cz.mg.nativeapplication.mg.services.history.actions.AddListItemAction;
-import cz.mg.nativeapplication.mg.services.history.actions.RemoveListItemAction;
-import cz.mg.nativeapplication.mg.services.history.actions.SetListItemAction;
+import cz.mg.nativeapplication.explorer.history.Actions;
+import cz.mg.nativeapplication.explorer.history.actions.AddListItemAction;
+import cz.mg.nativeapplication.explorer.history.actions.RemoveListItemAction;
+import cz.mg.nativeapplication.explorer.history.actions.SetListItemAction;
 import cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider;
 
 import java.util.Iterator;
