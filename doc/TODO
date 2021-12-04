@@ -1,4 +1,6 @@
-extract explorer from gui
+move explorer into entity framework
+    extract explorer logic from gui
+    get rid of transaction manager provider if possible
 
 bug in ui list field
     clicking on icon does not select field
