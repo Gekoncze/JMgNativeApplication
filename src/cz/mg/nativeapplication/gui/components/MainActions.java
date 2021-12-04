@@ -3,6 +3,7 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
+import cz.mg.nativeapplication.gui.services.ApplicationService;
 import cz.mg.nativeapplication.gui.ui.dialogs.UiConfirmDialog;
 import cz.mg.nativeapplication.gui.ui.dialogs.UiOpenDialog;
 import cz.mg.nativeapplication.gui.ui.dialogs.UiSaveDialog;
@@ -15,6 +16,7 @@ import java.nio.file.Path;
 
 public @Utility class MainActions {
     private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
+    private final @Mandatory @Shared ApplicationService applicationService = new ApplicationService();
 
     public MainActions() {
     }
@@ -30,7 +32,11 @@ public @Utility class MainActions {
 
         String name = JOptionPane.showInputDialog(this, "New Project");
         if(name != null){
-            applicationProvider.get().getApplicationState().newProject(name);
+            applicationService.newProject(
+                applicationProvider.get().getExplorer().getTransactionManager(),
+                applicationProvider.get().getApplicationState(),
+                name
+            );
             refresh();
             return true;
         } else {
@@ -48,7 +54,11 @@ public @Utility class MainActions {
                 }
             }
 
-            applicationProvider.get().getApplicationState().openProject(selectedPath.toAbsolutePath());
+            applicationService.openProject(
+                applicationProvider.get().getExplorer().getTransactionManager(),
+                applicationProvider.get().getApplicationState(),
+                selectedPath.toAbsolutePath()
+            );
             refresh();
             return true;
         } else {
@@ -62,7 +72,9 @@ public @Utility class MainActions {
         }
 
         if(applicationProvider.get().getApplicationState().getProjectPath() != null){
-            applicationProvider.get().getApplicationState().saveProject();
+            applicationService.saveProject(
+                applicationProvider.get().getApplicationState()
+            );
             return true;
         } else {
             return saveProjectAs();
@@ -77,7 +89,10 @@ public @Utility class MainActions {
         Path selectedPath = new UiSaveDialog("Save project", FileFilters.MG).show();
 
         if(selectedPath != null){
-            applicationProvider.get().getApplicationState().saveProjectAs(selectedPath.toAbsolutePath());
+            applicationService.saveProjectAs(
+                applicationProvider.get().getApplicationState(),
+                selectedPath.toAbsolutePath()
+            );
             return true;
         } else {
             return false;
@@ -106,7 +121,10 @@ public @Utility class MainActions {
 
         applicationProvider.get().getMainWindow().getMainView().getMainTabView().closeAllTabs();
 
-        applicationProvider.get().getApplicationState().closeProject();
+        applicationService.closeProject(
+            applicationProvider.get().getExplorer().getTransactionManager(),
+            applicationProvider.get().getApplicationState()
+        );
         refresh();
         return true;
     }
@@ -123,12 +141,12 @@ public @Utility class MainActions {
     // EDIT
 
     public void undo(){
-        applicationProvider.get().getApplicationState().getTransactionManager().getHistory().undo();
+        applicationProvider.get().getExplorer().getTransactionManager().getHistory().undo();
         applicationProvider.get().getMainWindow().refresh();
     }
 
     public void redo(){
-        applicationProvider.get().getApplicationState().getTransactionManager().getHistory().redo();
+        applicationProvider.get().getExplorer().getTransactionManager().getHistory().redo();
         applicationProvider.get().getMainWindow().refresh();
     }
 

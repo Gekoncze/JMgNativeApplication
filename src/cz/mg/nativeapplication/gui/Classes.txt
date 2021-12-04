@@ -133,6 +133,7 @@ cz.mg.nativeapplication.c.services.exporter.CStructureDefinitionExporter
 cz.mg.nativeapplication.c.services.exporter.CTypeExporter
 cz.mg.nativeapplication.c.services.exporter.CTypedefExporter
 cz.mg.nativeapplication.c.services.exporter.CVariableExporter
+cz.mg.nativeapplication.explorer.Explorer
 cz.mg.nativeapplication.explorer.history.Action
 cz.mg.nativeapplication.explorer.history.Actions
 cz.mg.nativeapplication.explorer.history.History
@@ -155,7 +156,6 @@ cz.mg.nativeapplication.explorer.services.SearchService
 cz.mg.nativeapplication.explorer.services.UpdateService
 cz.mg.nativeapplication.explorer.utilities.SearchResult
 cz.mg.nativeapplication.gui.Application
-cz.mg.nativeapplication.gui.ApplicationState
 cz.mg.nativeapplication.gui.Initialization
 cz.mg.nativeapplication.gui.Main
 cz.mg.nativeapplication.gui.components.MainActions
@@ -207,6 +207,7 @@ cz.mg.nativeapplication.gui.event.WindowCloseUserEventHandler
 cz.mg.nativeapplication.gui.event.WindowCloseUserEventHandler$Handler
 cz.mg.nativeapplication.gui.images.ImageGallery
 cz.mg.nativeapplication.gui.services.ApplicationProvider
+cz.mg.nativeapplication.gui.services.ApplicationService
 cz.mg.nativeapplication.gui.services.ClassImageProvider
 cz.mg.nativeapplication.gui.services.ClassProvider
 cz.mg.nativeapplication.gui.services.ComponentSearch
@@ -261,6 +262,7 @@ cz.mg.nativeapplication.gui.ui.dialogs.UiConfirmDialog$Choice
 cz.mg.nativeapplication.gui.ui.dialogs.UiErrorMessageDialog
 cz.mg.nativeapplication.gui.ui.dialogs.UiOpenDialog
 cz.mg.nativeapplication.gui.ui.dialogs.UiSaveDialog
+cz.mg.nativeapplication.gui.utilities.ApplicationState
 cz.mg.nativeapplication.gui.utilities.FileFilters
 cz.mg.nativeapplication.gui.utilities.Navigation
 cz.mg.nativeapplication.gui.utilities.NavigationNode

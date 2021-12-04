@@ -1,6 +1,8 @@
 package other;
 
+import all.Preparation;
 import cz.mg.nativeapplication.gui.Application;
+import cz.mg.nativeapplication.gui.services.ApplicationService;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.cli.runners.SingleTestClassRunner;
@@ -10,6 +12,8 @@ import static all.Configuration.PROJECT_FILE_PATH;
 
 public class ApplicationTest implements Test {
     public static void main(String[] args) {
+        new Preparation().prepare();
+
         new SingleTestClassRunner().run(
             CompilerTest.class
         );
@@ -24,7 +28,11 @@ public class ApplicationTest implements Test {
     @TestCase
     public void test(){
         Application application = new Application();
-        application.getApplicationState().openProject(PROJECT_FILE_PATH);
+        new ApplicationService().openProject(
+            application.getExplorer().getTransactionManager(),
+            application.getApplicationState(),
+            PROJECT_FILE_PATH
+        );
         application.getMainWindow().refresh();
         application.getMainWindow().setVisible(true);
     }

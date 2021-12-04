@@ -13,7 +13,7 @@ public abstract @Utility class EventHandler {
 
     public void run(@Mandatory Runnable runnable){
         try {
-            TransactionManager transactionManager = applicationProvider.get().getApplicationState().getTransactionManager();
+            TransactionManager transactionManager = applicationProvider.get().getExplorer().getTransactionManager();
             if(transactionManager.isTransactionInProgress()){
                 runnable.run();
             } else {
