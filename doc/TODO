@@ -1,6 +1,9 @@
 move explorer into entity framework
-    extract explorer logic from gui
-    get rid of transaction manager provider if possible
+    add universal update service that will automatically decide if to just update or delete
+    add methods to node to call read / update / delete / search services
+    add link to transaction manager to node
+    remove transaction manager provider
+    make gui use nodes
 
 bug in ui list field
     clicking on icon does not select field
