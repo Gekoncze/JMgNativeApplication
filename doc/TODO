@@ -1,6 +1,11 @@
 move explorer into entity framework
     make gui use nodes
-    add cleanup button to gui to call cleanup service
+    extract explorer into entity framework
+    change tests to use some new test entity classes
+
+add cleanup button
+    will offer to delete objects that are not owned
+    add button to main menu
     change icon of remove - unify delete and clear
 
 add test that checks that all services have a test
