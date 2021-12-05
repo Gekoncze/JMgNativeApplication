@@ -13,7 +13,6 @@ public @Service class DeleteService {
     private final @Mandatory @Shared SearchService searchService = new SearchService();
     private final @Mandatory @Shared ReadService readService = new ReadService();
     private final @Mandatory @Shared UpdateService updateService = new UpdateService();
-    private final @Mandatory @Shared NodeFactory nodeFactory = new NodeFactory();
 
     public void remove(@Mandatory Object root, @Mandatory Object parent, int index){
         Object target = readService.read(parent, index);
@@ -57,8 +56,7 @@ public @Service class DeleteService {
     }
 
     private void deleteChildren(@Mandatory Object root, @Mandatory Object target){
-        Node targetNode = nodeFactory.create(null, target, true); // TODO - can target already be passed as Node?
-        for(int i = 0; i < targetNode.getNodes().count(); i++){
+        for(int i = 0; i < readService.count(target); i++){
             remove(root, target, i);
         }
     }

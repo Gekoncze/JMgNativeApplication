@@ -21,7 +21,7 @@ public class DeleteServiceTest implements Test {
         new SingleTestClassRunner().run(DeleteServiceTest.class);
     }
 
-    @TestCase(order = 0)
+    @TestCase(order = 1)
     public void testDelete(){
         MgProject project = new MgProject();
         MgLocation root = new MgLocation();
@@ -64,7 +64,7 @@ public class DeleteServiceTest implements Test {
         assertNull(expression.child);
     }
 
-    @TestCase(order = 1)
+    @TestCase(order = 2)
     public void testShared(){
         MgProject project = new MgProject();
         project.name = "TestProject";

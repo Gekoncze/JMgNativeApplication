@@ -26,14 +26,30 @@ public @Service class ReadService {
 
     private @Optional Object readFromList(@Mandatory Object parent, int i){
         List list = (List) parent;
-        if(i < 0 || i >= list.count()) throw new ArrayIndexOutOfBoundsException(i + " out of " + list.count());
-        return list.get(i);
+        if(i >= 0 && i < list.count()){
+            return list.get(i);
+        } else {
+            throw new ArrayIndexOutOfBoundsException(i + " out of " + list.count());
+        }
     }
 
     private @Optional Object readFromEntity(@Mandatory Object parent, int i){
         EntityClass entityClass = entityClassProvider.get(parent.getClass());
-        if(i < 0 || i >= entityClass.getFields().count()) throw new ArrayIndexOutOfBoundsException(i + " out of " + entityClass.getFields().count());
-        EntityField entityField = entityClass.getFields().get(i);
-        return entityField.get(parent);
+        if(i >= 0 && i < entityClass.getFields().count()){
+            EntityField entityField = entityClass.getFields().get(i);
+            return entityField.get(parent);
+        } else {
+            throw new ArrayIndexOutOfBoundsException(i + " out of " + entityClass.getFields().count());
+        }
+    }
+
+    public int count(@Mandatory Object parent){
+        if(parent instanceof List){
+            return ((List) parent).count();
+        } else if(parent.getClass().isAnnotationPresent(Entity.class)) {
+            return entityClassProvider.get(parent.getClass()).getFields().count();
+        } else {
+            throw new UnsupportedOperationException("Unsupported parent object type for read: '" + parent.getClass().getSimpleName() + "'.");
+        }
     }
 }
