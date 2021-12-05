@@ -1,55 +1,44 @@
 package cz.mg.nativeapplication.explorer.services;
 
-import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
-import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClassProvider;
-import cz.mg.entity.EntityField;
+import cz.mg.collections.list.ReadableList;
+import cz.mg.entity.Entities;
+import cz.mg.nativeapplication.explorer.services.read.EntityReadService;
+import cz.mg.nativeapplication.explorer.services.read.LeafReadService;
+import cz.mg.nativeapplication.explorer.services.read.ListReadService;
+import cz.mg.nativeapplication.explorer.services.read.ObjectReadService;
 
 
 public @Service class ReadService {
-    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+    private final @Mandatory @Shared ListReadService listReadService = new ListReadService();
+    private final @Mandatory @Shared EntityReadService entityReadService = new EntityReadService();
+    private final @Mandatory @Shared LeafReadService leafReadService = new LeafReadService();
 
-    public @Optional Object read(@Mandatory Object parent, int i){
-        if(parent instanceof List){
-            return readFromList(parent, i);
-        } else if(parent.getClass().isAnnotationPresent(Entity.class)) {
-            return readFromEntity(parent, i);
-        } else {
-            throw new UnsupportedOperationException("Unsupported parent object type for read: '" + parent.getClass().getSimpleName() + "'.");
-        }
+    public int count(@Optional Object object){
+        return get(object).count(object);
     }
 
-    private @Optional Object readFromList(@Mandatory Object parent, int i){
-        List list = (List) parent;
-        if(i >= 0 && i < list.count()){
-            return list.get(i);
-        } else {
-            throw new ArrayIndexOutOfBoundsException(i + " out of " + list.count());
-        }
+    public @Optional Object read(@Optional Object object, int i){
+        return get(object).read(object, i);
     }
 
-    private @Optional Object readFromEntity(@Mandatory Object parent, int i){
-        EntityClass entityClass = entityClassProvider.get(parent.getClass());
-        if(i >= 0 && i < entityClass.getFields().count()){
-            EntityField entityField = entityClass.getFields().get(i);
-            return entityField.get(parent);
-        } else {
-            throw new ArrayIndexOutOfBoundsException(i + " out of " + entityClass.getFields().count());
-        }
+    public @Mandatory ReadableList<Object> read(@Optional Object object){
+        return get(object).read(object);
     }
 
-    public int count(@Mandatory Object parent){
-        if(parent instanceof List){
-            return ((List) parent).count();
-        } else if(parent.getClass().isAnnotationPresent(Entity.class)) {
-            return entityClassProvider.get(parent.getClass()).getFields().count();
-        } else {
-            throw new UnsupportedOperationException("Unsupported parent object type for read: '" + parent.getClass().getSimpleName() + "'.");
+    private @Mandatory ObjectReadService get(@Optional Object object){
+        if(object instanceof List){
+            return listReadService;
         }
+
+        if(Entities.isEntity(object)) {
+            return entityReadService;
+        }
+
+        return leafReadService;
     }
 }

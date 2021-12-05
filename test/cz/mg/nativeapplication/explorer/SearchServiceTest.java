@@ -42,7 +42,7 @@ public class SearchServiceTest implements Test {
         List<Object> parents = new List<>();
         for(SearchResult result : results){
             assertSame(type, result.getResult().getObject());
-            parents.addLast(result.getResult().getParent().getObject());
+            parents.addLast(result.getResult().getParentNode().getObject());
         }
         assertContains(parents, structureVariable);
         assertContains(parents, functionVariable);

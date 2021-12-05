@@ -5,7 +5,7 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.explorer.node.Node;
+import cz.mg.nativeapplication.explorer.utilities.Node;
 import cz.mg.nativeapplication.explorer.utilities.SearchResult;
 
 
@@ -13,6 +13,7 @@ public @Service class DeleteService {
     private final @Mandatory @Shared SearchService searchService = new SearchService();
     private final @Mandatory @Shared ReadService readService = new ReadService();
     private final @Mandatory @Shared UpdateService updateService = new UpdateService();
+    private final @Mandatory @Shared OwnershipService ownershipService = new OwnershipService();
 
     public void remove(@Mandatory Object root, @Mandatory Object parent, int index){
         Object target = readService.read(parent, index);
@@ -37,7 +38,7 @@ public @Service class DeleteService {
     public boolean hasOwner(@Mandatory Object root, @Mandatory Object target){
         List<SearchResult> usages = searchService.search(root, target);
         for(SearchResult usage : usages){
-            if(usage.getResult().isPart()){
+            if(ownershipService.isOwnedByParent(usage.getResult())){
                 return true;
             }
         }
@@ -47,7 +48,7 @@ public @Service class DeleteService {
     private void delete(@Mandatory Object root, @Mandatory Object target){
         List<SearchResult> usages = searchService.search(root, target);
         for(SearchResult usage : usages){
-            Node parentNode = usage.getResult().getParent();
+            Node parentNode = usage.getResult().getParentNode();
             Object parent = parentNode != null ? parentNode.getObject() : null;
             removeFromParent(parent, usage.getIndex());
         }
