@@ -9,12 +9,29 @@ import cz.mg.entity.Entities;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.explorer.utilities.Node;
+import cz.mg.nativeapplication.explorer.utilities.SearchResult;
 
 
 public @Service class OwnershipService {
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+    private final @Mandatory @Shared SearchService searchService = new SearchService();
 
-    public boolean isOwnedByParent(@Mandatory Node node){
+    public boolean hasOwner(@Mandatory Object root, @Mandatory Object target){
+        return ownerCount(root, target) > 0;
+    }
+
+    public int ownerCount(@Mandatory Object root, @Mandatory Object target){
+        int count = 0;
+        List<SearchResult> usages = searchService.search(root, target);
+        for(SearchResult usage : usages){
+            if(isOwnedByParent(usage.getResult())){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private boolean isOwnedByParent(@Mandatory Node node){
         Node parent = node.getParentNode();
         if(parent != null){
             if(parent.getObject() instanceof List){

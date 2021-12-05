@@ -1,49 +1,63 @@
 package cz.mg.nativeapplication.explorer.services;
 
-import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
-import cz.mg.entity.EntityClass;
-import cz.mg.entity.EntityClassProvider;
-import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.explorer.history.*;
-import cz.mg.nativeapplication.explorer.history.actions.SetEntityFieldAction;
-import cz.mg.nativeapplication.explorer.history.actions.SetListItemAction;
+import cz.mg.nativeapplication.explorer.history.ActionFactory;
+import cz.mg.nativeapplication.explorer.history.TransactionManagerProvider;
+import cz.mg.nativeapplication.explorer.utilities.Node;
+import cz.mg.nativeapplication.explorer.utilities.SearchResult;
 
 
 public @Service class UpdateService {
     private final @Mandatory @Shared TransactionManagerProvider transactionManagerProvider = new TransactionManagerProvider();
-    private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+    private final @Mandatory @Shared ActionFactory actionFactory = new ActionFactory();
 
-    public void update(@Mandatory Object parent, int i, @Optional Object value){
-        transactionManagerProvider.get().run(
-            createAction(parent, i, value)
-        );
-    }
+    private final @Mandatory @Shared SearchService searchService = new SearchService();
+    private final @Mandatory @Shared ReadService readService = new ReadService();
+    private final @Mandatory @Shared OwnershipService ownershipService = new OwnershipService();
 
-    private @Mandatory Action createAction(@Mandatory Object parent, int i, @Optional Object value){
-        if(parent instanceof List){
-            return createListAction(parent, i, value);
-        } else if(parent.getClass().isAnnotationPresent(Entity.class)) {
-            return createEntityAction(parent, i, value);
-        } else {
-            throw new UnsupportedOperationException("Unsupported parent object type for set action: '" + parent.getClass().getSimpleName() + "'.");
+    public void update(@Mandatory Object root, @Optional Object object, int index, @Optional Object value){
+        if(object != null){
+            Object target = readService.read(object, index);
+            if(target != value){
+                set(object, index, value);
+
+                if(target != null){
+                    if(!ownershipService.hasOwner(root, target)){
+                        delete(root, target);
+                    }
+                }
+            }
         }
     }
 
-    private @Mandatory Action createListAction(@Mandatory Object parent, int i, @Optional Object value){
-        List list = (List) parent;
-        Object target = list.get(i);
-        return new SetListItemAction(list, i, target, value);
+    private void delete(@Mandatory Object root, @Mandatory Object target){
+        List<SearchResult> usages = searchService.search(root, target);
+        for(SearchResult usage : usages){
+            Node parentNode = usage.getResult().getParentNode();
+            Object parent = parentNode != null ? parentNode.getObject() : null;
+            if(parent != null){
+                set(parent, usage.getIndex(), null);
+            } else {
+                throw new UnsupportedOperationException("Cannot delete root object.");
+            }
+        }
+
+        removeChildren(root, target);
     }
 
-    private @Mandatory Action createEntityAction(@Mandatory Object parent, int i, @Optional Object value){
-        EntityClass entityClass = entityClassProvider.get(parent.getClass());
-        EntityField entityField = entityClass.getFields().get(i);
-        Object target = entityField.get(parent);
-        return new SetEntityFieldAction(parent, entityField, target, value);
+    private void removeChildren(@Mandatory Object root, @Mandatory Object target){
+        for(int i = 0; i < readService.count(target); i++){
+            update(root, target, i, null);
+        }
+    }
+
+    public void set(@Mandatory Object object, int i, @Optional Object value){
+        transactionManagerProvider.get().run(
+            actionFactory.createSetAction(object, i, value)
+        );
     }
 }

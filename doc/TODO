@@ -1,5 +1,4 @@
 move explorer into entity framework
-    add universal update service that will automatically decide if to just update or delete
     add methods to node to call read / update / delete / search services
     add link to transaction manager to node
     remove transaction manager provider

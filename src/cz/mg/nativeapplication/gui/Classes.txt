@@ -135,6 +135,7 @@ cz.mg.nativeapplication.c.services.exporter.CTypedefExporter
 cz.mg.nativeapplication.c.services.exporter.CVariableExporter
 cz.mg.nativeapplication.explorer.Explorer
 cz.mg.nativeapplication.explorer.history.Action
+cz.mg.nativeapplication.explorer.history.ActionFactory
 cz.mg.nativeapplication.explorer.history.Actions
 cz.mg.nativeapplication.explorer.history.History
 cz.mg.nativeapplication.explorer.history.Transaction
@@ -144,7 +145,6 @@ cz.mg.nativeapplication.explorer.history.actions.AddListItemAction
 cz.mg.nativeapplication.explorer.history.actions.RemoveListItemAction
 cz.mg.nativeapplication.explorer.history.actions.SetEntityFieldAction
 cz.mg.nativeapplication.explorer.history.actions.SetListItemAction
-cz.mg.nativeapplication.explorer.services.DeleteService
 cz.mg.nativeapplication.explorer.services.OwnershipService
 cz.mg.nativeapplication.explorer.services.ReadService
 cz.mg.nativeapplication.explorer.services.SearchService

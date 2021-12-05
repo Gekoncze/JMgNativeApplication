@@ -7,6 +7,7 @@ import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.explorer.services.UpdateService;
 import cz.mg.nativeapplication.gui.ui.controls.UiButton;
 import cz.mg.nativeapplication.gui.ui.controls.UiText;
 import cz.mg.nativeapplication.gui.ui.controls.field.base.UiObjectFieldBase;
@@ -17,14 +18,13 @@ import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
-import cz.mg.nativeapplication.explorer.services.DeleteService;
 
 import java.awt.event.MouseEvent;
 
 
 public @Utility class EntityPartSelect extends EntitySelect {
     private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
-    private final @Mandatory @Shared DeleteService deleteService = new DeleteService();
+    private final @Mandatory @Shared UpdateService updateService = new UpdateService();
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
     private final @Mandatory @Shared UiText label;
@@ -116,10 +116,11 @@ public @Utility class EntityPartSelect extends EntitySelect {
 
             UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
             if(choice == UiConfirmDialog.Choice.YES){
-                deleteService.remove(
-                    applicationProvider.get().getApplicationState().getProject(),
+                updateService.update(
+                    applicationProvider.get().getApplicationState().getProject(), // TODO - null check ???
                     content.getParent(),
-                    content.getChildIndex()
+                    content.getChildIndex(), // TODO - null check ???
+                    null
                 );
                 applicationProvider.get().getMainWindow().refresh();
                 return true;
