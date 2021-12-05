@@ -1,8 +1,10 @@
 move explorer into entity framework
-    add methods to node to call read / update / delete / search services
-    add link to transaction manager to node
-    remove transaction manager provider
     make gui use nodes
+    add cleanup button to gui to call cleanup service
+    change icon of remove - unify delete and clear
+
+add test that checks that all services have a test
+    add missing tests
 
 bug in ui list field
     clicking on icon does not select field

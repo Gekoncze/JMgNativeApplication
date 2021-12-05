@@ -1,6 +1,5 @@
 package cz.mg.nativeapplication.explorer.history;
 
-import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
@@ -17,14 +16,16 @@ import cz.mg.nativeapplication.explorer.history.actions.SetListItemAction;
 public @Service class ActionFactory {
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
-    public @Mandatory Action createSetAction(@Mandatory Object object, int i, @Optional Object value){
+    public @Mandatory Action createSetAction(@Optional Object object, int i, @Optional Object value){
         if(object instanceof List){
             return createSetListItemAction(object, i, value);
-        } else if(Entities.isEntity(object)) {
-            return createSetEntityFieldAction(object, i, value);
-        } else {
-            throw new UnsupportedOperationException("Unsupported parent object type for set action: '" + object.getClass().getSimpleName() + "'.");
         }
+
+        if(Entities.isEntity(object)) {
+            return createSetEntityFieldAction(object, i, value);
+        }
+
+        throw new UnsupportedOperationException("Cannot create set action for leaf object.");
     }
 
     private @Mandatory Action createSetListItemAction(@Mandatory Object object, int i, @Optional Object value){

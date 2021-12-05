@@ -8,6 +8,7 @@ import cz.mg.nativeapplication.gui.components.MainWindow;
 import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.utilities.ApplicationState;
+import cz.mg.nativeapplication.mg.entities.MgProject;
 
 
 public @Utility class Application {
@@ -20,7 +21,7 @@ public @Utility class Application {
 
     public Application() {
         applicationProvider.set(this);
-        explorer = new Explorer();
+        explorer = new Explorer(this::getProject);
         applicationState = new ApplicationState();
         imageGallery = new ImageGallery();
         mainWindow = new MainWindow();
@@ -40,5 +41,13 @@ public @Utility class Application {
 
     public @Mandatory MainWindow getMainWindow() {
         return mainWindow;
+    }
+
+    private @Mandatory MgProject getProject() {
+        if(applicationState.getProject() != null){
+            return applicationState.getProject();
+        } else {
+            throw new RuntimeException("Missing project.");
+        }
     }
 }

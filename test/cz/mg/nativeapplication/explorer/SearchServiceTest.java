@@ -2,7 +2,7 @@ package cz.mg.nativeapplication.explorer;
 
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.explorer.services.SearchService;
-import cz.mg.nativeapplication.explorer.utilities.SearchResult;
+import cz.mg.nativeapplication.explorer.utilities.Node;
 import cz.mg.nativeapplication.gui.Initialization;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.*;
@@ -35,14 +35,15 @@ public class SearchServiceTest implements Test {
         root.components.addLast(function);
         root.components.addLast(type);
         project.root = root;
+        Explorer explorer = new Explorer(() -> project);
 
-        List<SearchResult> results = new SearchService().search(project, type);
+        List<Node> results = new SearchService().search(explorer, type);
 
         assertEquals(3, results.count());
         List<Object> parents = new List<>();
-        for(SearchResult result : results){
-            assertSame(type, result.getResult().getObject());
-            parents.addLast(result.getResult().getParentNode().getObject());
+        for(Node result : results){
+            assertSame(type, result.getObject());
+            parents.addLast(result.getParentNode().getObject());
         }
         assertContains(parents, structureVariable);
         assertContains(parents, functionVariable);
@@ -57,8 +58,9 @@ public class SearchServiceTest implements Test {
         cycle.components.addLast(root);
         root.components.addLast(cycle);
         project.root = root;
+        Explorer explorer = new Explorer(() -> project);
 
-        List<SearchResult> results = new SearchService().search(project, cycle);
+        List<Node> results = new SearchService().search(explorer, cycle);
 
         assertEquals(1, results.count());
     }

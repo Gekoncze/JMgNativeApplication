@@ -15,7 +15,6 @@ import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
-import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.explorer.services.SearchService;
 
 import javax.swing.*;
@@ -150,20 +149,23 @@ public class MainTabView extends JTabbedPane implements Refreshable {
         return null;
     }
 
-    private void closeDeletedTabs(){
+    private void closeDeletedObjectTabs(){
         for(int i = 0; i < getTabCount(); i++){
             Object object = getTab(i).getObject();
-            MgProject project = applicationProvider.get().getApplicationState().getProject();
-            if(searchService.search(project, object).isEmpty()){
+            if(!exists(object)){
                 closeTab(i);
                 i--;
             }
         }
     }
 
+    private boolean exists(@Mandatory Object object){
+        return !searchService.search(applicationProvider.get().getExplorer(), object).isEmpty();
+    }
+
     @Override
     public void refresh() {
-        closeDeletedTabs();
+        closeDeletedObjectTabs();
         for(int i = 0; i < getTabCount(); i++){
             getTab(i).refresh();
         }

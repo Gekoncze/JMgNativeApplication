@@ -8,12 +8,12 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiField;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiListField;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseFactory;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseWrapper;
-import cz.mg.nativeapplication.explorer.history.Actions;
 import cz.mg.nativeapplication.explorer.history.actions.AddListItemAction;
 import cz.mg.nativeapplication.explorer.history.actions.RemoveListItemAction;
 import cz.mg.nativeapplication.explorer.history.actions.SetListItemAction;
@@ -26,6 +26,7 @@ import java.util.Objects;
 public @Utility class EntityMultiSelectContent extends EntitySelectContent {
     private final @Mandatory @Shared CollectionTypeProvider collectionTypeProvider = new CollectionTypeProvider();
     private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
 
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
@@ -102,7 +103,7 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
 
     private void setValueAt(int i, @Optional Object value){
         if(i >= 0 && i < list.count()){
-            Actions.run(
+            applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with node set call
                 new SetListItemAction(list, i, getValueAt(i), value)
             );
             refresh();
@@ -111,7 +112,7 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
 
     private void addRowAt(int i){
         if(i >= 0 && i <= list.count()){
-            Actions.run(
+            applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with node set call
                 new AddListItemAction(list, i, null)
             );
             refresh();
@@ -129,7 +130,7 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
 
     private void removeRowAt(int i){
         if(i >= 0 && i < list.count()){
-            Actions.run(
+            applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with node set call
                 new RemoveListItemAction(list, i, list.get(i))
             );
             refresh();
@@ -148,10 +149,10 @@ public @Utility class EntityMultiSelectContent extends EntitySelectContent {
             if(srcIndex >= 0 && srcIndex < list.count()){
                 if(dstIndex >= 0 && dstIndex < list.count()){
                     Object value = getValueAt(srcIndex);
-                    Actions.run(
+                    applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with node set call
                         new RemoveListItemAction(list, srcIndex, value)
                     );
-                    Actions.run(
+                    applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with node set call
                         new AddListItemAction(list, dstIndex, value)
                     );
                     refresh();

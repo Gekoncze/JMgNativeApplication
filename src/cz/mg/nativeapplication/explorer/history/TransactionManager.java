@@ -8,13 +8,10 @@ import cz.mg.annotations.storage.Part;
 
 
 public @Utility class TransactionManager {
-    private final TransactionManagerProvider transactionManagerProvider = new TransactionManagerProvider();
-
     private final @Mandatory @Part History history = new History();
     private @Optional @Link Transaction transaction;
 
     public TransactionManager() {
-        transactionManagerProvider.set(this);
     }
 
     public @Mandatory History getHistory() {
@@ -44,7 +41,7 @@ public @Utility class TransactionManager {
         }
     }
 
-    public void beginTransaction(){
+    private void beginTransaction(){
         if(transaction == null){
             transaction = new Transaction();
         } else {
@@ -52,7 +49,7 @@ public @Utility class TransactionManager {
         }
     }
 
-    public void endTransaction(){
+    private void endTransaction(){
         if(transaction != null){
             if(transaction.count() > 0){
                 history.addTransaction(transaction);
@@ -63,7 +60,7 @@ public @Utility class TransactionManager {
         }
     }
 
-    public void rollbackTransaction(){
+    private void rollbackTransaction(){
         if(transaction != null){
             transaction.undo();
             transaction = null;

@@ -20,6 +20,7 @@ import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 
 public @Utility class EntityPartSelect extends EntitySelect {
@@ -117,9 +118,9 @@ public @Utility class EntityPartSelect extends EntitySelect {
             UiConfirmDialog.Choice choice = new UiConfirmDialog(title, message).show();
             if(choice == UiConfirmDialog.Choice.YES){
                 updateService.update(
-                    applicationProvider.get().getApplicationState().getProject(), // TODO - null check ???
+                    applicationProvider.get().getExplorer(),
                     content.getParent(),
-                    content.getChildIndex(), // TODO - null check ???
+                    Objects.requireNonNull(content.getChildIndex()),
                     null
                 );
                 applicationProvider.get().getMainWindow().refresh();

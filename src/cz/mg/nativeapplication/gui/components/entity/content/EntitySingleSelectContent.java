@@ -9,18 +9,19 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiField;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiValueField;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseFactory;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseWrapper;
-import cz.mg.nativeapplication.explorer.history.Actions;
 import cz.mg.nativeapplication.explorer.history.actions.SetEntityFieldAction;
 
 
 public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
     private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
+    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
 
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
@@ -75,7 +76,7 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
 
     @Override
     public final void setValue(@Optional Object value) {
-        Actions.run(
+        applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with node set call
             new SetEntityFieldAction(entity, entityField, entityField.get(entity), value)
         );
         refresh();
