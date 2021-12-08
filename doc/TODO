@@ -1,6 +1,8 @@
-get rid of multiselect content
-    edit lists in separate tab
-    add list view
+edit lists in separate tab
+    get rid of multiselect content
+    implement list view
+    change EntityLinkSelect to ObjectLinkSelect (same with part and value)
+        pass i instead of field
 
 move explorer into entity framework
     extract explorer into entity framework
