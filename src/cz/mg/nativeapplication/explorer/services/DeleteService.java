@@ -15,7 +15,7 @@ public @Service class DeleteService {
     private final @Mandatory @Shared OwnershipService ownershipService = new OwnershipService();
 
     public void delete(@Mandatory Explorer explorer, @Mandatory Object target){
-        List<Node> usages = searchService.search(explorer, target);
+        List<Node> usages = searchService.findUsages(explorer, target);
         for(Node usage : usages){
             Node parentNode = usage.getParentNode();
             Object parent = parentNode != null ? parentNode.getObject() : null;

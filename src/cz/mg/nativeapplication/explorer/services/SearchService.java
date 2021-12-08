@@ -9,7 +9,7 @@ import cz.mg.nativeapplication.explorer.utilities.Node;
 
 
 public @Service class SearchService {
-    public @Mandatory List<Node> search(@Mandatory Explorer explorer, @Mandatory Object target){
+    public @Mandatory List<Node> findUsages(@Mandatory Explorer explorer, @Mandatory Object target){
         List<Node> results = new List<>();
         forEach(explorer, node -> {
             for(Node childNode : node.getChildNodes()){

@@ -37,7 +37,7 @@ public class SearchServiceTest implements Test {
         project.root = root;
         Explorer explorer = new Explorer(() -> project);
 
-        List<Node> results = new SearchService().search(explorer, type);
+        List<Node> results = new SearchService().findUsages(explorer, type);
 
         assertEquals(3, results.count());
         List<Object> parents = new List<>();
@@ -60,7 +60,7 @@ public class SearchServiceTest implements Test {
         project.root = root;
         Explorer explorer = new Explorer(() -> project);
 
-        List<Node> results = new SearchService().search(explorer, cycle);
+        List<Node> results = new SearchService().findUsages(explorer, cycle);
 
         assertEquals(1, results.count());
     }

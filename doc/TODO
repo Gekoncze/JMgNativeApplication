@@ -1,5 +1,8 @@
+get rid of multiselect content
+    edit lists in separate tab
+    add list view
+
 move explorer into entity framework
-    make gui use nodes
     extract explorer into entity framework
     change tests to use some new test entity classes
 

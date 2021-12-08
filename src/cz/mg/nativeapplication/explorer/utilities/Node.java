@@ -45,25 +45,13 @@ public @Utility class Node {
         return index;
     }
 
-    public int count() {
-        return readService.count(object);
-    }
-
-    public @Mandatory ReadableList<Object> getChildObjects() {
-        return readService.read(object);
-    }
-
     public @Mandatory ReadableList<Node> getChildNodes(){
         List<Node> nodes = new List<>();
         int i = 0;
-        for(Object child : getChildObjects()){
+        for(Object child : readService.read(object)){
             nodes.addLast(new Node(explorer, this, child, i));
             i++;
         }
         return nodes;
-    }
-
-    public void set(@Optional Object value, int i){
-        updateService.update(explorer, object, i, value);
     }
 }

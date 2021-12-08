@@ -22,7 +22,7 @@ public @Service class OwnershipService {
 
     public int ownerCount(@Mandatory Explorer explorer, @Mandatory Object target){
         int count = 0;
-        List<Node> usages = searchService.search(explorer, target);
+        List<Node> usages = searchService.findUsages(explorer, target);
         for(Node usage : usages){
             if(isOwnedByParent(usage)){
                 count++;

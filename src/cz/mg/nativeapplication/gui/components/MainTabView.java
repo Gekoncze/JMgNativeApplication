@@ -160,7 +160,7 @@ public class MainTabView extends JTabbedPane implements Refreshable {
     }
 
     private boolean exists(@Mandatory Object object){
-        return !searchService.search(applicationProvider.get().getExplorer(), object).isEmpty();
+        return !searchService.findUsages(applicationProvider.get().getExplorer(), object).isEmpty();
     }
 
     @Override
