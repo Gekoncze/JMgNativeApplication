@@ -4,7 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.explorer.Explorer;
-import cz.mg.nativeapplication.gui.components.MainWindow;
+import cz.mg.nativeapplication.gui.components.ExplorerWindow;
 import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.utilities.ApplicationState;
@@ -17,14 +17,14 @@ public @Utility class Application {
     private final @Mandatory Explorer explorer;
     private final @Mandatory ApplicationState applicationState;
     private final @Mandatory ImageGallery imageGallery;
-    private final @Mandatory MainWindow mainWindow;
+    private final @Mandatory ExplorerWindow explorerWindow;
 
     public Application() {
         applicationProvider.set(this);
         explorer = new Explorer(this::getProject);
         applicationState = new ApplicationState();
         imageGallery = new ImageGallery();
-        mainWindow = new MainWindow();
+        explorerWindow = new ExplorerWindow(explorer);
     }
 
     public @Mandatory Explorer getExplorer() {
@@ -39,8 +39,8 @@ public @Utility class Application {
         return imageGallery;
     }
 
-    public @Mandatory MainWindow getMainWindow() {
-        return mainWindow;
+    public @Mandatory ExplorerWindow getMainWindow() {
+        return explorerWindow;
     }
 
     private @Mandatory MgProject getProject() {

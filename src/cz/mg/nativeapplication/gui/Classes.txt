@@ -158,12 +158,11 @@ cz.mg.nativeapplication.explorer.services.read.ObjectReadService
 cz.mg.nativeapplication.explorer.utilities.Node
 cz.mg.nativeapplication.gui.Application
 cz.mg.nativeapplication.gui.Initialization
-cz.mg.nativeapplication.gui.Main
+cz.mg.nativeapplication.gui.components.ExplorerWindow
 cz.mg.nativeapplication.gui.components.MainActions
 cz.mg.nativeapplication.gui.components.MainMenu
 cz.mg.nativeapplication.gui.components.MainTabView
 cz.mg.nativeapplication.gui.components.MainView
-cz.mg.nativeapplication.gui.components.MainWindow
 cz.mg.nativeapplication.gui.components.NavigationTree
 cz.mg.nativeapplication.gui.components.NavigationTree$1
 cz.mg.nativeapplication.gui.components.NavigationTree$EntityTreeModel
@@ -171,13 +170,10 @@ cz.mg.nativeapplication.gui.components.NavigationTree$EntityTreeRenderer
 cz.mg.nativeapplication.gui.components.entity.EntityLinkSelect
 cz.mg.nativeapplication.gui.components.entity.EntityPartSelect
 cz.mg.nativeapplication.gui.components.entity.EntitySelect
-cz.mg.nativeapplication.gui.components.entity.EntitySelectType
 cz.mg.nativeapplication.gui.components.entity.EntityValueSelect
 cz.mg.nativeapplication.gui.components.entity.EntityView
-cz.mg.nativeapplication.gui.components.entity.EntityView$1
-cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent
+cz.mg.nativeapplication.gui.components.entity.ListView
 cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent
-cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent$1
 cz.mg.nativeapplication.gui.components.entity.content.EntitySingleSelectContent
 cz.mg.nativeapplication.gui.components.entity.popups.BooleanPopupMenu
 cz.mg.nativeapplication.gui.components.entity.popups.ComponentSearchPopupMenu
@@ -212,6 +208,8 @@ cz.mg.nativeapplication.gui.services.ApplicationService
 cz.mg.nativeapplication.gui.services.ClassImageProvider
 cz.mg.nativeapplication.gui.services.ClassProvider
 cz.mg.nativeapplication.gui.services.ComponentSearch
+cz.mg.nativeapplication.gui.services.EntityClassFieldService
+cz.mg.nativeapplication.gui.services.EntitySelectFactory
 cz.mg.nativeapplication.gui.services.MainWindowProvider
 cz.mg.nativeapplication.gui.services.NavigationCreator
 cz.mg.nativeapplication.gui.services.ObjectImageProvider
@@ -219,6 +217,7 @@ cz.mg.nativeapplication.gui.services.ObjectNameProvider
 cz.mg.nativeapplication.gui.services.ProjectMapperProvider
 cz.mg.nativeapplication.gui.ui.UiColorUtilities
 cz.mg.nativeapplication.gui.ui.UiConstants
+cz.mg.nativeapplication.gui.ui.UiHorizontalPanelBuilder
 cz.mg.nativeapplication.gui.ui.controls.UiButton
 cz.mg.nativeapplication.gui.ui.controls.UiComponent
 cz.mg.nativeapplication.gui.ui.controls.UiHorizontalPanel

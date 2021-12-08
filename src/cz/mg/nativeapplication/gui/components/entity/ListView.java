@@ -62,4 +62,20 @@ public class ListView { // TODO
 //            ((EntityMultiSelectContent)content).removeRow();
 //        }
 //    }
+    
+//    private void onMoveRowUp() {
+//        ((EntityMultiSelectContent)content).moveRowUp();
+//    }
+//
+//    private void onMoveRowDown() {
+//        ((EntityMultiSelectContent)content).moveRowDown();
+//    }
+//
+//    private void onAddRow() {
+//        ((EntityMultiSelectContent)content).addRow();
+//    }
+//
+//    private void onRemoveRow() {
+//        ((EntityMultiSelectContent)content).removeRow();
+//    }
 }

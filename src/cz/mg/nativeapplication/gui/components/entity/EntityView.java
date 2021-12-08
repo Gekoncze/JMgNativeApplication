@@ -10,6 +10,9 @@ import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
+import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.nativeapplication.gui.services.EntitySelectFactory;
+import cz.mg.nativeapplication.gui.ui.UiHorizontalPanelBuilder;
 import cz.mg.nativeapplication.gui.ui.controls.*;
 import cz.mg.nativeapplication.gui.components.entity.value.EntityBooleanValueSelect;
 import cz.mg.nativeapplication.gui.components.entity.value.EntityEnumValueSelect;
@@ -29,81 +32,26 @@ public @Utility class EntityView extends ObjectView {
     private static final int PADDING = 4;
     private static final int BUTTON_PADDING = 2;
 
+    private final @Mandatory @Link Explorer explorer;
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Part List<EntitySelect> selects = new List<>();
     private final @Mandatory @Shared UiPanel panel = new UiPanel(BORDER, PADDING, TOP);
 
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
+    private final @Mandatory @Shared EntitySelectFactory entitySelectFactory = new EntitySelectFactory();
 
-    public EntityView(@Mandatory Object entity) {
+    public EntityView(@Mandatory Explorer explorer, @Mandatory Object entity) {
+        this.explorer = explorer;
         this.entity = entity;
 
         EntityClass entityClass = entityClassProvider.get(entity.getClass());
         int y = 0;
         for(EntityField entityField : entityClass.getFields()){
-            addSelect(createSelect(entity, entityField), y++);
+            addSelect(entitySelectFactory.create(entity, entityField), y++);
         }
 
         panel.rebuild();
         setViewportView(panel);
-    }
-
-    private @Mandatory EntitySelect createSelect(@Mandatory Object entity, @Mandatory EntityField entityField){
-        if(isList(entityField)){
-            return new EntityPartSelect(entity, entityField);
-        }
-
-        if(isLink(entityField)){
-            return new EntityLinkSelect(entity, entityField);
-        }
-
-        if(isPart(entityField)){
-            return new EntityPartSelect(entity, entityField);
-        }
-
-        if(isValue(entityField)){
-            if(is(entityField, String.class)){
-                return new EntityStringValueSelect(entity, entityField);
-            }
-
-            if(is(entityField, Integer.class)){
-                return new EntityIntegerValueSelect(entity, entityField);
-            }
-
-            if(is(entityField, Boolean.class)){
-                return new EntityBooleanValueSelect(entity, entityField);
-            }
-
-            if(isEnum(entityField)){
-                return new EntityEnumValueSelect(entity, entityField);
-            }
-        }
-
-        throw new UnsupportedOperationException(); // TODO
-    }
-
-    private boolean isLink(@Mandatory EntityField entityField){
-        return entityField.isAnnotationPresent(Link.class);
-    }
-
-    private boolean isPart(@Mandatory EntityField entityField){
-        return entityField.isAnnotationPresent(Part.class);
-    }
-
-    private boolean isValue(@Mandatory EntityField entityField){
-        return entityField.isAnnotationPresent(Value.class);
-    }
-
-    private boolean is(@Mandatory EntityField entityField, @Mandatory Class clazz){
-        return clazz.isAssignableFrom(entityField.getField().getType());
-    }
-
-    private boolean isList(@Mandatory EntityField entityField){
-        return is(entityField, List.class);
-    }
-
-    private boolean isEnum(@Mandatory EntityField entityField){
-        return is(entityField, Enum.class);
     }
 
     private void addSelect(@Mandatory EntitySelect select, int y){
@@ -114,14 +62,20 @@ public @Utility class EntityView extends ObjectView {
     }
 
     private @Mandatory UiHorizontalPanel wrapButtons(@Mandatory List<UiButton> buttons){
-        UiHorizontalPanel panel = new UiHorizontalPanel(0, BUTTON_PADDING, LEFT);
-        int x = 0;
-        for(UiButton button : buttons){
-            panel.add(button, x, 0, 0, 0, MIDDLE, BOTH);
-            x++;
-        }
-        panel.rebuild();
-        return panel;
+        return new UiHorizontalPanelBuilder()
+            .setBorder(0)
+            .setPadding(BUTTON_PADDING)
+            .setContentAlignment(LEFT)
+            .setWeightX(0)
+            .setWeightY(0)
+            .setComponentAlignment(MIDDLE)
+            .setFill(BOTH)
+            .addComponents(buttons)
+            .build();
+    }
+
+    public @Mandatory Explorer getExplorer() {
+        return explorer;
     }
 
     @Override

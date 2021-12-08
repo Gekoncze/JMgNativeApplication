@@ -10,6 +10,7 @@ import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
+import cz.mg.nativeapplication.gui.services.EntityClassFieldService;
 import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiField;
 import cz.mg.nativeapplication.gui.ui.controls.field.UiValueField;
@@ -22,6 +23,7 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
     private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
     private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
+    private final @Mandatory @Shared EntityClassFieldService entityClassFieldService = new EntityClassFieldService();
 
     private final @Mandatory @Link Object entity;
     private final @Mandatory @Link EntityField entityField;
@@ -45,17 +47,9 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
 
     @Override
     public @Optional Integer getChildIndex() {
-        int i = 0;
-        EntityClass entityClass = entityClassProvider.get(entity.getClass());
-        for(EntityField entityField : entityClass.getFields()){
-            if(entityField == this.entityField){
-                return i;
-            }
-            i++;
-        }
-
-        throw new IllegalArgumentException(
-            "Could not find field '" + this.entityField.getName() + "' in class '" + entityClass.getName() + "'."
+        return entityClassFieldService.getIndexOf(
+            entityClassProvider.get(entity.getClass()),
+            entityField
         );
     }
 
@@ -76,7 +70,7 @@ public @Utility class EntitySingleSelectContent extends EntitySelectContent {
 
     @Override
     public final void setValue(@Optional Object value) {
-        applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with node set call
+        applicationProvider.get().getExplorer().getTransactionManager().run( // TODO - replace with update service
             new SetEntityFieldAction(entity, entityField, entityField.get(entity), value)
         );
         refresh();

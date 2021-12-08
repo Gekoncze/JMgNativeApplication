@@ -3,7 +3,9 @@ package cz.mg.nativeapplication.gui.components;
 import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
+import cz.mg.nativeapplication.explorer.Explorer;
 import cz.mg.nativeapplication.gui.ui.controls.UiButton;
 import cz.mg.nativeapplication.gui.ui.controls.UiLabel;
 import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
@@ -29,11 +31,13 @@ public class MainTabView extends JTabbedPane implements Refreshable {
     private static final int PADDING = 8;
 
     private final @Mandatory @Shared SearchService searchService = new SearchService();
-    private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
     private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
     private final @Mandatory @Shared ObjectNameProvider objectNameProvider = new ObjectNameProvider();
 
-    public MainTabView() {
+    private final @Mandatory @Link Explorer explorer;
+
+    public MainTabView(@Mandatory Explorer explorer) {
+        this.explorer = explorer;
     }
 
     public void open(@Optional Object object){
@@ -53,7 +57,7 @@ public class MainTabView extends JTabbedPane implements Refreshable {
 
     private void openNew(@Mandatory Object object){
         if(object.getClass().isAnnotationPresent(Entity.class)){
-            addNewTab(object, new EntityView(object));
+            addNewTab(object, new EntityView(explorer, object));
         }
 
         // todo - add support for more object types
@@ -160,7 +164,7 @@ public class MainTabView extends JTabbedPane implements Refreshable {
     }
 
     private boolean exists(@Mandatory Object object){
-        return !searchService.findUsages(applicationProvider.get().getExplorer(), object).isEmpty();
+        return !searchService.findUsages(explorer, object).isEmpty();
     }
 
     @Override

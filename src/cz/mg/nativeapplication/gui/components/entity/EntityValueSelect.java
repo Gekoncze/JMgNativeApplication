@@ -11,7 +11,6 @@ import cz.mg.nativeapplication.gui.ui.controls.UiButton;
 import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;
 import cz.mg.nativeapplication.gui.ui.controls.UiText;
 import cz.mg.nativeapplication.gui.ui.controls.field.base.UiFieldBase;
-import cz.mg.nativeapplication.gui.components.entity.content.EntityMultiSelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
@@ -88,22 +87,6 @@ public abstract @Utility class EntityValueSelect extends EntitySelect {
 
     private void onClearButtonClicked(){
         content.setValue(null);
-    }
-
-    private void onMoveRowUp() {
-        ((EntityMultiSelectContent)content).moveRowUp();
-    }
-
-    private void onMoveRowDown() {
-        ((EntityMultiSelectContent)content).moveRowDown();
-    }
-
-    private void onAddRow() {
-        ((EntityMultiSelectContent)content).addRow();
-    }
-
-    private void onRemoveRow() {
-        ((EntityMultiSelectContent)content).removeRow();
     }
 
     private void onMouseClicked(MouseEvent event) {

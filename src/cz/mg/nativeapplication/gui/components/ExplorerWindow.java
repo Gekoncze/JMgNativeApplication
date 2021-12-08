@@ -6,6 +6,7 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
+import cz.mg.nativeapplication.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.other.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.event.WindowCloseUserEventHandler;
@@ -22,7 +23,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashSet;
 
 
-public @Utility class MainWindow extends JFrame implements Refreshable {
+public @Utility class ExplorerWindow extends JFrame implements Refreshable {
     private static final String TITLE = "JMgNativeApplication";
     private static final int DEFAULT_WIDTH = 1600;
     private static final int DEFAULT_HEIGHT = 900;
@@ -35,10 +36,10 @@ public @Utility class MainWindow extends JFrame implements Refreshable {
 
     private @Optional @Cache Navigation navigation;
 
-    public MainWindow() {
+    public ExplorerWindow(@Mandatory Explorer explorer) {
         mainWindowProvider.set(this);
         mainMenu = new MainMenu();
-        mainView = new MainView();
+        mainView = new MainView(explorer);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowCloseUserEventHandler(this::onWindowCloseButtonClicked));
         setTitle(TITLE);
