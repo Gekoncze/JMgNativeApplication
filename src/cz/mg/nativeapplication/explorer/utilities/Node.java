@@ -18,19 +18,23 @@ public @Utility class Node {
     private final @Mandatory @Shared UpdateService updateService = new UpdateService();
 
     private final @Mandatory Explorer explorer;
-    private final @Optional @Link Node parent;
+    private final @Optional @Link Node parentNode;
     private final @Optional @Link Object object;
     private final @Value int index;
 
-    public Node(@Mandatory Explorer explorer, @Optional Node parent, @Optional Object object, int index) {
+    public Node(@Mandatory Explorer explorer, @Optional Node parentNode, @Optional Object object, int index) {
         this.explorer = explorer;
-        this.parent = parent;
+        this.parentNode = parentNode;
         this.object = object;
         this.index = index;
     }
 
+    public @Mandatory Explorer getExplorer() {
+        return explorer;
+    }
+
     public @Optional Node getParentNode() {
-        return parent;
+        return parentNode;
     }
 
     public @Optional Object getObject() {
