@@ -2,79 +2,63 @@ package cz.mg.nativeapplication.gui.components.fields;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
-import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
-import cz.mg.nativeapplication.gui.components.entity.content.EntitySingleSelectContent;
-import cz.mg.nativeapplication.gui.components.enums.Key;
+import cz.mg.nativeapplication.explorer.Explorer;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.images.ImageGallery;
+import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.ui.controls.UiButton;
-import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;
 import cz.mg.nativeapplication.gui.ui.controls.UiText;
-import cz.mg.nativeapplication.gui.ui.controls.field.base.UiFieldBase;
+import cz.mg.nativeapplication.gui.ui.controls.field.UiValueField;
+import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseFactory;
+import cz.mg.nativeapplication.gui.ui.enums.UiFill;
+import cz.mg.nativeapplication.gui.ui.enums.UiKey;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
 public abstract @Utility class ValueField extends ObjectField {
+    private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
+
     private final @Mandatory @Shared UiText label;
-    private final @Mandatory @Shared EntitySelectContent content;
+    protected final @Mandatory @Shared UiValueField field;
     private final @Mandatory @Shared UiButton editButton;
     private final @Mandatory @Shared UiButton clearButton;
-    private final @Optional @Shared UiPopupMenu popupMenu;
 
-    public ValueField(@Mandatory Object entity, @Mandatory EntityField entityField) {
-        this.content = new EntitySingleSelectContent(entity, entityField, this::createContentField);
-        this.label = new UiText(entityField.getName(), UiText.FontStyle.BOLD);
+    protected ValueField(
+        @Mandatory Explorer explorer,
+        @Mandatory Object object,
+        int index,
+        @Mandatory Class type,
+        @Mandatory String label,
+        @Mandatory UiFieldBaseFactory fieldBaseFactory
+    ) {
+        super(explorer, object, index, type);
+        this.label = new UiText(label, UiText.FontStyle.BOLD);
+        this.field = new UiValueField(objectImageProvider::getOptional, fieldBaseFactory);
+        this.field.getBase().addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
+        this.field.getBase().addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
+        this.field.getBase().addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
         this.editButton = new UiButton(ImageGallery.EDIT, null, "Edit", this::onEditButtonClicked);
         this.clearButton = new UiButton(ImageGallery.CLEAR, null, "Clear", this::onClearButtonClicked);
-        this.popupMenu = createPopupMenu(content);
-        addHorizontal(label, 0, 0, Alignment.MIDDLE, Fill.BOTH);
-        addHorizontal(content.getField(), 1, 0, Alignment.MIDDLE, Fill.BOTH);
-        addHorizontal(editButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
-        addHorizontal(clearButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(this.label, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);
+        addHorizontal(this.field, 1, 0, UiAlignment.MIDDLE, UiFill.BOTH);
+        addHorizontal(this.editButton, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);
+        addHorizontal(this.clearButton, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);
         rebuild();
         refresh();
     }
 
-    @Override
-    public void refresh() {
-        content.refresh();
-    }
-
-    private UiFieldBase createContentField(){
-        UiFieldBase valueField = createValueField(content);
-        valueField.addMouseListener(new MouseClickUserEventHandler(this::onMouseClicked));
-        valueField.addKeyListener(new KeyPressedUserEventHandler(this::onKeyPressed));
-        valueField.addFocusListener(new FocusLostUserEventHandler(this::onFocusLost));
-        return valueField;
-    }
-
-    protected abstract @Mandatory UiFieldBase createValueField(@Mandatory EntitySelectContent content);
-    protected abstract @Optional UiPopupMenu createPopupMenu(@Mandatory EntitySelectContent content);
-
-    private void showSelectionMenu(){
-        if(content.getFieldBase() != null){
-            if(popupMenu != null){
-                popupMenu.show(content.getFieldBase());
-            }
-        }
-    }
-
-    private void onEditButtonClicked() {
-        if(content.getFieldBase() != null){
-            content.getFieldBase().unlock();
-            showSelectionMenu();
-        }
+    protected void onEditButtonClicked() {
+        field.unlock();
     }
 
     private void onClearButtonClicked(){
-        content.setValue(null);
+        setValue(null);
     }
 
     private void onMouseClicked(MouseEvent event) {
@@ -86,22 +70,24 @@ public abstract @Utility class ValueField extends ObjectField {
     }
 
     private void onKeyPressed(KeyEvent event) {
-        if(event.getKeyCode() == Key.ESCAPE){
+        if(event.getKeyCode() == UiKey.ESCAPE){
             refresh();
             event.consume();
         }
 
-        if(event.getKeyCode() == Key.ENTER){
-            if(content.getFieldBase() != null){
-                content.setValue(content.getFieldBase().getValue());
-                event.consume();
-            }
+        if(event.getKeyCode() == UiKey.ENTER){
+            setValue(field.getBase().getValue());
+            event.consume();
         }
     }
 
-    private void onFocusLost() {
-        if(popupMenu == null || !popupMenu.isVisible()){
-            refresh();
-        }
+    protected void onFocusLost() {
+        refresh();
+    }
+
+    @Override
+    public void refresh() {
+        field.setValue(getValue());
+        field.lock();
     }
 }

@@ -1,11 +1,11 @@
-package cz.mg.nativeapplication.gui.components.enums;
+package cz.mg.nativeapplication.gui.ui.enums;
 
 import cz.mg.annotations.classes.Utility;
 
 import java.awt.event.KeyEvent;
 
 
-public @Utility class Key {
+public @Utility class UiKey {
     public static final int A = KeyEvent.VK_A;
     public static final int B = KeyEvent.VK_B;
     public static final int C = KeyEvent.VK_C;

@@ -7,10 +7,10 @@ import cz.mg.annotations.storage.Shared;
 import java.awt.*;
 import java.awt.event.MouseListener;
 
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Alignment.LEFT;
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Alignment.MIDDLE;
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.BOTH;
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.NONE;
+import static cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment.LEFT;
+import static cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.ui.enums.UiFill.BOTH;
+import static cz.mg.nativeapplication.gui.ui.enums.UiFill.NONE;
 
 
 public @Utility class UiLabel extends UiPanel implements UiComponent {

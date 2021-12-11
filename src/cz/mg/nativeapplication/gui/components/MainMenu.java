@@ -7,9 +7,9 @@ import cz.mg.nativeapplication.gui.ui.controls.menu.UiMenu;
 import cz.mg.nativeapplication.gui.ui.controls.menu.UiMenuBar;
 import cz.mg.nativeapplication.gui.ui.controls.menu.UiMenuItem;
 
-import static cz.mg.nativeapplication.gui.components.enums.Key.*;
-import static cz.mg.nativeapplication.gui.components.enums.KeyModifier.CTRL;
-import static cz.mg.nativeapplication.gui.components.enums.KeyModifier.SHIFT;
+import static cz.mg.nativeapplication.gui.ui.enums.UiKey.*;
+import static cz.mg.nativeapplication.gui.ui.enums.UiKeyModifier.CTRL;
+import static cz.mg.nativeapplication.gui.ui.enums.UiKeyModifier.SHIFT;
 
 
 public @Utility class MainMenu extends UiMenuBar {

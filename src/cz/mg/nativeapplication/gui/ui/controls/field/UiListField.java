@@ -9,6 +9,8 @@ import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.ui.UiConstants;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
+import cz.mg.nativeapplication.gui.ui.enums.UiFill;
 import cz.mg.nativeapplication.gui.ui.controls.UiText;
 import cz.mg.nativeapplication.gui.ui.controls.field.base.UiFieldBase;
 import cz.mg.nativeapplication.gui.ui.controls.field.other.UiFieldBaseFactory;
@@ -99,11 +101,11 @@ public @Utility class UiListField extends UiField {
 
         for(Object value : values){
             fields.addLast(createField(value));
-            addVertical(fields.getLast(), 1, 0, Alignment.LEFT, Fill.BOTH);
+            addVertical(fields.getLast(), 1, 0, UiAlignment.LEFT, UiFill.BOTH);
         }
 
         if(values.isEmpty()){
-            addVertical(new UiText(""), 1, 0, Alignment.LEFT, Fill.BOTH);
+            addVertical(new UiText(""), 1, 0, UiAlignment.LEFT, UiFill.BOTH);
         }
 
         setSelectedIndex(selectedIndex);

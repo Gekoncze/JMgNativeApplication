@@ -1,9 +1,7 @@
 edit lists in separate tab
-    get rid of multiselect content and abstraction
-    get rid of list field and abstraction
+    add multiselect field
+        create single selects per row
     implement list view
-    change EntityLinkSelect to ObjectLinkSelect (same with part and value)
-        pass i instead of field
 
 move explorer into entity framework
     extract explorer into entity framework

@@ -4,6 +4,7 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
 
 import java.awt.*;
 
@@ -16,7 +17,7 @@ public @Utility class UiImage extends UiPanel {
     }
 
     public UiImage(@Optional Image image) {
-        super(0, 0, Alignment.MIDDLE);
+        super(0, 0, UiAlignment.MIDDLE);
         this.image = image;
     }
 

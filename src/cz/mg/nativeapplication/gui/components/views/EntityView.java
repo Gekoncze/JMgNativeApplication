@@ -9,7 +9,9 @@ import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
-import cz.mg.nativeapplication.gui.services.EntitySelectFactory;
+import cz.mg.nativeapplication.gui.services.FieldFactory;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
+import cz.mg.nativeapplication.gui.ui.enums.UiFill;
 import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 
 import java.awt.*;
@@ -21,13 +23,13 @@ public @Utility class EntityView extends UiPanel implements ObjectView {
     private static final int PADDING = 4;
 
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
-    private final @Mandatory @Shared EntitySelectFactory entitySelectFactory = new EntitySelectFactory();
+    private final @Mandatory @Shared FieldFactory fieldFactory = new FieldFactory();
 
     private final @Mandatory @Link Explorer explorer;
     private final @Mandatory @Link Object entity;
 
     public EntityView(@Mandatory Explorer explorer, @Mandatory Object entity) {
-        super(BORDER, PADDING, UiPanel.Alignment.TOP);
+        super(BORDER, PADDING, UiAlignment.TOP);
 
         this.explorer = explorer;
         this.entity = entity;
@@ -35,8 +37,8 @@ public @Utility class EntityView extends UiPanel implements ObjectView {
         EntityClass entityClass = entityClassProvider.get(entity.getClass());
         for(EntityField entityField : entityClass.getFields()){
             addVertical(
-                entitySelectFactory.create(entity, entityField),
-                1, 0, Alignment.MIDDLE, Fill.BOTH
+                fieldFactory.create(explorer, entity, entityClass, entityField),
+                1, 0, UiAlignment.MIDDLE, UiFill.BOTH
             );
         }
         rebuild();

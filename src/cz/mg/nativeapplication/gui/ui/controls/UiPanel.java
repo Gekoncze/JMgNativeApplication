@@ -6,22 +6,26 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
+import cz.mg.nativeapplication.gui.ui.enums.UiFill;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiHorizontalAlignment;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiVerticalAlignment;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Alignment.MIDDLE;
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.BOTH;
+import static cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.ui.enums.UiFill.BOTH;
 
 
 public @Utility class UiPanel extends JPanel implements UiComponent {
     private final @Value int border;
     private final @Value int padding;
-    private final @Mandatory @Value HorizontalAlignment horizontalAlignment;
-    private final @Mandatory @Value VerticalAlignment verticalAlignment;
+    private final @Mandatory @Value UiHorizontalAlignment horizontalAlignment;
+    private final @Mandatory @Value UiVerticalAlignment verticalAlignment;
     protected final @Mandatory @Part List<ComponentSettings> components = new List<>();
 
-    public UiPanel(int border, int padding, @Mandatory Alignment alignment) {
+    public UiPanel(int border, int padding, @Mandatory UiAlignment alignment) {
         this.border = border;
         this.padding = padding;
         this.horizontalAlignment = alignment.getHorizontal();
@@ -34,8 +38,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
     public void add(
         @Mandatory Component component,
         int x, int y, int wx, int wy,
-        @Mandatory Alignment alignment,
-        @Mandatory Fill fill
+        @Mandatory UiAlignment alignment,
+        @Mandatory UiFill fill
     ){
         add(component, x, y, wx, wy, alignment, fill, 1, 1);
     }
@@ -43,8 +47,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
     public void add(
         @Mandatory Component component,
         int x, int y, int wx, int wy,
-        @Mandatory Alignment alignment,
-        @Mandatory Fill fill,
+        @Mandatory UiAlignment alignment,
+        @Mandatory UiFill fill,
         int spanX, int spanY
     ){
         components.addLast(new ComponentSettings(component, x, y, wx, wy, alignment, fill, spanX, spanY));
@@ -53,8 +57,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
     public void addHorizontal(
         @Mandatory Component component,
         int wx, int wy,
-        @Mandatory Alignment alignment,
-        @Mandatory Fill fill
+        @Mandatory UiAlignment alignment,
+        @Mandatory UiFill fill
     ) {
         add(component, components.count(), 0, wx, wy, alignment, fill);
     }
@@ -62,8 +66,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
     public void addVertical(
         @Mandatory Component component,
         int wx, int wy,
-        @Mandatory Alignment alignment,
-        @Mandatory Fill fill
+        @Mandatory UiAlignment alignment,
+        @Mandatory UiFill fill
     ) {
         add(component, 0, components.count(), wx, wy, alignment, fill);
     }
@@ -104,21 +108,21 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         }
 
         if(maxWX == 0){
-            if(horizontalAlignment == HorizontalAlignment.LEFT){
+            if(horizontalAlignment == UiHorizontalAlignment.LEFT){
                 add(createDummy(), constraints(-1, 0, 1, 0, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
 
-            if(horizontalAlignment == HorizontalAlignment.RIGHT){
+            if(horizontalAlignment == UiHorizontalAlignment.RIGHT){
                 add(createDummy(), constraints(maxX + 1, 0, 1, 0, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
         }
 
         if(maxWY == 0){
-            if(verticalAlignment == VerticalAlignment.TOP){
+            if(verticalAlignment == UiVerticalAlignment.TOP){
                 add(createDummy(), constraints(0, -1, 0, 1, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
 
-            if(verticalAlignment == VerticalAlignment.BOTTOM){
+            if(verticalAlignment == UiVerticalAlignment.BOTTOM){
                 add(createDummy(), constraints(0, maxY + 1, 0, 1, 0, 0, 0, 0, MIDDLE, BOTH, 1, 1));
             }
         }
@@ -140,8 +144,8 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
     private GridBagConstraints constraints(
         int x, int y, int wx, int wy,
         int pTop, int pLeft, int pBottom, int pRight,
-        @Mandatory Alignment alignment,
-        @Mandatory Fill fill,
+        @Mandatory UiAlignment alignment,
+        @Mandatory UiFill fill,
         int spanX, int spanY
     ){
         GridBagConstraints constraints = new GridBagConstraints();
@@ -149,9 +153,9 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         constraints.gridy = y;
         constraints.weightx = wx;
         constraints.weighty = wy;
-        constraints.fill = fill.getFill();
+        constraints.fill = fill.getInternalCode();
         constraints.insets = new Insets(pTop, pLeft, pBottom, pRight);
-        constraints.anchor = alignment.getAnchor();
+        constraints.anchor = alignment.getInternalAnchor();
         constraints.gridwidth = spanX;
         constraints.gridheight = spanY;
         return constraints;
@@ -163,16 +167,16 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         public final @Value int y;
         public final @Value int wx;
         public final @Value int wy;
-        public final @Mandatory @Value Alignment alignment;
-        public final @Mandatory @Value Fill fill;
+        public final @Mandatory @Value UiAlignment alignment;
+        public final @Mandatory @Value UiFill fill;
         public final @Value int spanX;
         public final @Value int spanY;
 
         public ComponentSettings(
             @Mandatory Component component,
             int x, int y, int wx, int wy,
-            @Mandatory Alignment alignment,
-            @Mandatory Fill fill,
+            @Mandatory UiAlignment alignment,
+            @Mandatory UiFill fill,
             int spanX, int spanY
         ) {
             this.component = component;
@@ -187,85 +191,4 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         }
     }
 
-    public enum HorizontalAlignment {
-        LEFT, MIDDLE, RIGHT
-    }
-
-    public enum VerticalAlignment {
-        TOP, MIDDLE, BOTTOM
-    }
-
-    public enum Alignment {
-        TOP_LEFT, TOP, TOP_RIGHT,
-        LEFT, MIDDLE, RIGHT,
-        BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT;
-
-        public HorizontalAlignment getHorizontal(){
-            switch (this){
-                case TOP_LEFT: return HorizontalAlignment.LEFT;
-                case LEFT: return HorizontalAlignment.LEFT;
-                case BOTTOM_LEFT: return HorizontalAlignment.LEFT;
-
-                case TOP: return HorizontalAlignment.MIDDLE;
-                case MIDDLE: return HorizontalAlignment.MIDDLE;
-                case BOTTOM: return HorizontalAlignment.MIDDLE;
-
-                case TOP_RIGHT: return HorizontalAlignment.RIGHT;
-                case RIGHT: return HorizontalAlignment.RIGHT;
-                case BOTTOM_RIGHT: return HorizontalAlignment.RIGHT;
-            }
-            throw new IllegalStateException();
-        }
-
-        public VerticalAlignment getVertical(){
-            switch (this){
-                case TOP_LEFT: return VerticalAlignment.TOP;
-                case TOP: return VerticalAlignment.TOP;
-                case TOP_RIGHT: return VerticalAlignment.TOP;
-
-                case LEFT: return VerticalAlignment.MIDDLE;
-                case MIDDLE: return VerticalAlignment.MIDDLE;
-                case RIGHT: return VerticalAlignment.MIDDLE;
-
-                case BOTTOM_LEFT: return VerticalAlignment.BOTTOM;
-                case BOTTOM: return VerticalAlignment.BOTTOM;
-                case BOTTOM_RIGHT: return VerticalAlignment.BOTTOM;
-            }
-            throw new IllegalStateException();
-        }
-
-        int getAnchor(){
-            switch (this){
-                case TOP_LEFT: return GridBagConstraints.FIRST_LINE_START;
-                case TOP: return GridBagConstraints.PAGE_START;
-                case TOP_RIGHT: return GridBagConstraints.FIRST_LINE_END;
-
-                case LEFT: return GridBagConstraints.LINE_START;
-                case MIDDLE: return GridBagConstraints.CENTER;
-                case RIGHT: return GridBagConstraints.LINE_END;
-
-                case BOTTOM_LEFT: return GridBagConstraints.LAST_LINE_START;
-                case BOTTOM: return GridBagConstraints.PAGE_END;
-                case BOTTOM_RIGHT: return GridBagConstraints.LAST_LINE_END;
-            }
-            throw new IllegalStateException();
-        }
-    }
-
-    public enum Fill {
-        NONE,
-        HORIZONTAL,
-        VERTICAL,
-        BOTH;
-
-        int getFill(){
-            switch (this){
-                case NONE: return GridBagConstraints.NONE;
-                case HORIZONTAL: return GridBagConstraints.HORIZONTAL;
-                case VERTICAL: return GridBagConstraints.VERTICAL;
-                case BOTH: return GridBagConstraints.BOTH;
-            }
-            throw new IllegalStateException();
-        }
-    }
 }

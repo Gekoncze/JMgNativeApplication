@@ -4,12 +4,14 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
+import cz.mg.nativeapplication.gui.ui.enums.UiFill;
 import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 
 import java.awt.*;
 
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Alignment.LEFT;
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.BOTH;
+import static cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment.LEFT;
+import static cz.mg.nativeapplication.gui.ui.enums.UiFill.BOTH;
 
 
 public @Utility class UiHorizontalPanelBuilder {
@@ -17,9 +19,9 @@ public @Utility class UiHorizontalPanelBuilder {
     private int padding = 0;
     private int wx = 0;
     private int wy = 0;
-    private @Mandatory UiPanel.Alignment contentAlignment = LEFT;
-    private @Mandatory UiPanel.Alignment componentAlignment = LEFT;
-    private @Mandatory UiPanel.Fill fill = BOTH;
+    private @Mandatory UiAlignment contentAlignment = LEFT;
+    private @Mandatory UiAlignment componentAlignment = LEFT;
+    private @Mandatory UiFill fill = BOTH;
     private final @Mandatory @Shared List<Component> components = new List();
 
     public UiHorizontalPanelBuilder() {
@@ -45,17 +47,17 @@ public @Utility class UiHorizontalPanelBuilder {
         return this;
     }
 
-    public @Mandatory UiHorizontalPanelBuilder setContentAlignment(@Mandatory UiPanel.Alignment contentAlignment) {
+    public @Mandatory UiHorizontalPanelBuilder setContentAlignment(@Mandatory UiAlignment contentAlignment) {
         this.contentAlignment = contentAlignment;
         return this;
     }
 
-    public @Mandatory UiHorizontalPanelBuilder setComponentAlignment(@Mandatory UiPanel.Alignment componentAlignment) {
+    public @Mandatory UiHorizontalPanelBuilder setComponentAlignment(@Mandatory UiAlignment componentAlignment) {
         this.componentAlignment = componentAlignment;
         return this;
     }
 
-    public @Mandatory UiHorizontalPanelBuilder setFill(@Mandatory UiPanel.Fill fill) {
+    public @Mandatory UiHorizontalPanelBuilder setFill(@Mandatory UiFill fill) {
         this.fill = fill;
         return this;
     }

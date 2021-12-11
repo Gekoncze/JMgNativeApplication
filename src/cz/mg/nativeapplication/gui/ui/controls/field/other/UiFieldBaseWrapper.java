@@ -4,6 +4,8 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
+import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
+import cz.mg.nativeapplication.gui.ui.enums.UiFill;
 import cz.mg.nativeapplication.gui.ui.controls.UiImage;
 import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 import cz.mg.nativeapplication.gui.ui.controls.field.base.UiFieldBase;
@@ -19,15 +21,15 @@ public @Utility class UiFieldBaseWrapper extends UiPanel {
     private final @Mandatory @Shared UiFieldBase fieldBase;
 
     public UiFieldBaseWrapper(@Mandatory UiFieldImageProvider fieldImageProvider, @Mandatory UiFieldBase fieldBase) {
-        super(0, PADDING, Alignment.LEFT);
+        super(0, PADDING, UiAlignment.LEFT);
         this.fieldImageProvider = fieldImageProvider;
         this.imageComponent = new UiImage();
         this.fieldBase = fieldBase;
 
         FontMetrics fontMetrics = fieldBase.getFontMetrics(fieldBase.getFont());
         imageComponent.setPreferredSize(new Dimension(fontMetrics.getHeight(), fontMetrics.getHeight()));
-        addHorizontal(imageComponent, 0, 0, Alignment.LEFT, Fill.BOTH);
-        addHorizontal(fieldBase, 1, 0, Alignment.LEFT, Fill.BOTH);
+        addHorizontal(imageComponent, 0, 0, UiAlignment.LEFT, UiFill.BOTH);
+        addHorizontal(fieldBase, 1, 0, UiAlignment.LEFT, UiFill.BOTH);
         rebuild();
     }
 

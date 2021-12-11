@@ -20,9 +20,9 @@ import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 import javax.swing.*;
 import java.awt.*;
 
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Alignment.MIDDLE;
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.BOTH;
-import static cz.mg.nativeapplication.gui.ui.controls.UiPanel.Fill.NONE;
+import static cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment.MIDDLE;
+import static cz.mg.nativeapplication.gui.ui.enums.UiFill.BOTH;
+import static cz.mg.nativeapplication.gui.ui.enums.UiFill.NONE;
 
 
 public class MainTabView extends JTabbedPane implements Refreshable {
