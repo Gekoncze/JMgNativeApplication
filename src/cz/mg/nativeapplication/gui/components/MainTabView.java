@@ -1,23 +1,21 @@
 package cz.mg.nativeapplication.gui.components;
 
-import cz.mg.annotations.classes.Entity;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.explorer.Explorer;
-import cz.mg.nativeapplication.gui.ui.controls.UiButton;
-import cz.mg.nativeapplication.gui.ui.controls.UiLabel;
-import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
-import cz.mg.nativeapplication.gui.components.entity.EntityView;
-import cz.mg.nativeapplication.gui.components.other.ObjectView;
+import cz.mg.nativeapplication.explorer.services.SearchService;
+import cz.mg.nativeapplication.gui.components.views.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
-import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.ObjectImageProvider;
 import cz.mg.nativeapplication.gui.services.ObjectNameProvider;
-import cz.mg.nativeapplication.explorer.services.SearchService;
+import cz.mg.nativeapplication.gui.services.ObjectViewFactory;
+import cz.mg.nativeapplication.gui.ui.controls.UiButton;
+import cz.mg.nativeapplication.gui.ui.controls.UiLabel;
+import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +31,7 @@ public class MainTabView extends JTabbedPane implements Refreshable {
     private final @Mandatory @Shared SearchService searchService = new SearchService();
     private final @Mandatory @Shared ObjectImageProvider objectImageProvider = new ObjectImageProvider();
     private final @Mandatory @Shared ObjectNameProvider objectNameProvider = new ObjectNameProvider();
+    private final @Mandatory @Shared ObjectViewFactory objectViewFactory = new ObjectViewFactory();
 
     private final @Mandatory @Link Explorer explorer;
 
@@ -56,11 +55,7 @@ public class MainTabView extends JTabbedPane implements Refreshable {
     }
 
     private void openNew(@Mandatory Object object){
-        if(object.getClass().isAnnotationPresent(Entity.class)){
-            addNewTab(object, new EntityView(explorer, object));
-        }
-
-        // todo - add support for more object types
+        addNewTab(object, objectViewFactory.create(explorer, object));
     }
 
     public void closeTab(int index){
@@ -116,8 +111,8 @@ public class MainTabView extends JTabbedPane implements Refreshable {
     }
 
     private void addNewTab(@Mandatory Object object, @Mandatory ObjectView view){
-        addTab(null, null, view);
-        setTabComponentAt(getTabCount() - 1, createTabHeader(object, view));
+        addTab(null, null, (Component) view);
+        setTabComponentAt(getTabCount() - 1, createTabHeader(object, (Component) view));
         setSelectedIndex(getTabCount() - 1);
     }
 

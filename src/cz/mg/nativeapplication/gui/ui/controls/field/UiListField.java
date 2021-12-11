@@ -99,11 +99,11 @@ public @Utility class UiListField extends UiField {
 
         for(Object value : values){
             fields.addLast(createField(value));
-            add(fields.getLast(), 1, 0, Alignment.LEFT, Fill.BOTH);
+            addVertical(fields.getLast(), 1, 0, Alignment.LEFT, Fill.BOTH);
         }
 
         if(values.isEmpty()){
-            add(new UiText(""), 1, 0, Alignment.LEFT, Fill.BOTH);
+            addVertical(new UiText(""), 1, 0, Alignment.LEFT, Fill.BOTH);
         }
 
         setSelectedIndex(selectedIndex);

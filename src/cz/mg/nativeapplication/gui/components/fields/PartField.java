@@ -1,16 +1,16 @@
-package cz.mg.nativeapplication.gui.components.entity;
+package cz.mg.nativeapplication.gui.components.fields;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.explorer.services.UpdateService;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySingleSelectContent;
-import cz.mg.nativeapplication.gui.components.entity.popups.EntityClassPopupMenu;
+import cz.mg.nativeapplication.gui.components.popups.EntityClassPopupMenu;
+import cz.mg.nativeapplication.gui.components.fields.ObjectField;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;
 import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
@@ -23,44 +23,35 @@ import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 
-public @Utility class EntityPartSelect extends EntitySelect {
+public @Utility class PartField extends ObjectField {
     private final @Mandatory @Shared ApplicationProvider applicationProvider = new ApplicationProvider();
     private final @Mandatory @Shared UpdateService updateService = new UpdateService();
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
     private final @Mandatory @Shared UiText label;
     private final @Mandatory @Shared EntitySelectContent content;
-    private final @Mandatory @Shared List<UiButton> buttons;
+    private final @Mandatory @Shared UiButton createButton;
+    private final @Mandatory @Shared UiButton openButton;
+    private final @Mandatory @Shared UiButton deleteButton;
     private final @Mandatory @Shared EntityClassPopupMenu popupMenu;
 
-    public EntityPartSelect(@Mandatory Object entity, @Mandatory EntityField entityField) {
+    public PartField(@Mandatory Object entity, @Mandatory EntityField entityField) {
         this.content = new EntitySingleSelectContent(entity, entityField, this::createContentField);
         this.label = new UiText(entityField.getName(), UiText.FontStyle.BOLD);
-        this.buttons = new List<>(
-            new UiButton(ImageGallery.CREATE, null, "Create", this::onCreateButtonClicked),
-            new UiButton(ImageGallery.OPEN, null, "Open", this::onOpenButtonClicked),
-            new UiButton(ImageGallery.DELETE, null, "Delete", this::onDeleteButtonClicked)
-        );
+        this.createButton = new UiButton(ImageGallery.CREATE, null, "Create", this::onCreateButtonClicked);
+        this.openButton = new UiButton(ImageGallery.OPEN, null, "Open", this::onOpenButtonClicked);
+        this.deleteButton = new UiButton(ImageGallery.DELETE, null, "Delete", this::onDeleteButtonClicked);
         this.popupMenu = new EntityClassPopupMenu(
             entityClassProvider.get(content.getType()),
             this::onCreateEntityClass
         );
+        addHorizontal(label, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(content.getField(), 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(createButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(openButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(deleteButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        rebuild();
         refresh();
-    }
-
-    @Override
-    public @Mandatory UiText getLabel() {
-        return label;
-    }
-
-    @Override
-    public @Mandatory EntitySelectContent getContent() {
-        return content;
-    }
-
-    @Override
-    public @Mandatory List<UiButton> getButtons() {
-        return buttons;
     }
 
     @Override

@@ -50,6 +50,24 @@ public @Utility class UiPanel extends JPanel implements UiComponent {
         components.addLast(new ComponentSettings(component, x, y, wx, wy, alignment, fill, spanX, spanY));
     }
 
+    public void addHorizontal(
+        @Mandatory Component component,
+        int wx, int wy,
+        @Mandatory Alignment alignment,
+        @Mandatory Fill fill
+    ) {
+        add(component, components.count(), 0, wx, wy, alignment, fill);
+    }
+
+    public void addVertical(
+        @Mandatory Component component,
+        int wx, int wy,
+        @Mandatory Alignment alignment,
+        @Mandatory Fill fill
+    ) {
+        add(component, 0, components.count(), wx, wy, alignment, fill);
+    }
+
     public void clear(){
         removeAll();
         components.clear();

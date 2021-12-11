@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.gui.components.entity;
+package cz.mg.nativeapplication.gui.components.views;
 
 
 public class ListView { // TODO

@@ -17,7 +17,7 @@ public @Utility class UiValueField extends UiField {
         @Mandatory UiFieldBaseFactory fieldBaseFactory
     ) {
         field = new UiFieldBaseWrapper(fieldImageProvider, fieldBaseFactory.create());
-        add(field, 1, 1, Alignment.LEFT, Fill.BOTH);
+        addVertical(field, 1, 1, Alignment.LEFT, Fill.BOTH);
         rebuild();
     }
 

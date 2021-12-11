@@ -4,7 +4,6 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.gui.ui.controls.UiHorizontalPanel;
 import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 
 import java.awt.*;
@@ -71,10 +70,10 @@ public @Utility class UiHorizontalPanelBuilder {
         return this;
     }
 
-    public UiHorizontalPanel build(){
-        UiHorizontalPanel panel = new UiHorizontalPanel(border, padding, contentAlignment);
+    public UiPanel build(){
+        UiPanel panel = new UiPanel(border, padding, contentAlignment);
         for(Component component : components){
-            panel.add(component, wx, wy, componentAlignment, fill);
+            panel.addHorizontal(component, wx, wy, componentAlignment, fill);
         }
         panel.rebuild();
         return panel;

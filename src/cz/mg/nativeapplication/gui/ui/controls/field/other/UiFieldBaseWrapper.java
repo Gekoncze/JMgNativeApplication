@@ -4,14 +4,14 @@ import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.gui.ui.controls.UiHorizontalPanel;
 import cz.mg.nativeapplication.gui.ui.controls.UiImage;
+import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 import cz.mg.nativeapplication.gui.ui.controls.field.base.UiFieldBase;
 
 import java.awt.*;
 
 
-public @Utility class UiFieldBaseWrapper extends UiHorizontalPanel {
+public @Utility class UiFieldBaseWrapper extends UiPanel {
     private static final int PADDING = 2;
 
     private final @Mandatory @Shared UiFieldImageProvider fieldImageProvider;
@@ -26,8 +26,8 @@ public @Utility class UiFieldBaseWrapper extends UiHorizontalPanel {
 
         FontMetrics fontMetrics = fieldBase.getFontMetrics(fieldBase.getFont());
         imageComponent.setPreferredSize(new Dimension(fontMetrics.getHeight(), fontMetrics.getHeight()));
-        add(imageComponent, 0, 0, Alignment.LEFT, Fill.BOTH);
-        add(fieldBase, 1, 0, Alignment.LEFT, Fill.BOTH);
+        addHorizontal(imageComponent, 0, 0, Alignment.LEFT, Fill.BOTH);
+        addHorizontal(fieldBase, 1, 0, Alignment.LEFT, Fill.BOTH);
         rebuild();
     }
 

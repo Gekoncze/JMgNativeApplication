@@ -7,44 +7,43 @@ import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.gui.components.entity.EntityLinkSelect;
-import cz.mg.nativeapplication.gui.components.entity.EntityPartSelect;
-import cz.mg.nativeapplication.gui.components.entity.EntitySelect;
-import cz.mg.nativeapplication.gui.components.entity.value.EntityBooleanValueSelect;
-import cz.mg.nativeapplication.gui.components.entity.value.EntityEnumValueSelect;
-import cz.mg.nativeapplication.gui.components.entity.value.EntityIntegerValueSelect;
-import cz.mg.nativeapplication.gui.components.entity.value.EntityStringValueSelect;
+import cz.mg.nativeapplication.gui.components.fields.LinkField;
+import cz.mg.nativeapplication.gui.components.fields.PartField;
+import cz.mg.nativeapplication.gui.components.fields.ObjectField;
+import cz.mg.nativeapplication.gui.components.fields.value.*;
+import cz.mg.nativeapplication.gui.components.fields.value.BooleanValueField;
+import cz.mg.nativeapplication.gui.components.fields.value.StringValueField;
 
 
 public @Service class EntitySelectFactory { // TODO
-    public @Mandatory EntitySelect create(@Mandatory Object entity, @Mandatory EntityField entityField){
+    public @Mandatory ObjectField create(@Mandatory Object entity, @Mandatory EntityField entityField){
         if(isList(entityField)){
-            return new EntityPartSelect(entity, entityField);
+            return new PartField(entity, entityField);
         }
 
         if(isLink(entityField)){
-            return new EntityLinkSelect(entity, entityField);
+            return new LinkField(entity, entityField);
         }
 
         if(isPart(entityField)){
-            return new EntityPartSelect(entity, entityField);
+            return new PartField(entity, entityField);
         }
 
         if(isValue(entityField)){
             if(is(entityField, String.class)){
-                return new EntityStringValueSelect(entity, entityField);
+                return new StringValueField(entity, entityField);
             }
 
             if(is(entityField, Integer.class)){
-                return new EntityIntegerValueSelect(entity, entityField);
+                return new IntegerValueField(entity, entityField);
             }
 
             if(is(entityField, Boolean.class)){
-                return new EntityBooleanValueSelect(entity, entityField);
+                return new BooleanValueField(entity, entityField);
             }
 
             if(isEnum(entityField)){
-                return new EntityEnumValueSelect(entity, entityField);
+                return new EnumValueField(entity, entityField);
             }
         }
 

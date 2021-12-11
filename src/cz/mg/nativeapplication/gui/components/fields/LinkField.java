@@ -1,13 +1,12 @@
-package cz.mg.nativeapplication.gui.components.entity;
+package cz.mg.nativeapplication.gui.components.fields;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.collections.list.List;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySelectContent;
 import cz.mg.nativeapplication.gui.components.entity.content.EntitySingleSelectContent;
-import cz.mg.nativeapplication.gui.components.entity.popups.ComponentSearchPopupMenu;
+import cz.mg.nativeapplication.gui.components.popups.ComponentSearchPopupMenu;
 import cz.mg.nativeapplication.gui.components.enums.Key;
 import cz.mg.nativeapplication.gui.event.FocusGainedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
@@ -23,40 +22,33 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 
-public @Utility class EntityLinkSelect extends EntitySelect {
+public @Utility class LinkField extends ObjectField {
     private final @Mandatory @Shared MainWindowProvider mainWindowProvider = new MainWindowProvider();
 
     private final @Mandatory @Shared UiText label;
     private final @Mandatory @Shared EntitySelectContent content;
-    private final @Mandatory @Shared List<UiButton> buttons;
+    private final @Mandatory @Shared UiButton searchButton;
+    private final @Mandatory @Shared UiButton openButton;
+    private final @Mandatory @Shared UiButton editButton;
+    private final @Mandatory @Shared UiButton clearButton;
     private final @Mandatory @Shared ComponentSearchPopupMenu popupMenu;
 
-    public EntityLinkSelect(@Mandatory Object entity, @Mandatory EntityField entityField) {
+    public LinkField(@Mandatory Object entity, @Mandatory EntityField entityField) {
         this.content = new EntitySingleSelectContent(entity, entityField, this::createContentField);
         this.label = new UiText(content.getName(), UiText.FontStyle.BOLD);
-        this.buttons = new List<>(
-            new UiButton(ImageGallery.SEARCH, null, "Search", this::onSearchButtonClicked),
-            new UiButton(ImageGallery.OPEN, null, "Open", this::onOpenButtonClicked),
-            new UiButton(ImageGallery.EDIT, null, "Edit", this::onEditButtonClicked),
-            new UiButton(ImageGallery.CLEAR, null, "Clear", this::onClearButtonClicked)
-        );
+        this.searchButton = new UiButton(ImageGallery.SEARCH, null, "Search", this::onSearchButtonClicked);
+        this.openButton = new UiButton(ImageGallery.OPEN, null, "Open", this::onOpenButtonClicked);
+        this.editButton = new UiButton(ImageGallery.EDIT, null, "Edit", this::onEditButtonClicked);
+        this.clearButton = new UiButton(ImageGallery.CLEAR, null, "Clear", this::onClearButtonClicked);
         this.popupMenu = new ComponentSearchPopupMenu(content::setValue);
+        addHorizontal(label, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(content.getField(), 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(searchButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(openButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(editButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        addHorizontal(clearButton, 0, 0, Alignment.MIDDLE, Fill.BOTH);
+        rebuild();
         refresh();
-    }
-
-    @Override
-    public @Mandatory UiText getLabel() {
-        return label;
-    }
-
-    @Override
-    public @Mandatory EntitySelectContent getContent() {
-        return content;
-    }
-
-    @Override
-    public @Mandatory List<UiButton> getButtons() {
-        return buttons;
     }
 
     @Override
