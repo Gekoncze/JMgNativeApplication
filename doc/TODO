@@ -1,11 +1,13 @@
-edit lists in separate tab
-    add multiselect field
-        create single selects per row
+add list field and list view
+    implement list field (fields per row inside ui list)
+    implement list field factory
     implement list view
+    add mouse click selection to UiList
+    add multi selection to UiList
 
 move explorer into entity framework
-    extract explorer into entity framework
-    change tests to use some new test entity classes
+    extract explorer from gui
+    change tests to use some new test entity classes instead of mg ones
 
 add cleanup button
     will offer to delete objects that are not owned

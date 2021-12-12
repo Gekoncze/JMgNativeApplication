@@ -9,7 +9,7 @@ import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
-import cz.mg.nativeapplication.gui.services.FieldFactory;
+import cz.mg.nativeapplication.gui.services.EntityFieldFactory;
 import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;
 import cz.mg.nativeapplication.gui.ui.enums.UiFill;
 import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
@@ -23,7 +23,7 @@ public @Utility class EntityView extends UiPanel implements ObjectView {
     private static final int PADDING = 4;
 
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
-    private final @Mandatory @Shared FieldFactory fieldFactory = new FieldFactory();
+    private final @Mandatory @Shared EntityFieldFactory entityFieldFactory = new EntityFieldFactory();
 
     private final @Mandatory @Link Explorer explorer;
     private final @Mandatory @Link Object entity;
@@ -37,7 +37,7 @@ public @Utility class EntityView extends UiPanel implements ObjectView {
         EntityClass entityClass = entityClassProvider.get(entity.getClass());
         for(EntityField entityField : entityClass.getFields()){
             addVertical(
-                fieldFactory.create(explorer, entity, entityClass, entityField),
+                entityFieldFactory.create(explorer, entity, entityClass, entityField),
                 1, 0, UiAlignment.MIDDLE, UiFill.BOTH
             );
         }

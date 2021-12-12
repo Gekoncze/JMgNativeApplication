@@ -167,6 +167,7 @@ cz.mg.nativeapplication.gui.components.NavigationTree$1
 cz.mg.nativeapplication.gui.components.NavigationTree$EntityTreeModel
 cz.mg.nativeapplication.gui.components.NavigationTree$EntityTreeRenderer
 cz.mg.nativeapplication.gui.components.fields.LinkField
+cz.mg.nativeapplication.gui.components.fields.ListField
 cz.mg.nativeapplication.gui.components.fields.ObjectField
 cz.mg.nativeapplication.gui.components.fields.PartField
 cz.mg.nativeapplication.gui.components.fields.ValueField
@@ -204,8 +205,9 @@ cz.mg.nativeapplication.gui.services.ApplicationService
 cz.mg.nativeapplication.gui.services.ClassImageProvider
 cz.mg.nativeapplication.gui.services.ComponentSearch
 cz.mg.nativeapplication.gui.services.EntityClassFieldService
+cz.mg.nativeapplication.gui.services.EntityFieldFactory
 cz.mg.nativeapplication.gui.services.EntityMapperProvider
-cz.mg.nativeapplication.gui.services.FieldFactory
+cz.mg.nativeapplication.gui.services.ListFieldFactory
 cz.mg.nativeapplication.gui.services.MainWindowProvider
 cz.mg.nativeapplication.gui.services.NavigationCreator
 cz.mg.nativeapplication.gui.services.ObjectImageProvider
@@ -219,6 +221,7 @@ cz.mg.nativeapplication.gui.ui.controls.UiComponent
 cz.mg.nativeapplication.gui.ui.controls.UiHorizontalSplitPane
 cz.mg.nativeapplication.gui.ui.controls.UiImage
 cz.mg.nativeapplication.gui.ui.controls.UiLabel
+cz.mg.nativeapplication.gui.ui.controls.UiList
 cz.mg.nativeapplication.gui.ui.controls.UiPanel
 cz.mg.nativeapplication.gui.ui.controls.UiPanel$ComponentSettings
 cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu
@@ -228,7 +231,6 @@ cz.mg.nativeapplication.gui.ui.controls.UiText$2
 cz.mg.nativeapplication.gui.ui.controls.UiText$FontStyle
 cz.mg.nativeapplication.gui.ui.controls.UiTree
 cz.mg.nativeapplication.gui.ui.controls.field.UiField
-cz.mg.nativeapplication.gui.ui.controls.field.UiListField
 cz.mg.nativeapplication.gui.ui.controls.field.UiValueField
 cz.mg.nativeapplication.gui.ui.controls.field.base.UiBooleanFieldBase
 cz.mg.nativeapplication.gui.ui.controls.field.base.UiEnumFieldBase

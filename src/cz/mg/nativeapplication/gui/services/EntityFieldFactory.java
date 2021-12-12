@@ -18,7 +18,7 @@ import cz.mg.nativeapplication.gui.components.fields.value.BooleanValueField;
 import cz.mg.nativeapplication.gui.components.fields.value.StringValueField;
 
 
-public @Service class FieldFactory {
+public @Service class EntityFieldFactory {
     private final @Mandatory @Shared EntityClassFieldService entityClassFieldService = new EntityClassFieldService();
 
     public @Mandatory ObjectField create(

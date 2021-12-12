@@ -8,7 +8,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 
-public @Service class CollectionTypeProvider {
+public @Service class CollectionTypeProvider { // TODO - move to correct package
     public @Mandatory Class get(@Mandatory Field field){
         if(Iterable.class.isAssignableFrom(field.getType())){
             if(field.getGenericType() instanceof ParameterizedType){
