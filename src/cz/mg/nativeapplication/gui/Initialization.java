@@ -7,13 +7,13 @@ import cz.mg.classdetector.ClassReader;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClassInitializer;
 import cz.mg.entity.mapper.MapperFactory;
-import cz.mg.nativeapplication.gui.services.ProjectMapperProvider;
+import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 
 
 public @Utility class Initialization {
     private final @Mandatory @Shared ClassReader classReader = new ClassReader();
     private final @Mandatory @Shared EntityClassInitializer entityClassInitializer = new EntityClassInitializer();
-    private final @Mandatory @Shared ProjectMapperProvider projectMapperProvider = new ProjectMapperProvider();
+    private final @Mandatory @Shared EntityMapperProvider entityMapperProvider = new EntityMapperProvider();
     private final @Mandatory @Shared MapperFactory mapperFactory = new MapperFactory();
 
     public Initialization() {
@@ -34,6 +34,6 @@ public @Utility class Initialization {
     }
 
     private void initObjectMappers(@Mandatory List<Class> classes){
-        projectMapperProvider.set(mapperFactory.create(classes));
+        entityMapperProvider.set(mapperFactory.create(classes));
     }
 }

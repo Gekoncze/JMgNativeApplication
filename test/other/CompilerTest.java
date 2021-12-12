@@ -2,8 +2,9 @@ package other;
 
 import cz.mg.nativeapplication.c.services.creator.CProjectCreator;
 import cz.mg.nativeapplication.c.services.exporter.CProjectExporter;
-import cz.mg.nativeapplication.mg.services.storage.MgProjectLoader;
-import cz.mg.nativeapplication.mg.services.storage.MgProjectSaver;
+import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.mg.services.storage.EntityReader;
+import cz.mg.nativeapplication.mg.services.storage.EntityWriter;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.cli.runners.SingleTestClassRunner;
@@ -18,14 +19,14 @@ public class CompilerTest implements Test {
 
     @TestCase
     public void test(){
-        new MgProjectSaver().save(
-            PROJECT_FILE_PATH, new TestProjectCreator().create()
+        new EntityWriter().write(
+            PROJECT_FILE_PATH.toString(), new TestProjectCreator().create()
         );
 
         new TempStorageSaver().save(
             new CProjectExporter().export(
                 new CProjectCreator().create(
-                    new MgProjectLoader().load(PROJECT_FILE_PATH)
+                    (MgProject) new EntityReader().readMandatory(PROJECT_FILE_PATH.toString())
                 )
             )
         );

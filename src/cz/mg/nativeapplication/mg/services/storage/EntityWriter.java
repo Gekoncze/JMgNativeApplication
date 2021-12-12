@@ -5,25 +5,22 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.storage.ElementTableWriter;
-import cz.mg.nativeapplication.gui.services.ProjectMapperProvider;
-import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.sql.light.connection.SqlConnection;
 import cz.mg.sql.light.connection.connections.SqliteConnection;
 
-import java.nio.file.Path;
 
-
-public @Service class MgProjectSaver {
-    private final @Mandatory @Shared ProjectMapperProvider projectMapperProvider = new ProjectMapperProvider();
+public @Service class EntityWriter {
+    private final @Mandatory @Shared EntityMapperProvider entityMapperProvider = new EntityMapperProvider();
     private final @Mandatory @Shared ElementTableWriter elementTableWriter = new ElementTableWriter();
 
-    public void save(@Mandatory Path path, @Optional MgProject project){
-        try(SqlConnection connection = new SqliteConnection(path.toString())){
+    public void write(@Mandatory String path, @Optional Object entity){
+        try(SqlConnection connection = new SqliteConnection(path)){
             connection.begin();
 
             elementTableWriter.write(
                 connection,
-                projectMapperProvider.get().map(project)
+                entityMapperProvider.get().map(entity)
             );
 
             connection.commit();

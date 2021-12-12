@@ -4,16 +4,17 @@ import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.explorer.history.TransactionManager;
 import cz.mg.nativeapplication.gui.utilities.ApplicationState;
+import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
-import cz.mg.nativeapplication.mg.services.storage.MgProjectLoader;
-import cz.mg.nativeapplication.mg.services.storage.MgProjectSaver;
+import cz.mg.nativeapplication.mg.services.storage.EntityReader;
+import cz.mg.nativeapplication.mg.services.storage.EntityWriter;
 
 import java.nio.file.Path;
 
 
 public @Mandatory class ApplicationService {
-    private final @Mandatory @Shared MgProjectSaver projectSaver = new MgProjectSaver();
-    private final @Mandatory @Shared MgProjectLoader projectLoader = new MgProjectLoader();
+    private final @Mandatory @Shared EntityWriter entityWriter = new EntityWriter();
+    private final @Mandatory @Shared EntityReader entityReader = new EntityReader();
 
     public void newProject(
         @Mandatory TransactionManager transactionManager,
@@ -31,14 +32,14 @@ public @Mandatory class ApplicationService {
         @Mandatory Path path
     ) {
         transactionManager.getHistory().clear();
-        applicationState.setProject(projectLoader.load(path));
+        applicationState.setProject((MgProject) entityReader.read(path.toString()));
         applicationState.setProjectPath(path);
     }
 
     public void saveProject(@Mandatory ApplicationState applicationState) {
         if(applicationState.getProjectPath() != null){
-            projectSaver.save(
-                applicationState.getProjectPath(),
+            entityWriter.write(
+                applicationState.getProjectPath().toString(),
                 applicationState.getProject()
             );
         } else {

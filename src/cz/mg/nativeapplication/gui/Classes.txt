@@ -75,10 +75,6 @@ cz.mg.collections.text.ReadonlyText
 cz.mg.collections.text.SubText
 cz.mg.collections.text.Text
 cz.mg.collections.text.WriteableText
-cz.mg.entity.storage.ElementFieldTable
-cz.mg.entity.storage.ElementTable
-cz.mg.entity.storage.ElementTableReader
-cz.mg.entity.storage.ElementTableWriter
 cz.mg.nativeapplication.c.entities.CBlockCommand
 cz.mg.nativeapplication.c.entities.CCommand
 cz.mg.nativeapplication.c.entities.CComponent
@@ -209,13 +205,13 @@ cz.mg.nativeapplication.gui.services.ApplicationService
 cz.mg.nativeapplication.gui.services.ClassImageProvider
 cz.mg.nativeapplication.gui.services.ComponentSearch
 cz.mg.nativeapplication.gui.services.EntityClassFieldService
+cz.mg.nativeapplication.gui.services.EntityMapperProvider
 cz.mg.nativeapplication.gui.services.FieldFactory
 cz.mg.nativeapplication.gui.services.MainWindowProvider
 cz.mg.nativeapplication.gui.services.NavigationCreator
 cz.mg.nativeapplication.gui.services.ObjectImageProvider
 cz.mg.nativeapplication.gui.services.ObjectNameProvider
 cz.mg.nativeapplication.gui.services.ObjectViewFactory
-cz.mg.nativeapplication.gui.services.ProjectMapperProvider
 cz.mg.nativeapplication.gui.ui.UiColorUtilities
 cz.mg.nativeapplication.gui.ui.UiConstants
 cz.mg.nativeapplication.gui.ui.UiHorizontalPanelBuilder
@@ -312,8 +308,8 @@ cz.mg.nativeapplication.mg.services.creator.MgProjectCreator
 cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider
 cz.mg.nativeapplication.mg.services.resolver.MgComponentLocator
 cz.mg.nativeapplication.mg.services.resolver.MgExpressionOutputResolver
-cz.mg.nativeapplication.mg.services.storage.MgProjectLoader
-cz.mg.nativeapplication.mg.services.storage.MgProjectSaver
+cz.mg.nativeapplication.mg.services.storage.EntityReader
+cz.mg.nativeapplication.mg.services.storage.EntityWriter
 cz.mg.nativeapplication.qt.entities.QtConfig
 cz.mg.nativeapplication.qt.entities.QtConfig$Operation
 cz.mg.nativeapplication.qt.entities.QtProject

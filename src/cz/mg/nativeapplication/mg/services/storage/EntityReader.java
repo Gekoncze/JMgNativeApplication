@@ -7,26 +7,32 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.mapper.Element;
 import cz.mg.entity.storage.ElementTableReader;
-import cz.mg.nativeapplication.gui.services.ProjectMapperProvider;
-import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.sql.light.connection.SqlConnection;
 import cz.mg.sql.light.connection.connections.SqliteConnection;
 
-import java.nio.file.Path;
 
-
-public @Service class MgProjectLoader {
-    private final @Mandatory @Shared ProjectMapperProvider projectMapperProvider = new ProjectMapperProvider();
+public @Service class EntityReader {
+    private final @Mandatory @Shared EntityMapperProvider entityMapperProvider = new EntityMapperProvider();
     private final @Mandatory @Shared ElementTableReader elementTableReader = new ElementTableReader();
 
-    public @Optional MgProject load(@Mandatory Path path){
-        return projectMapperProvider.get().unmap(
+    public @Mandatory Object readMandatory(@Mandatory String path){
+        Object entity = read(path);
+        if(entity != null){
+            return entity;
+        } else {
+            throw new NullPointerException();
+        }
+    }
+
+    public @Optional Object read(@Mandatory String path){
+        return entityMapperProvider.get().unmap(
             loadElements(path)
         );
     }
 
-    private @Mandatory List<Element> loadElements(@Mandatory Path path){
-        try(SqlConnection connection = new SqliteConnection(path.toString())){
+    private @Mandatory List<Element> loadElements(@Mandatory String path){
+        try(SqlConnection connection = new SqliteConnection(path)){
             connection.begin();
             return elementTableReader.read(connection);
         } catch (Exception e) {
