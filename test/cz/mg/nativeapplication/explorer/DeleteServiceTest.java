@@ -2,6 +2,7 @@ package cz.mg.nativeapplication.explorer;
 
 import all.Preparation;
 import cz.mg.nativeapplication.explorer.services.DeleteService;
+import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.command.MgExpressionCommand;
 import cz.mg.nativeapplication.mg.entities.components.MgFunction;
@@ -49,7 +50,8 @@ public class DeleteServiceTest implements Test {
         assertSame(structure, output.type);
         assertSame(field, expression.child);
 
-        Explorer explorer = new Explorer(() -> project);
+        Explorer explorer = new Explorer(new EntityMapperProvider().get());
+        explorer.setRoot(project);
         explorer.getTransactionManager().transaction(() -> {
             new DeleteService().delete(explorer, structure);
         });
@@ -96,7 +98,8 @@ public class DeleteServiceTest implements Test {
         assertSame(structure, output.type);
         assertSame(field, expression.child);
 
-        Explorer explorer = new Explorer(() -> project);
+        Explorer explorer = new Explorer(new EntityMapperProvider().get());
+        explorer.setRoot(project);
         explorer.getTransactionManager().transaction(() -> {
             new DeleteService().delete(explorer, structure);
         });

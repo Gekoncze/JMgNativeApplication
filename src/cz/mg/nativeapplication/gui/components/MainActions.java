@@ -24,7 +24,7 @@ public @Utility class MainActions {
     // FILE
 
     public boolean newProject(){
-        if(applicationProvider.get().getApplicationState().getProject() != null){
+        if(applicationProvider.get().getExplorer().getRoot() != null){
             if(!closeProject()){
                 return false;
             }
@@ -33,8 +33,7 @@ public @Utility class MainActions {
         String name = JOptionPane.showInputDialog(this, "New Project");
         if(name != null){
             applicationService.newProject(
-                applicationProvider.get().getExplorer().getTransactionManager(),
-                applicationProvider.get().getApplicationState(),
+                applicationProvider.get().getExplorer(),
                 name
             );
             refresh();
@@ -48,15 +47,14 @@ public @Utility class MainActions {
         Path selectedPath = new UiOpenDialog("Open project", FileFilters.MG).show();
 
         if(selectedPath != null){
-            if(applicationProvider.get().getApplicationState().getProject() != null){
+            if(applicationProvider.get().getExplorer().getRoot() != null){
                 if(!closeProject()){
                     return false;
                 }
             }
 
             applicationService.openProject(
-                applicationProvider.get().getExplorer().getTransactionManager(),
-                applicationProvider.get().getApplicationState(),
+                applicationProvider.get().getExplorer(),
                 selectedPath.toAbsolutePath()
             );
             refresh();
@@ -67,13 +65,13 @@ public @Utility class MainActions {
     }
 
     public boolean saveProject(){
-        if(applicationProvider.get().getApplicationState().getProject() == null){
+        if(applicationProvider.get().getExplorer().getRoot() == null){
             return false;
         }
 
-        if(applicationProvider.get().getApplicationState().getProjectPath() != null){
+        if(applicationProvider.get().getExplorer().getPath() != null){
             applicationService.saveProject(
-                applicationProvider.get().getApplicationState()
+                applicationProvider.get().getExplorer()
             );
             return true;
         } else {
@@ -82,7 +80,7 @@ public @Utility class MainActions {
     }
 
     public boolean saveProjectAs(){
-        if(applicationProvider.get().getApplicationState().getProject() == null){
+        if(applicationProvider.get().getExplorer().getRoot() == null){
             return false;
         }
 
@@ -90,7 +88,7 @@ public @Utility class MainActions {
 
         if(selectedPath != null){
             applicationService.saveProjectAs(
-                applicationProvider.get().getApplicationState(),
+                applicationProvider.get().getExplorer(),
                 selectedPath.toAbsolutePath()
             );
             return true;
@@ -100,7 +98,7 @@ public @Utility class MainActions {
     }
 
     public boolean closeProject(){
-        if(applicationProvider.get().getApplicationState().getProject() == null){
+        if(applicationProvider.get().getExplorer().getRoot() == null){
             return true;
         }
 
@@ -122,8 +120,7 @@ public @Utility class MainActions {
         applicationProvider.get().getMainWindow().getMainView().getMainTabView().closeAllTabs();
 
         applicationService.closeProject(
-            applicationProvider.get().getExplorer().getTransactionManager(),
-            applicationProvider.get().getApplicationState()
+            applicationProvider.get().getExplorer()
         );
         refresh();
         return true;

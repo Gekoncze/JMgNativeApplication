@@ -1,63 +1,52 @@
 package cz.mg.nativeapplication.gui.services;
 
+import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.explorer.history.TransactionManager;
-import cz.mg.nativeapplication.gui.utilities.ApplicationState;
-import cz.mg.nativeapplication.mg.entities.MgProject;
+import cz.mg.nativeapplication.explorer.Explorer;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
-import cz.mg.nativeapplication.mg.services.storage.EntityReader;
-import cz.mg.nativeapplication.mg.services.storage.EntityWriter;
+import cz.mg.entity.storage.EntityReader;
+import cz.mg.entity.storage.EntityWriter;
 
 import java.nio.file.Path;
 
 
-public @Mandatory class ApplicationService {
+public @Service class ApplicationService {
     private final @Mandatory @Shared EntityWriter entityWriter = new EntityWriter();
     private final @Mandatory @Shared EntityReader entityReader = new EntityReader();
 
-    public void newProject(
-        @Mandatory TransactionManager transactionManager,
-        @Mandatory ApplicationState applicationState,
-        @Mandatory String name
-    ) {
-        transactionManager.getHistory().clear();
-        applicationState.setProject(new MgProjectCreator().create(name));
-        applicationState.setProjectPath(null);
+    public void newProject(@Mandatory Explorer explorer, @Mandatory String name) {
+        explorer.getTransactionManager().getHistory().clear();
+        explorer.setRoot(new MgProjectCreator().create(name));
+        explorer.setPath(null);
     }
 
-    public void openProject(
-        @Mandatory TransactionManager transactionManager,
-        @Mandatory ApplicationState applicationState,
-        @Mandatory Path path
-    ) {
-        transactionManager.getHistory().clear();
-        applicationState.setProject((MgProject) entityReader.read(path.toString()));
-        applicationState.setProjectPath(path);
+    public void openProject(@Mandatory Explorer explorer, @Mandatory Path path) {
+        explorer.getTransactionManager().getHistory().clear();
+        explorer.setRoot(entityReader.read(path.toString(), explorer.getMapper()));
+        explorer.setPath(path);
     }
 
-    public void saveProject(@Mandatory ApplicationState applicationState) {
-        if(applicationState.getProjectPath() != null){
+    public void saveProject(@Mandatory Explorer explorer) {
+        if(explorer.getPath() != null){
             entityWriter.write(
-                applicationState.getProjectPath().toString(),
-                applicationState.getProject()
+                explorer.getPath().toString(),
+                explorer.getRoot(),
+                explorer.getMapper()
             );
         } else {
             throw new RuntimeException("Missing path to project file.");
         }
     }
 
-    public void saveProjectAs(@Mandatory ApplicationState applicationState, @Mandatory Path path) {
-        applicationState.setProjectPath(path);
-        saveProject(applicationState);
+    public void saveProjectAs(@Mandatory Explorer explorer, @Mandatory Path path) {
+        explorer.setPath(path);
+        saveProject(explorer);
     }
 
-    public void closeProject(
-        @Mandatory TransactionManager transactionManager,
-        @Mandatory ApplicationState applicationState
-    ) {
-        transactionManager.getHistory().clear();
-        applicationState.setProject(null);
-        applicationState.setProjectPath(null);
+    public void closeProject(@Mandatory Explorer explorer) {
+        explorer.getTransactionManager().getHistory().clear();
+        explorer.setRoot(null);
+        explorer.setPath(null);
     }
 }

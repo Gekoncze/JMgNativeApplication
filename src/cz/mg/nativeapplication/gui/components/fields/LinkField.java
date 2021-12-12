@@ -56,7 +56,7 @@ public @Utility class LinkField extends ObjectField {
         this.clearButton = new UiButton(ImageGallery.CLEAR, null, "Clear", this::onClearButtonClicked);
         this.popupMenu = new ComponentSearchPopupMenu(this::setValue);
         addHorizontal(this.label, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);
-        addHorizontal(this.field, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);
+        addHorizontal(this.field, 1, 0, UiAlignment.MIDDLE, UiFill.BOTH);
         addHorizontal(this.searchButton, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);
         addHorizontal(this.openButton, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);
         addHorizontal(this.editButton, 0, 0, UiAlignment.MIDDLE, UiFill.BOTH);

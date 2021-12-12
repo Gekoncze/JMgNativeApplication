@@ -134,7 +134,6 @@ cz.mg.nativeapplication.c.services.exporter.CTypeExporter
 cz.mg.nativeapplication.c.services.exporter.CTypedefExporter
 cz.mg.nativeapplication.c.services.exporter.CVariableExporter
 cz.mg.nativeapplication.explorer.Explorer
-cz.mg.nativeapplication.explorer.Explorer$Provider
 cz.mg.nativeapplication.explorer.history.Action
 cz.mg.nativeapplication.explorer.history.ActionFactory
 cz.mg.nativeapplication.explorer.history.History
@@ -260,7 +259,6 @@ cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment
 cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment$1
 cz.mg.nativeapplication.gui.ui.enums.alignment.UiHorizontalAlignment
 cz.mg.nativeapplication.gui.ui.enums.alignment.UiVerticalAlignment
-cz.mg.nativeapplication.gui.utilities.ApplicationState
 cz.mg.nativeapplication.gui.utilities.FileFilters
 cz.mg.nativeapplication.gui.utilities.Navigation
 cz.mg.nativeapplication.gui.utilities.NavigationNode

@@ -3,6 +3,7 @@ package cz.mg.nativeapplication.explorer;
 import all.Preparation;
 import cz.mg.collections.list.List;
 import cz.mg.nativeapplication.explorer.services.UpdateService;
+import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgAtom;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;
@@ -24,7 +25,8 @@ public class UpdateServiceTest implements Test {
         MgLocation root = new MgLocation();
         int indexOfRootField = MgProject.entity.getFields().indexOf(MgProject.entity.getField("root"));
 
-        Explorer explorer = new Explorer(() -> project);
+        Explorer explorer = new Explorer(new EntityMapperProvider().get());
+        explorer.setRoot(project);
         explorer.getTransactionManager().transaction(() -> {
             new UpdateService().update(explorer, project, indexOfRootField, root);
         });
@@ -38,7 +40,8 @@ public class UpdateServiceTest implements Test {
         MgVariable variable = new MgVariable();
         variables.addLast(null);
 
-        Explorer explorer = new Explorer(() -> variables);
+        Explorer explorer = new Explorer(new EntityMapperProvider().get());
+        explorer.setRoot(variables);
         explorer.getTransactionManager().transaction(() -> {
             new UpdateService().update(explorer, variables, 0, variable);
         });
@@ -50,7 +53,8 @@ public class UpdateServiceTest implements Test {
     public void testIllegalUpdate(){
         assertExceptionThrown(() -> {
             String test = "test";
-            Explorer explorer = new Explorer(() -> test);
+            Explorer explorer = new Explorer(new EntityMapperProvider().get());
+            explorer.setRoot(test);
             explorer.getTransactionManager().transaction(() -> {
                 new UpdateService().update(explorer, "test", 0, true);
             });
@@ -62,14 +66,16 @@ public class UpdateServiceTest implements Test {
         assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
             MgAtom atom = new MgAtom();
             atom.name = "test";
-            Explorer explorer = new Explorer(() -> atom);
+            Explorer explorer = new Explorer(new EntityMapperProvider().get());
+            explorer.setRoot(atom);
             new UpdateService().update(explorer, atom, -1, null);
         });
 
         assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
             MgAtom atom = new MgAtom();
             atom.name = "test";
-            Explorer explorer = new Explorer(() -> atom);
+            Explorer explorer = new Explorer(new EntityMapperProvider().get());
+            explorer.setRoot(atom);
             new UpdateService().update(explorer, atom, 1, null);
         });
     }
@@ -79,14 +85,16 @@ public class UpdateServiceTest implements Test {
         assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
             List list = new List();
             list.addLast("test");
-            Explorer explorer = new Explorer(() -> list);
+            Explorer explorer = new Explorer(new EntityMapperProvider().get());
+            explorer.setRoot(list);
             new UpdateService().update(explorer, list, -1, null);
         });
 
         assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
             List list = new List();
             list.addLast("test");
-            Explorer explorer = new Explorer(() -> list);
+            Explorer explorer = new Explorer(new EntityMapperProvider().get());
+            explorer.setRoot(list);
             new UpdateService().update(explorer, list, 1, null);
         });
     }

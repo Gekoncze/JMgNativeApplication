@@ -7,15 +7,15 @@ import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.nativeapplication.explorer.Explorer;
-import cz.mg.nativeapplication.gui.components.views.ObjectView;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
-import cz.mg.nativeapplication.gui.event.WindowCloseUserEventHandler;
+import cz.mg.nativeapplication.gui.components.views.ObjectView;
 import cz.mg.nativeapplication.gui.event.KeyDispatcherUserEventHandler;
+import cz.mg.nativeapplication.gui.event.WindowCloseUserEventHandler;
 import cz.mg.nativeapplication.gui.images.ImageGallery;
 import cz.mg.nativeapplication.gui.services.ApplicationProvider;
 import cz.mg.nativeapplication.gui.services.MainWindowProvider;
-import cz.mg.nativeapplication.gui.utilities.Navigation;
 import cz.mg.nativeapplication.gui.services.NavigationCreator;
+import cz.mg.nativeapplication.gui.utilities.Navigation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -59,7 +59,7 @@ public @Utility class ExplorerWindow extends JFrame implements Refreshable {
     public @Mandatory Navigation getNavigation() {
         if(navigation == null){
             navigation = new NavigationCreator().create(
-                applicationProvider.get().getApplicationState().getProject()
+                applicationProvider.get().getExplorer().getRoot()
             );
         }
 

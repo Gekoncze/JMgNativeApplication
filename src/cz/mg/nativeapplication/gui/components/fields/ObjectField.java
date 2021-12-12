@@ -16,7 +16,7 @@ import cz.mg.nativeapplication.gui.ui.controls.UiPanel;
 
 public abstract @Utility class ObjectField extends UiPanel implements Refreshable {
     private static final int BORDER = 0;
-    private static final int PADDING = 0;
+    private static final int PADDING = 2;
 
     private final @Mandatory @Shared ReadService readService = new ReadService();
     private final @Mandatory @Shared UpdateService updateService = new UpdateService();

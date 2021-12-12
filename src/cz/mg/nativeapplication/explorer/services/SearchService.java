@@ -39,7 +39,7 @@ public @Service class SearchService {
     }
 
     private @Mandatory Node createRootNode(@Mandatory Explorer explorer){
-        return new Node(explorer, null, explorer.getRootProvider().get(), -1);
+        return new Node(explorer, null, explorer.getRoot(), -1);
     }
 
     public interface Visitor {

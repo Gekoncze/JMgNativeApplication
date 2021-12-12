@@ -29,8 +29,7 @@ public class ApplicationTest implements Test {
     public void test(){
         Application application = new Application();
         new ApplicationService().openProject(
-            application.getExplorer().getTransactionManager(),
-            application.getApplicationState(),
+            application.getExplorer(),
             PROJECT_FILE_PATH
         );
         application.getMainWindow().refresh();

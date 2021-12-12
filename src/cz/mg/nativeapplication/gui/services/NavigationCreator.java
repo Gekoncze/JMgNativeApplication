@@ -25,10 +25,10 @@ import cz.mg.nativeapplication.gui.utilities.NavigationNode;
 public @Service class NavigationCreator {
     private final @Mandatory @Shared EntityClassProvider entityClassProvider = new EntityClassProvider();
 
-    public @Mandatory Navigation create(@Optional MgProject project) {
+    public @Mandatory Navigation create(@Optional Object root) {
         Map<Object, NavigationNode> map = new Map<>();
         return new Navigation(
-            map, createNode(map, null, null, project)
+            map, createNode(map, null, null, root)
         );
     }
 
@@ -42,6 +42,7 @@ public @Service class NavigationCreator {
             return null;
         }
 
+        // TODO - remove dependency on mg entities
         if(!(self instanceof MgProject || self instanceof MgComponent || self instanceof Iterable)){
             return null;
         }
@@ -97,7 +98,7 @@ public @Service class NavigationCreator {
         return parentFieldName != null ? parentFieldName : objectName;
     }
 
-    private void checkCircularOwnership(@Mandatory NavigationNode parent, @Mandatory Object self){
+    private void checkCircularOwnership(@Optional NavigationNode parent, @Mandatory Object self){
         NavigationNode current = parent;
         while(current != null){
             if(current.getSelf() == self){
