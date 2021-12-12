@@ -306,8 +306,6 @@ cz.mg.nativeapplication.mg.services.creator.MgProjectCreator
 cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider
 cz.mg.nativeapplication.mg.services.resolver.MgComponentLocator
 cz.mg.nativeapplication.mg.services.resolver.MgExpressionOutputResolver
-cz.mg.nativeapplication.mg.services.storage.EntityReader
-cz.mg.nativeapplication.mg.services.storage.EntityWriter
 cz.mg.nativeapplication.qt.entities.QtConfig
 cz.mg.nativeapplication.qt.entities.QtConfig$Operation
 cz.mg.nativeapplication.qt.entities.QtProject

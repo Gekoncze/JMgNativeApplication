@@ -10,6 +10,8 @@ import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.cli.runners.SingleTestClassRunner;
 
+import java.util.Objects;
+
 import static all.Configuration.PROJECT_FILE_PATH;
 
 
@@ -29,9 +31,11 @@ public class CompilerTest implements Test {
         new TempStorageSaver().save(
             new CProjectExporter().export(
                 new CProjectCreator().create(
-                    (MgProject) new EntityReader().readMandatory(
-                        PROJECT_FILE_PATH.toString(),
-                        new EntityMapperProvider().get()
+                    Objects.requireNonNull(
+                        (MgProject) new EntityReader().read(
+                            PROJECT_FILE_PATH.toString(),
+                            new EntityMapperProvider().get()
+                        )
                     )
                 )
             )
