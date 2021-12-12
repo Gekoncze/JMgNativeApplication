@@ -75,6 +75,10 @@ cz.mg.collections.text.ReadonlyText
 cz.mg.collections.text.SubText
 cz.mg.collections.text.Text
 cz.mg.collections.text.WriteableText
+cz.mg.entity.storage.ElementFieldTable
+cz.mg.entity.storage.ElementTable
+cz.mg.entity.storage.ElementTableReader
+cz.mg.entity.storage.ElementTableWriter
 cz.mg.nativeapplication.c.entities.CBlockCommand
 cz.mg.nativeapplication.c.entities.CCommand
 cz.mg.nativeapplication.c.entities.CComponent
@@ -203,7 +207,6 @@ cz.mg.nativeapplication.gui.images.ImageGallery
 cz.mg.nativeapplication.gui.services.ApplicationProvider
 cz.mg.nativeapplication.gui.services.ApplicationService
 cz.mg.nativeapplication.gui.services.ClassImageProvider
-cz.mg.nativeapplication.gui.services.ClassProvider
 cz.mg.nativeapplication.gui.services.ComponentSearch
 cz.mg.nativeapplication.gui.services.EntityClassFieldService
 cz.mg.nativeapplication.gui.services.FieldFactory
@@ -304,15 +307,11 @@ cz.mg.nativeapplication.mg.entities.parts.MgOperator
 cz.mg.nativeapplication.mg.entities.parts.MgOperatorType
 cz.mg.nativeapplication.mg.entities.parts.MgValue
 cz.mg.nativeapplication.mg.services.MgAtomCreator
-cz.mg.nativeapplication.mg.services.MgClassProvider
-cz.mg.nativeapplication.mg.services.MgClassProviderGenerator
 cz.mg.nativeapplication.mg.services.creator.MgLocationCreator
 cz.mg.nativeapplication.mg.services.creator.MgProjectCreator
 cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider
 cz.mg.nativeapplication.mg.services.resolver.MgComponentLocator
 cz.mg.nativeapplication.mg.services.resolver.MgExpressionOutputResolver
-cz.mg.nativeapplication.mg.services.storage.MgElementFieldTable
-cz.mg.nativeapplication.mg.services.storage.MgElementTable
 cz.mg.nativeapplication.mg.services.storage.MgProjectLoader
 cz.mg.nativeapplication.mg.services.storage.MgProjectSaver
 cz.mg.nativeapplication.qt.entities.QtConfig

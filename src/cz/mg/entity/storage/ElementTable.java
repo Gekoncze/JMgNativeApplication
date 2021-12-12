@@ -1,7 +1,9 @@
-package cz.mg.nativeapplication.mg.services.storage;
+package cz.mg.entity.storage;
 
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
+import cz.mg.annotations.requirement.Optional;
+import cz.mg.annotations.storage.Part;
 import cz.mg.collections.list.List;
 import cz.mg.entity.mapper.Element;
 import cz.mg.sql.light.builder.SqlBuilder;
@@ -10,20 +12,20 @@ import cz.mg.sql.light.connection.SqlResult;
 import cz.mg.sql.light.types.SqliteTypes;
 
 
-public @Utility class MgElementTable {
+public @Utility class ElementTable {
     private static final String TABLE_NAME = "Element";
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String VALUE = "value";
 
-    private static MgElementTable instance = null;
+    private static @Optional @Part ElementTable instance = null;
 
-    public static MgElementTable getInstance(){
-        if(instance == null) instance = new MgElementTable();
+    public static @Mandatory ElementTable getInstance(){
+        if(instance == null) instance = new ElementTable();
         return instance;
     }
 
-    public MgElementTable() {
+    private ElementTable() {
     }
 
     public void createOrReplace(@Mandatory SqlConnection connection){
@@ -35,11 +37,11 @@ public @Utility class MgElementTable {
     }
 
     private boolean exists(@Mandatory SqlConnection connection){
-        return (int) connection.executeQuery(
+        return connection.executeQuery(
             new SqlBuilder()
                 .readTable(TABLE_NAME)
                 .build()
-        ).getSingleResult().get(0) > 0;
+        ).getSingleResult().getIntegerMandatory(0) > 0;
     }
 
     private void delete(@Mandatory SqlConnection connection){
@@ -62,12 +64,12 @@ public @Utility class MgElementTable {
     }
 
     public int rowCount(@Mandatory SqlConnection connection){
-        return (int) connection.executeQuery(
+        return connection.executeQuery(
             new SqlBuilder()
                 .readRow(TABLE_NAME)
                 .column("count(*)")
                 .build()
-        ).getSingleResult().get(0);
+        ).getSingleResult().getIntegerMandatory(0);
     }
 
     public void createRow(@Mandatory SqlConnection connection, int elementId, @Mandatory Element element){

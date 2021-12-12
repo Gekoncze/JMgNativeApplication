@@ -6,6 +6,7 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Shared;
 import cz.mg.collections.list.List;
 import cz.mg.entity.mapper.Element;
+import cz.mg.entity.storage.ElementTableReader;
 import cz.mg.nativeapplication.gui.services.ProjectMapperProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.sql.light.connection.SqlConnection;
@@ -16,29 +17,20 @@ import java.nio.file.Path;
 
 public @Service class MgProjectLoader {
     private final @Mandatory @Shared ProjectMapperProvider projectMapperProvider = new ProjectMapperProvider();
+    private final @Mandatory @Shared ElementTableReader elementTableReader = new ElementTableReader();
 
     public @Optional MgProject load(@Mandatory Path path){
-        MgElementTable entityTable = MgElementTable.getInstance();
-        MgElementFieldTable fieldTable = MgElementFieldTable.getInstance();
+        return projectMapperProvider.get().unmap(
+            loadElements(path)
+        );
+    }
 
-        List<Element> elements = new List<>();
-
+    private @Mandatory List<Element> loadElements(@Mandatory Path path){
         try(SqlConnection connection = new SqliteConnection(path.toString())){
             connection.begin();
-
-            int entityCount = entityTable.rowCount(connection);
-            for(int entityId = 0; entityId < entityCount; entityId++){
-                Element element = entityTable.readRow(connection, entityId);
-                int fieldCount = fieldTable.rowCount(connection, entityId);
-                for(int fieldId = 0; fieldId < fieldCount; fieldId++){
-                    element.fields.addLast(fieldTable.readRow(connection, entityId, fieldId));
-                }
-                elements.addLast(element);
-            }
+            return elementTableReader.read(connection);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        return projectMapperProvider.get().unmap(elements);
     }
 }
