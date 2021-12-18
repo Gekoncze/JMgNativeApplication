@@ -11,15 +11,20 @@ import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityField;
 import cz.mg.nativeapplication.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.fields.LinkField;
-import cz.mg.nativeapplication.gui.components.fields.PartField;
+import cz.mg.nativeapplication.gui.components.fields.ListField;
 import cz.mg.nativeapplication.gui.components.fields.ObjectField;
-import cz.mg.nativeapplication.gui.components.fields.value.*;
+import cz.mg.nativeapplication.gui.components.fields.PartField;
 import cz.mg.nativeapplication.gui.components.fields.value.BooleanValueField;
+import cz.mg.nativeapplication.gui.components.fields.value.EnumValueField;
+import cz.mg.nativeapplication.gui.components.fields.value.IntegerValueField;
 import cz.mg.nativeapplication.gui.components.fields.value.StringValueField;
+
+import java.lang.annotation.Annotation;
 
 
 public @Service class EntityFieldFactory {
     private final @Mandatory @Shared EntityClassFieldService entityClassFieldService = new EntityClassFieldService();
+    private final @Mandatory @Shared CollectionTypeProvider collectionTypeProvider = new CollectionTypeProvider();
 
     public @Mandatory ObjectField create(
         @Mandatory Explorer explorer,
@@ -32,7 +37,11 @@ public @Service class EntityFieldFactory {
         String label = entityField.getName();
 
         if(isList(entityField)){
-            throw new UnsupportedOperationException(); // TODO
+            return new ListField(
+                explorer, entity, index, type, label,
+                collectionTypeProvider.get(entityField.getField()),
+                getOwnership(entityField)
+            );
         }
 
         if(isLink(entityField)){
@@ -44,15 +53,15 @@ public @Service class EntityFieldFactory {
         }
 
         if(isValue(entityField)){
-            if(is(entityField, String.class)){
+            if(isString(entityField)){
                 return new StringValueField(explorer, entity, index, type, label);
             }
 
-            if(is(entityField, Integer.class)){
+            if(isInteger(entityField)){
                 return new IntegerValueField(explorer, entity, index, type, label);
             }
 
-            if(is(entityField, Boolean.class)){
+            if(isBoolean(entityField)){
                 return new BooleanValueField(explorer, entity, index, type, label);
             }
 
@@ -61,7 +70,7 @@ public @Service class EntityFieldFactory {
             }
         }
 
-        throw new UnsupportedOperationException(); // TODO
+        throw new UnsupportedOperationException("Unsupported object type '" + type.getSimpleName() + "'.");
     }
 
     private boolean isLink(@Mandatory EntityField entityField){
@@ -84,7 +93,35 @@ public @Service class EntityFieldFactory {
         return is(entityField, List.class);
     }
 
+    private boolean isString(@Mandatory EntityField entityField){
+        return is(entityField, String.class);
+    }
+
+    private boolean isInteger(@Mandatory EntityField entityField){
+        return is(entityField, Integer.class);
+    }
+
+    private boolean isBoolean(@Mandatory EntityField entityField){
+        return is(entityField, Boolean.class);
+    }
+
     private boolean isEnum(@Mandatory EntityField entityField){
         return is(entityField, Enum.class);
+    }
+
+    private @Mandatory Class<? extends Annotation> getOwnership(@Mandatory EntityField entityField){
+        if(isLink(entityField)){
+            return Link.class;
+        }
+
+        if(isPart(entityField)){
+            return Part.class;
+        }
+
+        if(isValue(entityField)){
+            return Value.class;
+        }
+
+        throw new UnsupportedOperationException("Unknown ownership.");
     }
 }

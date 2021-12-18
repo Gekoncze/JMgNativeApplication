@@ -1,6 +1,4 @@
 add list field and list view
-    implement list field (fields per row inside ui list)
-    implement list field factory
     implement list view
     add mouse click selection to UiList
     add multi selection to UiList

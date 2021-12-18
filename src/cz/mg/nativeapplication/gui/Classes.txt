@@ -203,6 +203,7 @@ cz.mg.nativeapplication.gui.images.ImageGallery
 cz.mg.nativeapplication.gui.services.ApplicationProvider
 cz.mg.nativeapplication.gui.services.ApplicationService
 cz.mg.nativeapplication.gui.services.ClassImageProvider
+cz.mg.nativeapplication.gui.services.CollectionTypeProvider
 cz.mg.nativeapplication.gui.services.ComponentSearch
 cz.mg.nativeapplication.gui.services.EntityClassFieldService
 cz.mg.nativeapplication.gui.services.EntityFieldFactory
@@ -305,7 +306,6 @@ cz.mg.nativeapplication.mg.entities.parts.MgValue
 cz.mg.nativeapplication.mg.services.MgAtomCreator
 cz.mg.nativeapplication.mg.services.creator.MgLocationCreator
 cz.mg.nativeapplication.mg.services.creator.MgProjectCreator
-cz.mg.nativeapplication.mg.services.other.CollectionTypeProvider
 cz.mg.nativeapplication.mg.services.resolver.MgComponentLocator
 cz.mg.nativeapplication.mg.services.resolver.MgExpressionOutputResolver
 cz.mg.nativeapplication.qt.entities.QtConfig

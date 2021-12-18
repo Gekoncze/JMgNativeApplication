@@ -64,7 +64,7 @@ public @Utility class PartField extends ObjectField {
         refresh();
     }
 
-    private void onMouseClicked(MouseEvent event) {
+    private void onMouseClicked(@Mandatory MouseEvent event) {
         if(event.getButton() == MouseEvent.BUTTON1){
             if(event.getClickCount() == 2){
                 onOpenButtonClicked();
@@ -92,7 +92,7 @@ public @Utility class PartField extends ObjectField {
             setValue(null);
             if(!ownershipService.hasOwner(getExplorer(), value)){
                 UiConfirmDialog.Choice choice = new UiConfirmDialog(
-                    "Delete entity?",
+                    "Delete object?",
                     "Would you like to delete the object '" + objectNameProvider.get(value) + "'?"
                 ).show();
 
@@ -104,7 +104,7 @@ public @Utility class PartField extends ObjectField {
         }
     }
 
-    private void onCreate(EntityClass entityClass){
+    private void onCreate(@Mandatory EntityClass entityClass){
         setValue(entityClass.newInstance());
         mainWindowProvider.get().refresh();
     }

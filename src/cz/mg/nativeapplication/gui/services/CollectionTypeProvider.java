@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.mg.services.other;
+package cz.mg.nativeapplication.gui.services;
 
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
@@ -8,7 +8,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 
-public @Service class CollectionTypeProvider { // TODO - move to correct package
+public @Service class CollectionTypeProvider {
     public @Mandatory Class get(@Mandatory Field field){
         if(Iterable.class.isAssignableFrom(field.getType())){
             if(field.getGenericType() instanceof ParameterizedType){
