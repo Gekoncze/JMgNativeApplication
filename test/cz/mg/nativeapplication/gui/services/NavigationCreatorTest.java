@@ -1,7 +1,8 @@
 package cz.mg.nativeapplication.gui.services;
 
+import cz.mg.entity.explorer.gui.services.NavigationCreator;
 import cz.mg.nativeapplication.gui.Initialization;
-import cz.mg.nativeapplication.gui.utilities.Navigation;
+import cz.mg.entity.explorer.gui.utilities.Navigation;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgFunction;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;

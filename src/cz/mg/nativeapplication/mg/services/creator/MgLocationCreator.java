@@ -1,16 +1,17 @@
 package cz.mg.nativeapplication.mg.services.creator;
 
 import cz.mg.annotations.classes.Service;
+import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 
 
 public @Service class MgLocationCreator {
-    public MgLocation create(MgLocation root, String... names){
+    public @Mandatory MgLocation create(@Mandatory MgLocation root, @Mandatory String... names){
         return create(root, 0, names);
     }
 
-    private MgLocation create(MgLocation parent, int i, String... names){
+    private @Mandatory MgLocation create(@Mandatory MgLocation parent, int i, @Mandatory String... names){
         String name = names[i];
 
         for(MgComponent child : parent.components){

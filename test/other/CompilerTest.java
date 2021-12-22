@@ -2,7 +2,7 @@ package other;
 
 import cz.mg.nativeapplication.c.services.creator.CProjectCreator;
 import cz.mg.nativeapplication.c.services.exporter.CProjectExporter;
-import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
+import cz.mg.nativeapplication.gui.Initialization;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.entity.storage.EntityReader;
 import cz.mg.entity.storage.EntityWriter;
@@ -25,7 +25,7 @@ public class CompilerTest implements Test {
         new EntityWriter().write(
             PROJECT_FILE_PATH.toString(),
             new TestProjectCreator().create(),
-            new EntityMapperProvider().get()
+            new Initialization().createMapper()
         );
 
         new TempStorageSaver().save(
@@ -34,7 +34,7 @@ public class CompilerTest implements Test {
                     Objects.requireNonNull(
                         (MgProject) new EntityReader().read(
                             PROJECT_FILE_PATH.toString(),
-                            new EntityMapperProvider().get()
+                            new Initialization().createMapper()
                         )
                     )
                 )

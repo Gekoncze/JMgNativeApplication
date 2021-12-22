@@ -4,7 +4,6 @@ import cz.mg.collections.list.List;
 import cz.mg.entity.explorer.services.SearchService;
 import cz.mg.entity.explorer.utilities.Node;
 import cz.mg.nativeapplication.gui.Initialization;
-import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.*;
 import cz.mg.test.Test;
@@ -37,8 +36,8 @@ public class SearchServiceTest implements Test {
         root.components.addLast(type);
         project.root = root;
 
-        Explorer explorer = new Explorer(new EntityMapperProvider().get());
-        explorer.setRoot(project);
+        Explorer explorer = new Explorer(new Initialization().createMapper());
+        explorer.setProject(project);
         List<Node> results = new SearchService().findUsages(explorer, type);
 
         assertEquals(3, results.count());
@@ -61,8 +60,8 @@ public class SearchServiceTest implements Test {
         root.components.addLast(cycle);
         project.root = root;
 
-        Explorer explorer = new Explorer(new EntityMapperProvider().get());
-        explorer.setRoot(project);
+        Explorer explorer = new Explorer(new Initialization().createMapper());
+        explorer.setProject(project);
         List<Node> results = new SearchService().findUsages(explorer, cycle);
 
         assertEquals(1, results.count());

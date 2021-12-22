@@ -2,7 +2,7 @@ package other;
 
 import all.Preparation;
 import cz.mg.nativeapplication.gui.Application;
-import cz.mg.nativeapplication.gui.services.ApplicationService;
+import cz.mg.entity.explorer.services.ExplorerProjectService;
 import cz.mg.test.Test;
 import cz.mg.test.annotations.TestCase;
 import cz.mg.test.cli.runners.SingleTestClassRunner;
@@ -28,11 +28,11 @@ public class ApplicationTest implements Test {
     @TestCase
     public void test(){
         Application application = new Application();
-        new ApplicationService().openProject(
-            application.getExplorer(),
+        new ExplorerProjectService().openProject(
+            application.getWindow().getExplorer(),
             PROJECT_FILE_PATH
         );
-        application.getMainWindow().refresh();
-        application.getMainWindow().setVisible(true);
+        application.getWindow().refresh();
+        application.getWindow().setVisible(true);
     }
 }

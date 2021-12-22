@@ -1,14 +1,16 @@
 package cz.mg.nativeapplication.mg.services.creator;
 
+import cz.mg.annotations.classes.Service;
+import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.services.MgAtomCreator;
 
 
-public class MgProjectCreator {
+public @Service class MgProjectCreator {
     public static String[] ATOMS_LOCATION = new String[]{ "cz", "mg", "atoms" };
 
-    public MgProject create(String name){
+    public @Mandatory MgProject create(@Mandatory String name){
         MgProject project = new MgProject();
         project.name = name;
         project.root = new MgLocation();

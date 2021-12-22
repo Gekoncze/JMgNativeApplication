@@ -1,10 +1,11 @@
 package cz.mg.nativeapplication.gui.services;
 
 import cz.mg.collections.list.List;
+import cz.mg.entity.explorer.gui.services.EntitySearch;
+import cz.mg.entity.explorer.gui.services.NavigationCreator;
 import cz.mg.nativeapplication.gui.Initialization;
-import cz.mg.nativeapplication.gui.utilities.Navigation;
+import cz.mg.entity.explorer.gui.utilities.Navigation;
 import cz.mg.nativeapplication.mg.entities.MgProject;
-import cz.mg.nativeapplication.mg.entities.components.MgComponent;
 import cz.mg.nativeapplication.mg.entities.components.MgLocation;
 import cz.mg.nativeapplication.mg.entities.components.MgStructure;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
@@ -39,8 +40,8 @@ public class ComponentSearchTest implements Test {
 
         Navigation navigation = new NavigationCreator().create(project);
 
-        ComponentSearch componentSearch = new ComponentSearch();
-        List<MgComponent> results = componentSearch.search(navigation, MgStructure.class, "FooBar");
+        EntitySearch entitySearch = new EntitySearch();
+        List<Object> results = entitySearch.search(navigation, MgStructure.class, "FooBar");
 
         assertEquals(3, results.count());
         assertContains(results, bar.components.get(2));

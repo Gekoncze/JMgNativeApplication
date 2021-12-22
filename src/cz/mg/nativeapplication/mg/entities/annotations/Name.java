@@ -1,6 +1,5 @@
 package cz.mg.nativeapplication.mg.entities.annotations;
 
-import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Optional;
 import cz.mg.entity.validator.ValidationException;
 import cz.mg.entity.validator.Validator;

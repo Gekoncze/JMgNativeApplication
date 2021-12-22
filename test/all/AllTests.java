@@ -11,7 +11,7 @@ public class AllTests {
         new Preparation().prepare();
         new AllTestRunner().run(
             new PackageBrowser().open(
-                "cz.mg.nativeapplication",
+                "cz.mg", // TODO - change back to cz.mg.nativeapplication once explorer tests are moved to another project
                 new ClassPackager().pack(
                     new ClassDetector().find(Configuration.TESTS_JAR_PATH.toString())
                 )

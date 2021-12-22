@@ -6,7 +6,7 @@ import cz.mg.classdetector.PackageBrowser;
 import cz.mg.test.cli.runners.SingleTestPackageRunner;
 
 
-public class ExplorerTests {
+public class ExplorerTests { // TODO - move explorer tests to anotehr project
     public static void main(String[] args) {
         new Preparation().prepare();
         new SingleTestPackageRunner().run(
