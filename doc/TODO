@@ -3,9 +3,10 @@ add list field and list view
     add mouse click selection to UiList
     add multi selection to UiList
 
-move explorer into entity framework
-    extract explorer from gui
+move explorer tests to entity framework
     change tests to use some new test entity classes instead of mg ones
+
+move explorer gui to entity framework
 
 add cleanup button
     will offer to delete objects that are not owned

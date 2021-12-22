@@ -9,7 +9,7 @@ import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.entity.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.fields.LinkField;
 import cz.mg.nativeapplication.gui.components.fields.ListField;
 import cz.mg.nativeapplication.gui.components.fields.ObjectField;

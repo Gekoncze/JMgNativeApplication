@@ -6,7 +6,7 @@ import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Part;
 import cz.mg.annotations.storage.Value;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.entity.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.fields.LinkField;
 import cz.mg.nativeapplication.gui.components.fields.ObjectField;
 import cz.mg.nativeapplication.gui.components.fields.PartField;

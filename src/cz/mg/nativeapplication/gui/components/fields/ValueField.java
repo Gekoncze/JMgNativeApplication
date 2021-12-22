@@ -3,7 +3,7 @@ package cz.mg.nativeapplication.gui.components.fields;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.entity.explorer.Explorer;
 import cz.mg.nativeapplication.gui.event.FocusLostUserEventHandler;
 import cz.mg.nativeapplication.gui.event.KeyPressedUserEventHandler;
 import cz.mg.nativeapplication.gui.event.MouseClickUserEventHandler;

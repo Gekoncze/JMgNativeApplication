@@ -1,8 +1,8 @@
-package cz.mg.nativeapplication.explorer;
+package cz.mg.entity.explorer;
 
 import all.Preparation;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.explorer.services.UpdateService;
+import cz.mg.entity.explorer.services.UpdateService;
 import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.components.MgAtom;

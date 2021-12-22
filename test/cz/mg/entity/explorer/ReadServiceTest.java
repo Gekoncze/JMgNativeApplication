@@ -1,8 +1,8 @@
-package cz.mg.nativeapplication.explorer;
+package cz.mg.entity.explorer;
 
 import all.Preparation;
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.explorer.services.ReadService;
+import cz.mg.entity.explorer.services.ReadService;
 import cz.mg.nativeapplication.mg.entities.components.MgAtom;
 import cz.mg.nativeapplication.mg.entities.components.MgType;
 import cz.mg.nativeapplication.mg.entities.components.MgVariable;

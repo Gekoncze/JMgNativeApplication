@@ -1,4 +1,4 @@
-package cz.mg.nativeapplication.explorer.history;
+package cz.mg.entity.explorer.history;
 
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Value;

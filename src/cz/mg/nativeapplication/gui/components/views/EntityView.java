@@ -7,7 +7,7 @@ import cz.mg.annotations.storage.Shared;
 import cz.mg.entity.EntityClass;
 import cz.mg.entity.EntityClassProvider;
 import cz.mg.entity.EntityField;
-import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.entity.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.services.EntityFieldFactory;
 import cz.mg.nativeapplication.gui.ui.enums.alignment.UiAlignment;

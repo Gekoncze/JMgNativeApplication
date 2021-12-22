@@ -11,7 +11,7 @@ public class ExplorerTests {
         new Preparation().prepare();
         new SingleTestPackageRunner().run(
             new PackageBrowser().open(
-                "cz.mg.nativeapplication.explorer",
+                "cz.mg.entity.explorer",
                 new ClassPackager().pack(
                     new ClassDetector().find(Configuration.TESTS_JAR_PATH.toString())
                 )

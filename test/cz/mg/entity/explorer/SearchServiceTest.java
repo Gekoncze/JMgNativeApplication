@@ -1,8 +1,8 @@
-package cz.mg.nativeapplication.explorer;
+package cz.mg.entity.explorer;
 
 import cz.mg.collections.list.List;
-import cz.mg.nativeapplication.explorer.services.SearchService;
-import cz.mg.nativeapplication.explorer.utilities.Node;
+import cz.mg.entity.explorer.services.SearchService;
+import cz.mg.entity.explorer.utilities.Node;
 import cz.mg.nativeapplication.gui.Initialization;
 import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;

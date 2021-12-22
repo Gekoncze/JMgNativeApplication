@@ -3,7 +3,7 @@ package cz.mg.nativeapplication.gui.components.fields.value;
 import cz.mg.annotations.classes.Utility;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.entity.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.fields.ValueField;
 import cz.mg.nativeapplication.gui.components.popups.BooleanPopupMenu;
 import cz.mg.nativeapplication.gui.ui.controls.UiPopupMenu;

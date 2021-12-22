@@ -6,7 +6,7 @@ import cz.mg.annotations.requirement.Optional;
 import cz.mg.annotations.storage.Cache;
 import cz.mg.annotations.storage.Link;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.entity.explorer.Explorer;
 import cz.mg.nativeapplication.gui.components.other.Refreshable;
 import cz.mg.nativeapplication.gui.components.views.ObjectView;
 import cz.mg.nativeapplication.gui.event.KeyDispatcherUserEventHandler;

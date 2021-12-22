@@ -3,7 +3,7 @@ package cz.mg.nativeapplication.gui.services;
 import cz.mg.annotations.classes.Service;
 import cz.mg.annotations.requirement.Mandatory;
 import cz.mg.annotations.storage.Shared;
-import cz.mg.nativeapplication.explorer.Explorer;
+import cz.mg.entity.explorer.Explorer;
 import cz.mg.nativeapplication.mg.services.creator.MgProjectCreator;
 import cz.mg.entity.storage.EntityReader;
 import cz.mg.entity.storage.EntityWriter;

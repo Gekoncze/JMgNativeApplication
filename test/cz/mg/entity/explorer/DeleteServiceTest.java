@@ -1,7 +1,7 @@
-package cz.mg.nativeapplication.explorer;
+package cz.mg.entity.explorer;
 
 import all.Preparation;
-import cz.mg.nativeapplication.explorer.services.DeleteService;
+import cz.mg.entity.explorer.services.DeleteService;
 import cz.mg.nativeapplication.gui.services.EntityMapperProvider;
 import cz.mg.nativeapplication.mg.entities.MgProject;
 import cz.mg.nativeapplication.mg.entities.command.MgExpressionCommand;
