@@ -50,7 +50,7 @@ public class DeleteServiceTest implements Test {
         assertSame(structure, output.type);
         assertSame(field, expression.child);
 
-        Explorer explorer = new Explorer(new Initialization().createMapper());
+        Explorer explorer = new Explorer(MgProject.entity, new Initialization().createMapper());
         explorer.setProject(project);
         explorer.getTransactionManager().transaction(() -> {
             new DeleteService().delete(explorer, structure);
@@ -98,7 +98,7 @@ public class DeleteServiceTest implements Test {
         assertSame(structure, output.type);
         assertSame(field, expression.child);
 
-        Explorer explorer = new Explorer(new Initialization().createMapper());
+        Explorer explorer = new Explorer(MgProject.entity, new Initialization().createMapper());
         explorer.setProject(project);
         explorer.getTransactionManager().transaction(() -> {
             new DeleteService().delete(explorer, structure);

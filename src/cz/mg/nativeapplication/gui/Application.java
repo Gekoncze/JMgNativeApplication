@@ -23,7 +23,7 @@ public @Utility class Application {
 
     public Application() {
         initialization.init();
-        window = new ExplorerWindow(initialization.createMapper(), MG_FILE_FILTER);
+        window = new ExplorerWindow(MgProject.entity, initialization.createMapper(), MG_FILE_FILTER);
         galleryIconService.initialize(window.getGallery(), Icons.class);
         window.setTitle(TITLE);
         window.setIconImage(window.getGallery().getImage(Icons.MG));

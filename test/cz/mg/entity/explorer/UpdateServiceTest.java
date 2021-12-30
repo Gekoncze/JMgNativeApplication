@@ -25,7 +25,7 @@ public class UpdateServiceTest implements Test {
         MgLocation root = new MgLocation();
         int indexOfRootField = MgProject.entity.getFields().indexOf(MgProject.entity.getField("root"));
 
-        Explorer explorer = new Explorer(new Initialization().createMapper());
+        Explorer explorer = new Explorer(MgProject.entity, new Initialization().createMapper());
         explorer.setProject(project);
         explorer.getTransactionManager().transaction(() -> {
             new UpdateService().update(explorer, project, indexOfRootField, root);
@@ -36,29 +36,31 @@ public class UpdateServiceTest implements Test {
 
     @TestCase(order = 2)
     public void testUpdateList(){
-        List<MgVariable> variables = new List<>();
-        MgVariable variable = new MgVariable();
-        variables.addLast(null);
-
-        Explorer explorer = new Explorer(new Initialization().createMapper());
-        explorer.setProject(variables);
-        explorer.getTransactionManager().transaction(() -> {
-            new UpdateService().update(explorer, variables, 0, variable);
-        });
-
-        assertSame(variable, variables.getFirst());
+        assertNotNull(null);// TODO
+//        List<MgVariable> variables = new List<>();
+//        MgVariable variable = new MgVariable();
+//        variables.addLast(null);
+//
+//        Explorer explorer = new Explorer(new Initialization().createMapper());
+//        explorer.setProject(variables);
+//        explorer.getTransactionManager().transaction(() -> {
+//            new UpdateService().update(explorer, variables, 0, variable);
+//        });
+//
+//        assertSame(variable, variables.getFirst());
     }
 
     @TestCase(order = 3)
     public void testIllegalUpdate(){
-        assertExceptionThrown(() -> {
-            String test = "test";
-            Explorer explorer = new Explorer(new Initialization().createMapper());
-            explorer.setProject(test);
-            explorer.getTransactionManager().transaction(() -> {
-                new UpdateService().update(explorer, "test", 0, true);
-            });
-        });
+        assertNotNull(null);// TODO
+//        assertExceptionThrown(() -> {
+//            String test = "test";
+//            Explorer explorer = new Explorer(new Initialization().createMapper());
+//            explorer.setProject(test);
+//            explorer.getTransactionManager().transaction(() -> {
+//                new UpdateService().update(explorer, "test", 0, true);
+//            });
+//        });
     }
 
     @TestCase(order = 4)
@@ -66,7 +68,7 @@ public class UpdateServiceTest implements Test {
         assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
             MgAtom atom = new MgAtom();
             atom.name = "test";
-            Explorer explorer = new Explorer(new Initialization().createMapper());
+            Explorer explorer = new Explorer(MgAtom.entity, new Initialization().createMapper());
             explorer.setProject(atom);
             new UpdateService().update(explorer, atom, -1, null);
         });
@@ -74,7 +76,7 @@ public class UpdateServiceTest implements Test {
         assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
             MgAtom atom = new MgAtom();
             atom.name = "test";
-            Explorer explorer = new Explorer(new Initialization().createMapper());
+            Explorer explorer = new Explorer(MgAtom.entity, new Initialization().createMapper());
             explorer.setProject(atom);
             new UpdateService().update(explorer, atom, 1, null);
         });
@@ -82,20 +84,21 @@ public class UpdateServiceTest implements Test {
 
     @TestCase(order = 5)
     public void testUpdateListOutOfBounds(){
-        assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
-            List list = new List();
-            list.addLast("test");
-            Explorer explorer = new Explorer(new Initialization().createMapper());
-            explorer.setProject(list);
-            new UpdateService().update(explorer, list, -1, null);
-        });
-
-        assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
-            List list = new List();
-            list.addLast("test");
-            Explorer explorer = new Explorer(new Initialization().createMapper());
-            explorer.setProject(list);
-            new UpdateService().update(explorer, list, 1, null);
-        });
+        assertNotNull(null);// TODO
+//        assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
+//            List list = new List();
+//            list.addLast("test");
+//            Explorer explorer = new Explorer(new Initialization().createMapper());
+//            explorer.setProject(list);
+//            new UpdateService().update(explorer, list, -1, null);
+//        });
+//
+//        assertExceptionThrown(ArrayIndexOutOfBoundsException.class, () -> {
+//            List list = new List();
+//            list.addLast("test");
+//            Explorer explorer = new Explorer(new Initialization().createMapper());
+//            explorer.setProject(list);
+//            new UpdateService().update(explorer, list, 1, null);
+//        });
     }
 }

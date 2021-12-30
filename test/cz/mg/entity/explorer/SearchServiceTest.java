@@ -36,7 +36,7 @@ public class SearchServiceTest implements Test {
         root.components.addLast(type);
         project.root = root;
 
-        Explorer explorer = new Explorer(new Initialization().createMapper());
+        Explorer explorer = new Explorer(MgProject.entity, new Initialization().createMapper());
         explorer.setProject(project);
         List<Node> results = new SearchService().findUsages(explorer, type);
 
@@ -60,7 +60,7 @@ public class SearchServiceTest implements Test {
         root.components.addLast(cycle);
         project.root = root;
 
-        Explorer explorer = new Explorer(new Initialization().createMapper());
+        Explorer explorer = new Explorer(MgProject.entity, new Initialization().createMapper());
         explorer.setProject(project);
         List<Node> results = new SearchService().findUsages(explorer, cycle);
 
