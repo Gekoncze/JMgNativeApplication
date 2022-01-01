@@ -15,7 +15,7 @@ public @Service class Initialization {
     private final @Mandatory @Shared MapperFactory mapperFactory = new MapperFactory();
 
     public void init(){
-        entityClassInitializer.init(
+        entityClassInitializer.initialize(
             classReader.read(
                 Application.class.getResourceAsStream("Classes.txt")
             )
